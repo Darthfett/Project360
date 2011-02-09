@@ -106,7 +106,7 @@ public class LoginView extends JFrame {
 					cleanUp();
 				}
 				else if (user.equals("applicant")) {
-					TheAppletItself.setCurrentUserLevel(Types.UserLevel.REFERENCE);
+					TheAppletItself.setCurrentUserLevel(Types.UserLevel.APPLICANT);
 					loginSignal.countDown();
 					cleanUp();
 				}

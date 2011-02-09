@@ -3,6 +3,8 @@ import java.util.concurrent.CountDownLatch;
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class TheAppletItself extends JApplet {
@@ -18,6 +20,17 @@ public class TheAppletItself extends JApplet {
 	private JPanel rootPanel;
 	
 	public void init() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.platf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			e1.printStackTrace();
+		}
 		setSize(760, 660);
 		
 		/*
@@ -78,6 +91,12 @@ public class TheAppletItself extends JApplet {
 				break;
 			case APPLICANT:
 				rootPanel = new ApplicantPanel();
+				break;
+			case REVIEWER:
+				rootPanel = new ReviewerPanel();
+				break;
+			case REFERENCE:
+				rootPanel = new ReferencePanel();
 				break;
 			default:
 				rootPanel = new ApplicantPanel();

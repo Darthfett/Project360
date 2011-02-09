@@ -79,6 +79,12 @@ public class TheAppletItself extends JApplet {
 			case APPLICANT:
 				rootPanel = new ApplicantPanel();
 				break;
+			case REVIEWER:
+				rootPanel = new ReviewerPanel();
+				break;
+			case REFERENCE:
+				rootPanel = new ReferencePanel();
+				break;
 			default:
 				rootPanel = new ApplicantPanel();
 				break;

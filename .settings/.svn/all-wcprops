@@ -9,3 +9,9 @@ svn:wc:ra_dav:version-url
 V 78
 /svn/teamawesome360/!svn/ver/3/360Project/.settings/org.eclipse.jdt.core.prefs
 END
+org.eclipse.jdt.core.prefs~HEAD
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/teamawesome360/!svn/ver/4/360Project/.settings/org.eclipse.jdt.core.prefs~HEAD
+END

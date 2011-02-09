@@ -8,8 +8,8 @@ public class RecruiterPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabs;
 	private JobsPanel jobsPanel;
-	private JPanel second;
-	private JPanel third;
+	private JPanel usersPanel;
+	private JPanel appPanel;
 	
 	public RecruiterPanel() {
 		initUI();
@@ -17,16 +17,17 @@ public class RecruiterPanel extends JPanel {
 	
 	private void initUI() {
 		setSize(770, 670);
-		tabs = new JTabbedPane();
-		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
-		second = new JPanel();
-		third = new JPanel();
-		
 		setBackground(Color.black);
 		setLayout(null);
+		
+		tabs = new JTabbedPane();
+		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		usersPanel = new UsersPanel();
+		appPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
+		
 		tabs.addTab("Jobs", jobsPanel);
-		tabs.addTab("Users", second);
-		tabs.addTab("Applicants", third);
+		tabs.addTab("Users", usersPanel);
+		tabs.addTab("Applicants", appPanel);
 		tabs.setSize(770, 655);
 		add(tabs);
 	}

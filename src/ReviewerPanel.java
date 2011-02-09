@@ -4,13 +4,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 
-public class ApplicantPanel extends JPanel {
-	
+public class ReviewerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private JobsPanel jobsPanel;
+	private ApplicantsPanel appsPanel;
 	private JTabbedPane tabs;
 	
-	public ApplicantPanel() {
+	public ReviewerPanel() {
 		initUI();
 	}
 	
@@ -20,10 +19,11 @@ public class ApplicantPanel extends JPanel {
 		setLayout(null);
 		
 		tabs = new JTabbedPane();
-		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		appsPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
 		
 		tabs.setSize(770, 655);
-		tabs.addTab("Jobs", jobsPanel);
+		tabs.addTab("My Applicants", appsPanel);
 		add(tabs);
 	}
+
 }

@@ -1,16 +1,18 @@
+package Main;
 import java.awt.Color;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-
-public class ApplicantPanel extends JPanel {
+public class RecruiterPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private JobsPanel jobsPanel;
 	private JTabbedPane tabs;
+	private JobsPanel jobsPanel;
+	private JPanel usersPanel;
+	private JPanel appPanel;
 	
-	public ApplicantPanel() {
+	public RecruiterPanel() {
 		initUI();
 	}
 	
@@ -21,9 +23,13 @@ public class ApplicantPanel extends JPanel {
 		
 		tabs = new JTabbedPane();
 		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		usersPanel = new UsersPanel();
+		appPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
 		
-		tabs.setSize(770, 655);
 		tabs.addTab("Jobs", jobsPanel);
+		tabs.addTab("Users", usersPanel);
+		tabs.addTab("Applicants", appPanel);
+		tabs.setSize(770, 655);
 		add(tabs);
 	}
 }

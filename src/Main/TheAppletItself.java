@@ -1,3 +1,4 @@
+package Main;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JApplet;

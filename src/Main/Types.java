@@ -5,6 +5,7 @@ public class Types {
 		RECRUITER,
 		REVIEWER,
 		REFERENCE,
-		APPLICANT
+		APPLICANT,
+		UNKNOWN
 	}
 }

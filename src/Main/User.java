@@ -1,25 +1,99 @@
 package Main;
-import java.io.File;
-import java.util.ArrayList;
+
+import java.io.*;
+import java.util.*;
+
 import Main.Types.UserLevel;
 
-public abstract class User {
-	public String username;
-	public String password;
-	public UserLevel userLevel;
+public class User {
+	//TODO: Make additional constructors that save the user.
+	private Hashtable<String, String> data;
+	private static File DataDir = new File("src/Main/Users");
+	private static ArrayList<User> Users = new ArrayList<User>();
+
+	public String getUserName() {
+		return (String) data.get("username");
+	}
 	
-	public static ArrayList<String> loadUserList() {
+	public String getUserLevelString() {
+		return (String) data.get("userlevel");
+	}
+	
+	public String getUserPassword() {
+		return (String) data.get("password");
+	}
+
+	public UserLevel getUserLevel() {
+		String userLevelString = (String) data.get("userlevel");
+		if (userLevelString == "recruiter") {
+			return UserLevel.RECRUITER;
+		} else if (userLevelString == "reviewer") {
+			return UserLevel.REVIEWER;
+		} else if (userLevelString == "reference") {
+			return UserLevel.REFERENCE;
+		} else if (userLevelString == "applicant") {
+			return UserLevel.APPLICANT;
+		} else {
+			System.out.println("DEBUG: Unknown user level: " + userLevelString);
+			return UserLevel.UNKNOWN;
+		}
+	}
+
+	public User() {
+		//TODO: Replace this constructor with constructor that saves users
+		this.data = new Hashtable<String, String>();
+	}
+
+	public static void loadUserList(){
+		/*
+		 * loadUserList loads all .user files in src/Main/Users/ , and parses through them.
+		 * 
+		 */
 		System.out.println("DEBUG: Attempting to load users");
-		ArrayList<String> userList = new ArrayList<String>();
-		File dir = new File("Users");
+		File dir = new File("src/Main/Users");
+		File currentUser;
+		BufferedReader bufferedReader;
+		System.out.println(dir.getAbsolutePath());
 		String[] subdirectories = dir.list();
 		if (subdirectories == null) {
 			System.out.println("DEBUG: No existing users, or unable to find Users/*");
-			return new ArrayList<String>();
+			return;
 		}
-		for (int i=0; i < subdirectories.length; i++) {
-			userList.add(subdirectories[i]);
+		for (int i = 0; i < subdirectories.length; i++) {
+			System.out.println("DEBUG: Found " + subdirectories[i]);
+			currentUser = new File(User.DataDir, subdirectories[i]);
+			try {
+				bufferedReader = new BufferedReader(new FileReader(currentUser));
+			} catch (FileNotFoundException ex) {
+				System.out.println("DEBUG: Unable to open " + subdirectories[i]);
+				continue;
+			}
+			try {
+				String line = bufferedReader.readLine();
+				while (line != null) {
+					ArrayList<String> keyVal = new ArrayList<String>();
+					String[] temp = line.replace(" ", "").replace("\n", "").split("=");
+					for (int j = 0; j < temp.length; j++) {
+						keyVal.add(temp[j]);
+					}
+					User newUser = new User();
+					if (keyVal.size() == 1) {
+						keyVal.add("");
+					} else if (keyVal.size() == 2) {
+					} else {
+						System.out.println("WARNING: Invalid User File: " + subdirectories[i]);
+						continue;
+					}
+					newUser.data.put(keyVal.get(0), keyVal.get(1));
+
+					line = bufferedReader.readLine();
+
+					Users.add(newUser);
+				}
+			} catch (IOException ex) {
+				System.out.println("DEBUG: Unable to read from " + subdirectories[i]);
+
+			}
 		}
-		return userList;
 	}
 }

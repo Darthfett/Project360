@@ -1,9 +1,7 @@
 package Main;
 import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JApplet;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 
 public class TheAppletItself extends JApplet {
@@ -19,6 +17,7 @@ public class TheAppletItself extends JApplet {
 	private JPanel rootPanel;
 	
 	public void init() {
+		User.loadUserList();
 		setSize(760, 660);
 		
 		/*

@@ -46,7 +46,9 @@ public class User {
 
 	public static void loadUserList(){
 		/*
-		 * loadUserList loads all .user files in src/Main/Users/ , and parses through them.
+		 * loadUserList loads all .user files in src/Main/Users/ , and parses them into User objects.
+		 * Each user is stored in the User.Users ArrayList.
+		 * User information (username/password/userlevel) is stored in the user.data hashtable.
 		 * 
 		 */
 		System.out.println("DEBUG: Attempting to load users");
@@ -54,18 +56,18 @@ public class User {
 		File currentUser;
 		BufferedReader bufferedReader;
 		System.out.println(dir.getAbsolutePath());
-		String[] subdirectories = dir.list();
-		if (subdirectories == null) {
+		String[] userFiles = dir.list();
+		if (userFiles == null) {
 			System.out.println("DEBUG: No existing users, or unable to find Users/*");
 			return;
 		}
-		for (int i = 0; i < subdirectories.length; i++) {
-			System.out.println("DEBUG: Found " + subdirectories[i]);
-			currentUser = new File(User.DataDir, subdirectories[i]);
-			try {
+		for (int i = 0; i < userFiles.length; i++) {
+			System.out.println("DEBUG: Found " + userFiles[i]);
+			currentUser = new File(User.DataDir, userFiles[i]);
+			try { //Try to open the file
 				bufferedReader = new BufferedReader(new FileReader(currentUser));
 			} catch (FileNotFoundException ex) {
-				System.out.println("DEBUG: Unable to open " + subdirectories[i]);
+				System.out.println("DEBUG: Unable to open " + userFiles[i]);
 				continue;
 			}
 			try {
@@ -81,7 +83,7 @@ public class User {
 						keyVal.add("");
 					} else if (keyVal.size() == 2) {
 					} else {
-						System.out.println("WARNING: Invalid User File: " + subdirectories[i]);
+						System.out.println("WARNING: Invalid User File: " + userFiles[i]);
 						continue;
 					}
 					newUser.data.put(keyVal.get(0), keyVal.get(1));
@@ -91,7 +93,7 @@ public class User {
 					Users.add(newUser);
 				}
 			} catch (IOException ex) {
-				System.out.println("DEBUG: Unable to read from " + subdirectories[i]);
+				System.out.println("DEBUG: Unable to read from " + userFiles[i]);
 
 			}
 		}

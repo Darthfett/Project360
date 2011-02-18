@@ -10,6 +10,10 @@ public class User {
 	private Hashtable<String, String> data;
 	private static File DataDir = new File("src/Main/Users");
 	private static ArrayList<User> Users = new ArrayList<User>();
+	
+	public ArrayList<User> getUserList() {
+		return User.Users;
+	}
 
 	public String getUserName() {
 		return (String) data.get("username");

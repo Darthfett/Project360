@@ -2,6 +2,7 @@ package Main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -24,12 +25,11 @@ public class UsersPanel extends JPanel {
 	
 	public void initUI() {
 		setLayout(null);
-		String[] columnNames = {"Username", "Password", "Userlevel"};
-		String[][] sampleData = {{"User0", "Passwd0", "Recruiter"}, {"User1", "Passwd1", "Applicant"}, 
-		{"User2", "Passwd2", "Reviewer"}, {"User3", "Passwd3", "Applicant"},
-		{"User4", "Passwd4", "Applicant"}, {"User5", "Passwd5", "Reviewer"}};
 		
-		usersTable = new JTable(sampleData, columnNames);
+		String[] columnNames = {"Username", "Password", "Userlevel"};
+		String[][] data = buildUserData();
+		
+		usersTable = new JTable(data, columnNames);
 		usersTable.setPreferredSize(new Dimension(480, 570));
 		
 		innerPanel = new JPanel();
@@ -51,5 +51,21 @@ public class UsersPanel extends JPanel {
 		
 		add(addButton);
 		add(editButton);
+	}
+	
+	public String[][] buildUserData() {	
+		ArrayList<User> userList = User.getUserList();
+		String[][] usersData = new String[userList.size()][3];
+		for (int i = 0; i < userList.size(); i++ ) {
+			for (int j = 0; j < 3; j++ ) {
+				if (j == 0)
+					usersData[i][j] = userList.get(i).getUserName();
+				if (j == 1)
+				 	usersData[i][j] = userList.get(i).getUserPassword();
+				if (j == 2)
+					usersData[i][j] = userList.get(i).getUserLevelString();
+			}
+		}
+		return usersData;
 	}
 }

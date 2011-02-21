@@ -20,7 +20,7 @@ public class TheAppletItself extends JApplet {
 	private JPanel rootPanel;
 	
 	public void init() {
-		setSize(760, 660);
+		setSize(770, 600);
 		User.loadUserList();
 
 		

@@ -45,17 +45,18 @@ public class JobsPanel extends JPanel {
 		description = new JLabel();
 		description.setBounds(12, 16, 270, 460);
 		description.setFont(new Font("Arial", Font.PLAIN, 12));
-		String descText = "<html>Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum" +
+		String descText = "Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum" +
 				" lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum " +
 				"lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum, " +
-				"lorem ipsum lorem ipsum lorem ipsum. <br><br>Lorem ipsum, lorem ipsum lorem ipsum " +
+				"lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum " +
 				"lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum, lorem ipsum." +
-				"<br><br>Lorem ipsum, lorem ipsum lorem ipsum " +
+				"Lorem ipsum, lorem ipsum lorem ipsum " +
 				"lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum, lorem ipsum." +
 				"Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum, lorem ipsum. Lorem ipsum, lorem" +
 				" ipsum lorem ipsum lorem ipsum, lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum " +
-				"lorem ipsum, lorem ipsum.</html>";
-		description.setText(descText);
+				"lorem ipsum, lorem ipsum.";
+		String fText = String.format("<html><div WIDTH=%d>%s</div></html>", 350, descText);
+		description.setText(fText);
 			
 		
 		descriptionPanel = new JPanel();

@@ -17,7 +17,7 @@ public class RecruiterPanel extends JPanel {
 	}
 	
 	private void initUI() {
-		setSize(770, 670);
+		setSize(770, 600);
 		setBackground(Color.black);
 		setLayout(null);
 		
@@ -29,7 +29,7 @@ public class RecruiterPanel extends JPanel {
 		tabs.addTab("Jobs", jobsPanel);
 		tabs.addTab("Users", usersPanel);
 		tabs.addTab("Applicants", appPanel);
-		tabs.setSize(770, 655);
+		tabs.setSize(770, 600);
 		add(tabs);
 	}
 }

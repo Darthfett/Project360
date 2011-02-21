@@ -22,6 +22,9 @@ public class User {
 	}
 	
 	public static User getUserFromUserName(String username) {
+		/* Given a username, will try to find a user of that username.
+		 * Invalid usernames will return null.
+		 */
 		return User.Users.get(username);
 	}
 

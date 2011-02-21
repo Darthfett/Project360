@@ -2,7 +2,6 @@ package Main;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +31,6 @@ public class LoginView extends JFrame {
 
 		setSize(350, 210);
 		setTitle("Login");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
 		panel = new JPanel();
@@ -66,7 +64,7 @@ public class LoginView extends JFrame {
 		cancelButton.setBounds(190, 132, 80, 25);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				System.exit(0);
+				cleanUp();
 			}
 		});
 		panel.add(cancelButton);
@@ -81,34 +79,28 @@ public class LoginView extends JFrame {
 				 * logged in. Then set the applet's static currentUserLevel
 				 * to the appropriate value.
 				 */
+				String user = uname.getText();
 				
 				/*
 				 * Temporary code to test the various UIs. This also shows how
-				 * to change the user-level, signal a login to the applet, and
+				 * to change the user-level and
 				 * kill the login frame.
 				 */
 				
-				String user = uname.getText();
-				CountDownLatch loginSignal = TheAppletItself.getLoginSignal();
-				
 				if (user.equals("recruiter")) {
 					TheAppletItself.setCurrentUserLevel(Types.UserLevel.RECRUITER);
-					loginSignal.countDown();
 					cleanUp();
 				}
 				else if (user.equals("reviewer")) {
 					TheAppletItself.setCurrentUserLevel(Types.UserLevel.REVIEWER);
-					loginSignal.countDown();
 					cleanUp();
 				}
 				else if (user.equals("reference")) {
 					TheAppletItself.setCurrentUserLevel(Types.UserLevel.REFERENCE);
-					loginSignal.countDown();
 					cleanUp();
 				}
 				else if (user.equals("applicant")) {
 					TheAppletItself.setCurrentUserLevel(Types.UserLevel.APPLICANT);
-					loginSignal.countDown();
 					cleanUp();
 				}
 				else {

@@ -8,7 +8,7 @@ public class RecruiterPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabs;
-	private JobsPanel jobsPanel;
+	private JobsPanel_ jobsPanel;
 	private JPanel usersPanel;
 	private JPanel appPanel;
 	
@@ -22,7 +22,7 @@ public class RecruiterPanel extends JPanel {
 		setLayout(null);
 		
 		tabs = new JTabbedPane();
-		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		jobsPanel = new JobsPanel_(TheAppletItself.getCurrentUserLevel());
 		usersPanel = new UsersPanel();
 		appPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
 		

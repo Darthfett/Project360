@@ -5,6 +5,36 @@ import java.util.*;
 
 import Main.Types.UserLevel;
 
+/*
+ * User class
+ * 
+ * 
+ * Members
+ * 	Static
+ *    	- DataDir:File
+ *  	- Users:Hashtable<String,User>
+ * 
+ * 	Dynamic
+ * 		- data:Hashtable
+ * 
+ * Methods
+ * 	 Static
+ * 		+ getUserFromUserName(String):User
+ * 
+ * 	 Dynamic
+ * 		+ getUserList():ArrayList<User>
+ *   	+ getUserName():String
+ *   	+ getUserLevelString():String
+ *   	+ getUserLevel():Main.Types.UserLevel
+ * 		+ getUserPassword():String
+ * 		- saveUser()
+ * 		+ setUserName(String)
+ * 		+ setUserPassword(String)
+ * 		+ setUserLevel(String)
+ * 		+ loadUserList()
+ * 
+ */
+
 public class User {
 	//TODO: Make additional constructors that save the user.
 	private Hashtable<String, String> data;
@@ -22,7 +52,8 @@ public class User {
 	}
 	
 	public static User getUserFromUserName(String username) {
-		/* Given a username, will try to find a user of that username.
+		/* 
+		 * Given a username, will try to find a User of that username.
 		 * Invalid usernames will return null.
 		 */
 		return User.Users.get(username);
@@ -34,6 +65,22 @@ public class User {
 	
 	public String getUserLevelString() {
 		return (String) data.get("userlevel");
+	}
+
+	public UserLevel getUserLevel() {
+		String userLevelString = ((String) data.get("userlevel"));//.replace(" ","").replace("\n","");
+		if (userLevelString.equals("recruiter")) {
+			return UserLevel.RECRUITER;
+		} else if (userLevelString.equals("reviewer")) {
+			return UserLevel.REVIEWER;
+		} else if (userLevelString.equals("reference")) {
+			return UserLevel.REFERENCE;
+		} else if (userLevelString.equals("applicant")) {
+			return UserLevel.APPLICANT;
+		} else {
+			System.out.println("DEBUG: Unknown user level: " + userLevelString);
+			return UserLevel.UNKNOWN;
+		}
 	}
 	
 	public String getUserPassword() {
@@ -66,22 +113,6 @@ public class User {
 	public void setUserLevel(String userLevel) {
 		this.data.put("userlevel", userLevel);
 		this.saveUser();
-	}
-
-	public UserLevel getUserLevel() {
-		String userLevelString = ((String) data.get("userlevel"));//.replace(" ","").replace("\n","");
-		if (userLevelString.equals("recruiter")) {
-			return UserLevel.RECRUITER;
-		} else if (userLevelString.equals("reviewer")) {
-			return UserLevel.REVIEWER;
-		} else if (userLevelString.equals("reference")) {
-			return UserLevel.REFERENCE;
-		} else if (userLevelString.equals("applicant")) {
-			return UserLevel.APPLICANT;
-		} else {
-			System.out.println("DEBUG: Unknown user level: " + userLevelString);
-			return UserLevel.UNKNOWN;
-		}
 	}
 	
 	/*public User(String username, String password, String userlevel) {

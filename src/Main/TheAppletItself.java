@@ -37,11 +37,6 @@ public class TheAppletItself extends JApplet {
 		}
 	}
 	
-	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
-		setContentPane(new RecruiterPanel());
-	}
-	
 	private void initUI() {
 		currentUserLevel = UserLevel.APPLICANT;
 		rootPanel = new ApplicantPanel();

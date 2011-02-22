@@ -89,14 +89,25 @@ public class User {
 	
 	private void saveUser() {
 		System.out.println("DEBUG: Attempting to save user data to file: " + getUserName());
+		if (this.getUserName().equals("") || this.getUserPassword().equals("") || this.getUserLevel().equals("")) {
+			System.out.println("ERROR: Invalid user: " + this.getUserName() + ", " + this.getUserPassword() + ", " + this.getUserLevel() + ".  A username, password, and userlevel are required.");
+			return;
+		}
 		File dir = User.DataDir;
 		File userFile = new File(dir,getUserName() + ".user");
 		String fileData = "";
 		fileData.concat("username="+getUserName());
 		fileData.concat("\npassword="+getUserPassword());
 		fileData.concat("\nuserlevel="+getUserLevelString());
-		//FileWriter fileWriter = new FileWriter(userFile);
-		System.out.println("ERROR: Problem with saving user to file: Not Yet Implemented");
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(userFile));
+			out.write(fileData);
+			out.close();
+		} catch (IOException e) {
+			System.out.println("ERROR: Unable to open " + getUserName() + ".user for writing");
+			e.printStackTrace();
+			return;
+		}
 		
 	}
 	
@@ -115,16 +126,20 @@ public class User {
 		this.saveUser();
 	}
 	
-	/*public User(String username, String password, String userlevel) {
-		
-	}*/
+	public User(String username, String password, String userlevel) {
+		this.data = new Hashtable<String, String>();
+		this.data.put("username",username);
+		this.data.put("password",password);
+		this.data.put("userlevel",userlevel);
+		this.saveUser();
+	}
 
-	public User() {
+	private User() {
 		//TODO: Replace this constructor with constructor that saves users
 		this.data = new Hashtable<String, String>();
-		this.data.put("username","temp");
+		this.data.put("username","");
 		this.data.put("password","");
-		this.data.put("userlevel","applicant");
+		this.data.put("userlevel","");
 	}
 
 	public static void loadUserList(){
@@ -138,7 +153,6 @@ public class User {
 		File dir = User.DataDir;
 		File currentUser;
 		BufferedReader bufferedReader;
-		System.out.println(dir.getAbsolutePath());
 		String[] userFiles = dir.list();
 		if (userFiles == null) {
 			System.out.println("DEBUG: No existing users, or unable to find Users/*");
@@ -188,6 +202,13 @@ public class User {
 				System.out.println("DEBUG: Unable to read from " + userFiles[i]);
 
 			}
+			try {
+				bufferedReader.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		System.out.println("Users loaded");
 	}
 }

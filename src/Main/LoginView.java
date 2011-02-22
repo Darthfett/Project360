@@ -73,6 +73,7 @@ public class LoginView extends JDialog{
 		});
 		
 		panel.add(loginButton);
+		getRootPane().setDefaultButton(loginButton);
 		loginButton.setBounds(90, 132, 80, 25);
 		loginButton.addActionListener(new LoginListener());
 	}
@@ -83,7 +84,7 @@ public class LoginView extends JDialog{
 	 */
 	public void cleanUp() {
 		this.setVisible(false);
-//		this.dispose();
+		this.dispose();
 	}
 	
 	public JPanel getReplacePanel() {

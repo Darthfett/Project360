@@ -20,6 +20,7 @@ public class JobsPanel_ extends JPanel{
 	private JScrollPane scrollPane;
 	private JLabel description;
 	private JPanel descriptionPanel;
+	private JPanel descriptionPadding;
 	private JPanel innerPanel;
 	private JPanel rightPanel;
 	private JPanel buttonsPanel;	
@@ -48,8 +49,10 @@ public class JobsPanel_ extends JPanel{
 		scrollPane = new JScrollPane(innerPanel);
 		
 		descriptionPanel = new JPanel();
+		descriptionPadding = new JPanel();
 		descriptionPanel.setBorder(BorderFactory.createTitledBorder("Job Description"));
-		rightPanel.add(descriptionPanel, BorderLayout.CENTER);
+		descriptionPadding.add(descriptionPanel);
+		rightPanel.add(descriptionPadding, BorderLayout.CENTER);
 		
 		description = new JLabel();
 		description.setFont(new Font("Arial", Font.PLAIN, 12));

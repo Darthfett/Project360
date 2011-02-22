@@ -1,4 +1,5 @@
 package Main;
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
@@ -19,7 +20,7 @@ public class RecruiterPanel extends JPanel {
 	private void initUI() {
 		setSize(770, 600);
 		setBackground(Color.black);
-		setLayout(null);
+		setLayout(new BorderLayout());
 		
 		tabs = new JTabbedPane();
 		jobsPanel = new JobsPanel_(TheAppletItself.getCurrentUserLevel());
@@ -30,6 +31,6 @@ public class RecruiterPanel extends JPanel {
 		tabs.addTab("Users", usersPanel);
 		tabs.addTab("Applicants", appPanel);
 		tabs.setSize(770, 600);
-		add(tabs);
+		add(tabs, BorderLayout.CENTER);
 	}
 }

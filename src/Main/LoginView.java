@@ -2,28 +2,31 @@ package Main;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LoginView extends JFrame {
+public class LoginView extends JDialog{
 
 	private static final long serialVersionUID = 1L;
 	private static final String errorMsg = "Invalid username/password";
 	private JButton loginButton;
 	private JButton cancelButton;
-	private JTextField uname;
-	private JPasswordField passwd;
-	private JLabel unameLabel, passwdLabel;
+	private JLabel unameLabel;
+	private JLabel passwdLabel;
 	private JLabel errorLabel;
 	private JPanel panel;
+	private JPanel replacePanel;
+	private JTextField unameField;
+	private JPasswordField passwdField;
 	
-	
-	public LoginView() {
+	public LoginView(JDialog owner, boolean modal) {
+		super(owner, modal);
 		initUI();
 	}
 	
@@ -36,8 +39,8 @@ public class LoginView extends JFrame {
 		panel = new JPanel();
 		loginButton = new JButton("Login");
 		cancelButton = new JButton("Cancel");
-		uname = new JTextField();
-		passwd = new JPasswordField();
+		unameField = new JTextField();
+		passwdField = new JPasswordField();
 		unameLabel = new JLabel("Username");
 		passwdLabel = new JLabel("Password");
 		errorLabel = new JLabel();
@@ -52,74 +55,84 @@ public class LoginView extends JFrame {
 		unameLabel.setBounds(50, 48, 68, 20);
 		panel.add(unameLabel);
 		
-		uname.setBounds(125, 48, 170, 20);
-		panel.add(uname);
+		unameField.setBounds(125, 48, 170, 20);
+		panel.add(unameField);
 		
 		passwdLabel.setBounds(50, 80, 68, 20);
 		panel.add(passwdLabel);
 		
-		passwd.setBounds(125, 80, 170, 20);
-		panel.add(passwd);
+		passwdField.setBounds(125, 80, 170, 20);
+		panel.add(passwdField);
 		
+		panel.add(cancelButton);
 		cancelButton.setBounds(190, 132, 80, 25);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				cleanUp();
 			}
 		});
-		panel.add(cancelButton);
 		
-		loginButton.setBounds(90, 132, 80, 25);
-		loginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				
-				/*
-				 * Do some magic here with the user data to figure out whether
-				 * the login info is valid, and if so, what type of user has
-				 * logged in. Then set the applet's static currentUserLevel
-				 * to the appropriate value.
-				 */
-				String user = uname.getText();
-				
-				/*
-				 * Temporary code to test the various UIs. This also shows how
-				 * to change the user-level and
-				 * kill the login frame.
-				 */
-				
-				if (user.equals("recruiter")) {
-					TheAppletItself.setCurrentUserLevel(Types.UserLevel.RECRUITER);
-					cleanUp();
-				}
-				else if (user.equals("reviewer")) {
-					TheAppletItself.setCurrentUserLevel(Types.UserLevel.REVIEWER);
-					cleanUp();
-				}
-				else if (user.equals("reference")) {
-					TheAppletItself.setCurrentUserLevel(Types.UserLevel.REFERENCE);
-					cleanUp();
-				}
-				else if (user.equals("applicant")) {
-					TheAppletItself.setCurrentUserLevel(Types.UserLevel.APPLICANT);
-					cleanUp();
-				}
-				else {
-					errorLabel.setText(errorMsg);
-				}
-				
-				//End temporary code
-
-			}
-		});
 		panel.add(loginButton);
+		loginButton.setBounds(90, 132, 80, 25);
+		loginButton.addActionListener(new LoginListener());
 	}
 	
 	/*
-	 * This method gets rid of the login frame. It needs to be called when a
+	 * This method gets rid of the login dialog. It needs to be called when a
 	 * successful login occurs.
 	 */
 	public void cleanUp() {
 		this.setVisible(false);
-		this.dispose();
+//		this.dispose();
+	}
+	
+	public JPanel getReplacePanel() {
+		return replacePanel;
+	}
+	
+	private class LoginListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent event) {
+			
+			char[] passArray = passwdField.getPassword();
+			String passwd = new String(passArray);
+			String uname = unameField.getText();
+			ArrayList<User> userList = User.getUserList();
+			for (int i = 0; i < userList.size(); i++) {
+				User check = userList.get(i);
+				if (check.getUserName().equals(uname)) {
+					if (check.getUserPassword().equals(passwd)) {
+						Types.UserLevel userLevel = check.getUserLevel();
+						TheAppletItself.setCurrentUserLevel(userLevel);
+						switch(userLevel) {
+							case RECRUITER:
+								replacePanel = new RecruiterPanel();
+								cleanUp();
+								break;
+							case REVIEWER:
+								replacePanel = new ReviewerPanel();
+								cleanUp();
+								break;
+							case REFERENCE:
+								replacePanel = new ReferencePanel();
+								cleanUp();
+								break;
+							default:
+								replacePanel = null;
+								cleanUp();
+								break;
+						}							
+					}
+					else {
+						errorLabel.setText(errorMsg);
+					}
+				}
+				else {
+					errorLabel.setText(errorMsg);
+				}
+			}
+		}
 	}
 }
+
+

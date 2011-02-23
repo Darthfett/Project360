@@ -2,6 +2,8 @@ package Main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -49,10 +51,16 @@ public class UsersPanel extends JPanel {
 		addButton.setBounds(600, 55, 120, 30);
 		editButton.setBounds(600, 105, 120, 30);
 		
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				
+			}
+		});
+	
+		
 		add(addButton);
 		add(editButton);
 	}
-	
 	public String[][] buildUserData() {	
 		ArrayList<User> userList = User.getUserList();
 		String[][] usersData = new String[userList.size()][3];
@@ -67,5 +75,9 @@ public class UsersPanel extends JPanel {
 			}
 		}
 		return usersData;
+	}
+	
+	public UsersPanel getThisPanel() {
+		return this;
 	}
 }

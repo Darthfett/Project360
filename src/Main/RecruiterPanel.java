@@ -12,6 +12,7 @@ public class RecruiterPanel extends JPanel {
 	private JobsPanel_ jobsPanel;
 	private JPanel usersPanel;
 	private JPanel appPanel;
+	private LogoutPanel logoutPanel;
 	
 	public RecruiterPanel() {
 		initUI();
@@ -24,13 +25,16 @@ public class RecruiterPanel extends JPanel {
 		
 		tabs = new JTabbedPane();
 		jobsPanel = new JobsPanel_(TheAppletItself.getCurrentUserLevel());
-		usersPanel = new UsersPanel();
 		appPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
+		usersPanel = new UsersPanel();
 		
 		tabs.addTab("Jobs", jobsPanel);
 		tabs.addTab("Users", usersPanel);
 		tabs.addTab("Applicants", appPanel);
 		tabs.setSize(770, 600);
 		add(tabs, BorderLayout.CENTER);
+		
+		logoutPanel = new LogoutPanel();
+		add(logoutPanel, BorderLayout.NORTH);
 	}
 }

@@ -27,7 +27,7 @@ import Main.Types.UserLevel;
  *   	+ getUserLevelString():String
  *   	+ getUserLevel():Main.Types.UserLevel
  * 		+ getUserPassword():String
- * 		- saveUser()
+ * 		+ save()
  * 		+ setUserName(String)
  * 		+ setUserPassword(String)
  * 		+ setUserLevel(String)
@@ -87,21 +87,28 @@ public class User {
 		return (String) data.get("password");
 	}
 	
-	private void saveUser() {
+	public void save() {
+		/*
+		 * save will save this User to the Users directory, for future reloading.
+		 */
 		System.out.println("DEBUG: Attempting to save user data to file: " + getUserName());
-		if (this.getUserName().equals("") || this.getUserPassword().equals("") || this.getUserLevel().equals("")) {
-			System.out.println("ERROR: Invalid user: " + this.getUserName() + ", " + this.getUserPassword() + ", " + this.getUserLevel() + ".  A username, password, and userlevel are required.");
+		if (this.getUserName() == null) {
+			System.out.println("ERROR: Cannot save a User with no username.");
 			return;
 		}
 		File dir = User.DataDir;
 		File userFile = new File(dir,getUserName() + ".user");
-		String fileData = "";
-		fileData.concat("username="+getUserName());
-		fileData.concat("\npassword="+getUserPassword());
-		fileData.concat("\nuserlevel="+getUserLevelString());
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(userFile));
-			out.write(fileData);
+			Iterator<String> hashedKeys = this.data.keySet().iterator();
+			String cur;
+			while(hashedKeys.hasNext()) {
+				cur = hashedKeys.next();
+				out.write(cur + "=" + this.data.get(cur));
+				out.newLine();
+			
+			}
+			System.out.println("Success!");
 			out.close();
 		} catch (IOException e) {
 			System.out.println("ERROR: Unable to open " + getUserName() + ".user for writing");
@@ -113,17 +120,14 @@ public class User {
 	
 	public void setUserName(String username) {
 		this.data.put("username", username);
-		this.saveUser();
 	}
 	
 	public void setUserPassword(String password) {
 		this.data.put("password", password);
-		this.saveUser();
 	}
 	
 	public void setUserLevel(String userLevel) {
 		this.data.put("userlevel", userLevel);
-		this.saveUser();
 	}
 	
 	public User(String username, String password, String userlevel) {
@@ -131,13 +135,11 @@ public class User {
 		this.data.put("username",username);
 		this.data.put("password",password);
 		this.data.put("userlevel",userlevel);
-		this.saveUser();
 	}
 
-	private User() {
+	public User() {
 		//TODO: Replace this constructor with constructor that saves users
 		this.data = new Hashtable<String, String>();
-		this.data.put("username","");
 		this.data.put("password","");
 		this.data.put("userlevel","");
 	}
@@ -148,6 +150,7 @@ public class User {
 		 * Each user is stored in the User.Users ArrayList.
 		 * User information (username/password/userlevel) is stored in the user.data hashtable.
 		 * 
+		 * loadUserList will also clear all users currently in the hashtable
 		 */
 		System.out.println("DEBUG: Attempting to load users");
 		File dir = User.DataDir;

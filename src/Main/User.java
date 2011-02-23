@@ -153,6 +153,7 @@ public class User {
 		 * loadUserList will also clear all users currently in the hashtable
 		 */
 		System.out.println("DEBUG: Attempting to load users");
+		User.Users.clear();
 		File dir = User.DataDir;
 		File currentUser;
 		BufferedReader bufferedReader;

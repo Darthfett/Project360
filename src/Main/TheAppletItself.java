@@ -20,7 +20,6 @@ public class TheAppletItself extends JApplet {
 	public void init() {
 		setSize(770, 600);
 		User.loadUserList();
-
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {

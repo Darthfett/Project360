@@ -35,6 +35,7 @@ public class LoginView extends JDialog{
 		setSize(350, 210);
 		setTitle("Login");
 		setLocationRelativeTo(null);
+		setResizable(false);
 		
 		panel = new JPanel();
 		loginButton = new JButton("Login");

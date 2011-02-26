@@ -1,5 +1,6 @@
 package Main;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -51,16 +52,13 @@ public class UsersPanel extends JPanel {
 		addButton.setBounds(600, 55, 120, 30);
 		editButton.setBounds(600, 105, 120, 30);
 		
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				
-			}
-		});
+		addButton.addActionListener(new UserEditListener());
 	
 		
 		add(addButton);
 		add(editButton);
 	}
+	
 	public String[][] buildUserData() {	
 		ArrayList<User> userList = User.getUserList();
 		String[][] usersData = new String[userList.size()][3];
@@ -79,5 +77,13 @@ public class UsersPanel extends JPanel {
 	
 	public UsersPanel getThisPanel() {
 		return this;
+	}
+	
+	private class UserEditListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			JPanel cards = (JPanel) getThisPanel().getParent();
+			CardLayout cl = (CardLayout) cards.getLayout();
+			cl.show(cards, "UserEditPanel");
+		}
 	}
 }

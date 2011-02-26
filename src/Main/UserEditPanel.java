@@ -76,7 +76,7 @@ public class UserEditPanel extends JPanel {
 				String uname = unameField.getText();
 				String passwd = passwdField.getText();
 				String ulevel = ulevelField.getText();
-				new User(uname, passwd, ulevel);
+				System.out.println(new User(uname, passwd, ulevel));
 				User.loadUserList();
 				((RecruiterPanel) cards.getParent().getParent()).refreshUsers();
 				cl.show(cards, "UsersPanel");

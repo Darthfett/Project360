@@ -21,6 +21,7 @@ public class UsersPanel extends JPanel {
 	private JButton addButton;
 	private JButton editButton;
 	private JPanel innerPanel;
+	private String[][] data;
 	
 	public UsersPanel() {
 		initUI();
@@ -30,7 +31,7 @@ public class UsersPanel extends JPanel {
 		setLayout(null);
 		
 		String[] columnNames = {"Username", "Password", "Userlevel"};
-		String[][] data = buildUserData();
+		data = buildUserData();
 		
 		usersTable = new JTable(data, columnNames);
 		usersTable.setPreferredSize(new Dimension(480, 570));
@@ -53,7 +54,7 @@ public class UsersPanel extends JPanel {
 		editButton.setBounds(600, 105, 120, 30);
 		
 		addButton.addActionListener(new UPListener());
-	
+		editButton.addActionListener(new UPListener());
 		
 		add(addButton);
 		add(editButton);
@@ -79,11 +80,29 @@ public class UsersPanel extends JPanel {
 		return this;
 	}
 	
+	public String getSelectedUser() {
+		int rowIndex = usersTable.getSelectedRow();
+		String user = data[rowIndex][0];
+		return user;
+	}
+	
 	private class UPListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();
-			cl.show(cards, "UserEditPanel");
+			if (event.getSource() == editButton) {
+				cl.show(cards, "UserEditPanel");
+				RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
+				String userName = recPanel.getUsersPanel().getSelectedUser();
+				User user = User.getUserFromUserName(userName);
+				recPanel.getUserEditPanel().getUnameField().setText(user.getUserName());
+				recPanel.getUserEditPanel().getPasswdField().setText(user.getUserPassword());
+				recPanel.getUserEditPanel().getUlevelBox().setSelectedItem((String) user.getUserLevelString());
+				recPanel.getUserEditPanel().setUser(user);
+			}
+			if (event.getSource() == addButton) {
+				cl.show(cards, "UserAddPanel");
+			}
 		}
 	}
 }

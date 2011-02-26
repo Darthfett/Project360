@@ -11,12 +11,14 @@ public class RecruiterPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String USERSPANEL = "UsersPanel";
 	private static final String USEREDITPANEL = "UserEditPanel";
+	private static final String USERADDPANEL = "UserAddPanel";
 	private JTabbedPane tabs;
 	private JobsPanel_ jobsPanel;
 	private JPanel usersCards;
-	private JPanel usersPanel;
-	private JPanel userEditPanel;
-	private JPanel appPanel;
+	private UsersPanel usersPanel;
+	private UserEditPanel userEditPanel;
+	private UserEditPanel userAddPanel;
+	private ApplicantsPanel appPanel;
 	private LogoutPanel logoutPanel;
 	
 	public RecruiterPanel() {
@@ -35,9 +37,11 @@ public class RecruiterPanel extends JPanel {
 		usersCards = new JPanel();
 		usersCards.setLayout(new CardLayout());
 		usersPanel = new UsersPanel();
-		userEditPanel = new UserEditPanel();
+		userEditPanel = new UserEditPanel('e');
+		userAddPanel =new UserEditPanel('a');
 		usersCards.add(usersPanel, USERSPANEL);
 		usersCards.add(userEditPanel, USEREDITPANEL);
+		usersCards.add(userAddPanel, USERADDPANEL);
 		
 		tabs.addTab("Jobs", jobsPanel);
 		tabs.addTab("Users", usersCards);
@@ -49,8 +53,16 @@ public class RecruiterPanel extends JPanel {
 		add(logoutPanel, BorderLayout.NORTH);
 	}
 	
-	public JPanel getUsersCards() {		
+	public JPanel getUsersCards() {
 		return usersCards;
+	}
+	
+	public UsersPanel getUsersPanel() {
+		return usersPanel;
+	}
+	
+	public UserEditPanel getUserEditPanel() {
+		return userEditPanel;
 	}
 	
 	public void refreshUsers() {

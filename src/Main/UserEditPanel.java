@@ -65,12 +65,19 @@ public class UserEditPanel extends JPanel {
 		return this;
 	}
 	
+	public void clearFields() {
+		unameField.setText("");
+		passwdField.setText("");
+		ulevelField.setText("");
+	}
+	
 	private class UEListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();
 			if (event.getSource() == cancelButton) {
 				cl.show(cards, "UsersPanel");
+				clearFields();
 			}
 			if (event.getSource() == submitButton) {
 				String uname = unameField.getText();
@@ -80,6 +87,7 @@ public class UserEditPanel extends JPanel {
 				User.loadUserList();
 				((RecruiterPanel) cards.getParent().getParent()).refreshUsers();
 				cl.show(cards, "UsersPanel");
+				clearFields();
 			}
 		}
 	}

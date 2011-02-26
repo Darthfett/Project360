@@ -52,7 +52,7 @@ public class UsersPanel extends JPanel {
 		addButton.setBounds(600, 55, 120, 30);
 		editButton.setBounds(600, 105, 120, 30);
 		
-		addButton.addActionListener(new UserEditListener());
+		addButton.addActionListener(new UPListener());
 	
 		
 		add(addButton);
@@ -79,7 +79,7 @@ public class UsersPanel extends JPanel {
 		return this;
 	}
 	
-	private class UserEditListener implements ActionListener {
+	private class UPListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();

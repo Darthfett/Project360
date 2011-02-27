@@ -67,6 +67,7 @@ public class UserEditPanel extends JPanel {
 			deleteButton = new JButton("Delete User");
 			southPanel.add(deleteButton);
 			deleteButton.addActionListener(new UEListener());
+			unameField.setEditable(false);
 		}
 		
 		submitButton.addActionListener(new UEListener());

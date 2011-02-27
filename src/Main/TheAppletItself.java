@@ -44,7 +44,7 @@ public class TheAppletItself extends JApplet {
 		return currentUserLevel;
 	}
 	
-	public static void setCurrentUserLevel(Types.UserLevel userLevel) {
+	public static void setCurrentUserLevel(UserLevel userLevel) {
 		currentUserLevel = userLevel;
 	}
 }

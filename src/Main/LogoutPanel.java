@@ -17,17 +17,14 @@ public class LogoutPanel extends JPanel {
 	private JButton logoutButton;
 	private JPanel buttonPanel;
 	private JLabel userLabel;
-	private String user;
 	
 	public LogoutPanel() {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(760, 30));
 		setBackground(Color.black);
 		
-		user = "recruiter";
-		userLabel = new JLabel(user);
+		userLabel = new JLabel();
 		userLabel.setFont(new Font("arial", Font.PLAIN, 16));
-		
 		logoutButton = new JButton("Logout");
 		logoutButton.setBackground(Color.black);
 		logoutButton.setForeground(Color.lightGray);

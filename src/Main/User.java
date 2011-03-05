@@ -28,6 +28,7 @@ import Main.Types.UserLevel;
  *   	+ getUserLevelString():String
  *   	+ getUserLevel():Main.Types.UserLevel
  * 		+ getUserPassword():String
+ * 		+ remove()
  * 		+ save()
  * 		+ setUserName(String)
  * 		+ setUserPassword(String)
@@ -86,6 +87,22 @@ public class User {
 	
 	public String getUserPassword() {
 		return (String) data.get("password");
+	}
+	
+	public boolean remove() {
+		/*
+		 * remove will remove this User from the Users directory, as well as remove it from
+		 * the hashtable.
+		 * 
+		 * Returns the success of the removal of the User (should never not succeed).
+		 */
+		File userFile = new File(User.DataDir,getUserName() + ".user");
+		boolean success = userFile.delete();
+		if (! success) {
+			System.out.println("ERROR: Cannot delete " + getUserName());
+		}
+		Users.put(getUserName(),null);
+		return success;
 	}
 	
 	public void save() {

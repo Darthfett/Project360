@@ -1,7 +1,10 @@
 package Main;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,41 +14,49 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-
-public class JobsPanel extends JPanel {
-	
+public class JobsPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JList jobList;
 	private JScrollPane scrollPane;
 	private JLabel description;
 	private JPanel descriptionPanel;
+	private JPanel descriptionPadding;
 	private JPanel innerPanel;
-	private JButton firstButton;
-	private JButton secondButton;
-	
+	private JPanel rightPanel;
+	private JPanel buttonsPanel;	
+	private JButton createButton;
+	private JButton editButton;
+	private JButton applyButton;
+
 	
 	String[] sampleData = {"Software Engineer", "Senior Software Engineer", "Operations Coordinator",
 			"Program Manager", "Software Tester", "Ice Cream Tasting Specialist"};
 
 	public JobsPanel(Types.UserLevel userLevel) {
-		setLayout(null);
+		setLayout(new GridLayout(1,2));
+		
+		rightPanel = new JPanel();
+		rightPanel.setLayout(new BorderLayout());
 		
 		jobList = new JList(sampleData);
 		innerPanel = new JPanel();
 		innerPanel.setBackground(Color.white);
-		jobList.setPreferredSize(new Dimension(320, 600));
+		jobList.setPreferredSize(new Dimension(340, 600));
 		jobList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		jobList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		innerPanel.add(jobList);
 		
 		scrollPane = new JScrollPane(innerPanel);
-		scrollPane.setBounds(30, 55, 380, 550);
-		add(scrollPane);
+		
+		descriptionPanel = new JPanel();
+		descriptionPadding = new JPanel();
+		descriptionPanel.setBorder(BorderFactory.createTitledBorder("Job Description"));
+		descriptionPadding.add(descriptionPanel);
+		rightPanel.add(descriptionPadding, BorderLayout.CENTER);
 		
 		description = new JLabel();
-		description.setBounds(12, 16, 270, 460);
 		description.setFont(new Font("Arial", Font.PLAIN, 12));
-		String descText = "Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum" +
+		String text = "Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum" +
 				" lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum " +
 				"lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum, " +
 				"lorem ipsum lorem ipsum lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum " +
@@ -55,33 +66,28 @@ public class JobsPanel extends JPanel {
 				"Lorem ipsum, lorem ipsum lorem ipsum lorem ipsum, lorem ipsum. Lorem ipsum, lorem" +
 				" ipsum lorem ipsum lorem ipsum, lorem ipsum. Lorem ipsum, lorem ipsum lorem ipsum " +
 				"lorem ipsum, lorem ipsum.";
-		String fText = String.format("<html><div WIDTH=%d>%s</div></html>", 350, descText);
+		String fText = String.format("<html><div WIDTH=%d>%s</div></html>", 320, text);
 		description.setText(fText);
-			
 		
-		descriptionPanel = new JPanel();
-		descriptionPanel.setBorder(BorderFactory.createTitledBorder("Job Description"));
-		descriptionPanel.setBounds(435, 55, 290, 478);
-		descriptionPanel.setLayout(null);
 		descriptionPanel.add(description);
-		add(descriptionPanel);
+		
+		buttonsPanel = new JPanel();
+		rightPanel.add(buttonsPanel, BorderLayout.SOUTH);
+		
+		add(scrollPane);
+		add(rightPanel);
 		
 		if (userLevel == Types.UserLevel.RECRUITER) {
-			firstButton = new JButton("Create new...");
-			secondButton = new JButton("Edit...");
-			
-			firstButton.setBounds(445, 565, 120, 30);
-			secondButton.setBounds(590, 565, 120, 30);
+			createButton = new JButton("Create new...");
+			editButton = new JButton("Edit...");
+			buttonsPanel.add(createButton);
+			buttonsPanel.add(editButton);
+	
 		}
 		
 		if (userLevel == Types.UserLevel.APPLICANT) {
-			firstButton = new JButton("More Info...");
-			secondButton = new JButton("Apply...");
-			
-			firstButton.setBounds(445, 565, 120, 30);
-			secondButton.setBounds(590, 565, 120, 30);
+			applyButton = new JButton("Apply...");
+			buttonsPanel.add(applyButton);
 		}
-		add(firstButton);
-		add(secondButton);
 	}
 }

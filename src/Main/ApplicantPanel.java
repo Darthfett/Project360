@@ -9,7 +9,7 @@ import javax.swing.JTabbedPane;
 public class ApplicantPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private JobsPanel_ jobsPanel;
+	private JobsPanel jobsPanel;
 	private JPanel loginPanel;
 	private JTabbedPane tabs;
 	
@@ -26,7 +26,7 @@ public class ApplicantPanel extends JPanel {
 		add(loginPanel, BorderLayout.NORTH);
 		
 		tabs = new JTabbedPane();
-		jobsPanel = new JobsPanel_(TheAppletItself.getCurrentUserLevel());
+		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
 		
 		tabs.setSize(770, 655);
 		tabs.addTab("Jobs", jobsPanel);

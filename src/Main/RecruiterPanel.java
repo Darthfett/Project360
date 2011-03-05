@@ -13,7 +13,7 @@ public class RecruiterPanel extends JPanel {
 	private static final String USEREDITPANEL = "UserEditPanel";
 	private static final String USERADDPANEL = "UserAddPanel";
 	private JTabbedPane tabs;
-	private JobsPanel_ jobsPanel;
+	private JobsPanel jobsPanel;
 	private JPanel usersCards;
 	private UsersPanel usersPanel;
 	private UserEditPanel userEditPanel;
@@ -31,7 +31,7 @@ public class RecruiterPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		tabs = new JTabbedPane();
-		jobsPanel = new JobsPanel_(TheAppletItself.getCurrentUserLevel());
+		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
 		appPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
 		
 		usersCards = new JPanel();

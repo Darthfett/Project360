@@ -13,6 +13,7 @@ import Main.Types.UserLevel;
  * 	Static
  *    	- DataDir:File
  *  	- Users:Hashtable<String,User>
+ *  	- userList:ArrayList<User>
  * 
  * 	Dynamic
  * 		- data:Hashtable
@@ -209,7 +210,6 @@ public class User {
 			try {
 				bufferedReader.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -38,7 +38,7 @@ public class RecruiterPanel extends JPanel {
 		usersCards.setLayout(new CardLayout());
 		usersPanel = new UsersPanel();
 		userEditPanel = new UserEditPanel('e');
-		userAddPanel =new UserEditPanel('a');
+		userAddPanel = new UserEditPanel('a');
 		usersCards.add(usersPanel, USERSPANEL);
 		usersCards.add(userEditPanel, USEREDITPANEL);
 		usersCards.add(userAddPanel, USERADDPANEL);

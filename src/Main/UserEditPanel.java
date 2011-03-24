@@ -136,6 +136,7 @@ public class UserEditPanel extends JPanel {
 				}
 				if (event.getSource() == deleteButton) {
 					user.remove();
+					User.loadUserList();
 					recPanel.refreshUsers();
 					cl.show(cards, "UsersPanel");
 				}

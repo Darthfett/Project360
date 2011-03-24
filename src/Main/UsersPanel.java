@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 public class UsersPanel extends JPanel {
@@ -35,6 +37,7 @@ public class UsersPanel extends JPanel {
 		
 		usersTable = new JTable(data, columnNames);
 		usersTable.setPreferredSize(new Dimension(480, 570));
+		usersTable.getSelectionModel().addListSelectionListener(new UPSelectionListener());
 		
 		innerPanel = new JPanel();
 		innerPanel.setLayout(new BorderLayout());
@@ -43,7 +46,7 @@ public class UsersPanel extends JPanel {
 		
 		scrollPane = new JScrollPane(innerPanel);
 		
-		scrollPane.setBounds(30, 55, 540, 520);
+		scrollPane.setBounds(30, 55, 540, 490);
 		scrollPane.setBackground(Color.white);
 		add(scrollPane);
 		
@@ -52,6 +55,7 @@ public class UsersPanel extends JPanel {
 		
 		addButton.setBounds(600, 55, 120, 30);
 		editButton.setBounds(600, 105, 120, 30);
+		editButton.setEnabled(false);
 		
 		addButton.addActionListener(new UPListener());
 		editButton.addActionListener(new UPListener());
@@ -82,7 +86,9 @@ public class UsersPanel extends JPanel {
 	
 	public String getSelectedUser() {
 		int rowIndex = usersTable.getSelectedRow();
-		String user = data[rowIndex][0];
+		String user = null;
+		if (rowIndex >=0 )
+			user = data[rowIndex][0];
 		return user;
 	}
 	
@@ -102,6 +108,14 @@ public class UsersPanel extends JPanel {
 			}
 			if (event.getSource() == addButton) {
 				cl.show(cards, "UserAddPanel");
+			}
+		}
+	}
+	
+	private class UPSelectionListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent event) {
+			if (getSelectedUser() != null) {
+				editButton.setEnabled(true);
 			}
 		}
 	}

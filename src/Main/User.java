@@ -96,12 +96,13 @@ public class User {
 		 * 
 		 * Returns the success of the removal of the User (should never not succeed).
 		 */
-		File userFile = new File(User.DataDir,getUserName() + ".user");
+		String userName = getUserName();
+		File userFile = new File(User.DataDir, userName + ".user");
 		boolean success = userFile.delete();
 		if (! success) {
-			System.out.println("ERROR: Cannot delete " + getUserName());
+			System.out.println("ERROR: Cannot delete " + userName);
 		}
-		Users.put(getUserName(),null);
+		Users.remove(userName);
 		return success;
 	}
 	

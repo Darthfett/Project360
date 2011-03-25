@@ -119,7 +119,6 @@ public class UserEditPanel extends JPanel {
 					String ulevel = (String) ulevelBox.getSelectedItem();
 					User userToAdd = new User(uname, passwd, ulevel);
 					userToAdd.save();
-					User.loadUserList();
 					recPanel.refreshUsers();
 					cl.show(cards, "UsersPanel");
 					clearFields();
@@ -136,7 +135,6 @@ public class UserEditPanel extends JPanel {
 				}
 				if (event.getSource() == deleteButton) {
 					user.remove();
-					User.loadUserList();
 					recPanel.refreshUsers();
 					cl.show(cards, "UsersPanel");
 				}

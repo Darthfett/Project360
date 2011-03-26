@@ -102,7 +102,7 @@ public class LoginView extends JDialog{
 			ArrayList<User> userList = User.getUserList();
 			for (int i = 0; i < userList.size(); i++) {
 				User check = userList.get(i);
-				if (check.getUserName().equals(uname)) {
+				if (check.getUsername().equals(uname)) {
 					if (check.getUserPassword().equals(passwd)) {
 						Types.UserLevel userLevel = check.getUserLevel();
 						TheAppletItself.setCurrentUserLevel(userLevel);

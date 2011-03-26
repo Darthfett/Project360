@@ -3,6 +3,8 @@ package Main;
 import java.io.*;
 import java.util.*;
 
+import Main.DatabaseParser;
+
 import Main.Types.UserLevel;
 
 /*
@@ -12,8 +14,7 @@ import Main.Types.UserLevel;
  * Members
  * 	Static
  *    	- DataDir:File
- *  	- Users:Hashtable<String,User>
- *  	- userList:ArrayList<User>
+ *  	- Users:Hashtable<String,User> //Maps usernames to Users
  * 
  * 	Dynamic
  * 		- data:Hashtable
@@ -24,7 +25,7 @@ import Main.Types.UserLevel;
  * 
  * 	 Dynamic
  * 		+ getUserList():ArrayList<User>
- *   	+ getUserName():String
+ *   	+ getUsername():String
  *   	+ getUserLevelString():String
  *   	+ getUserLevel():Main.Types.UserLevel
  * 		+ getUserPassword():String
@@ -39,7 +40,7 @@ import Main.Types.UserLevel;
 
 public class User {
 	//TODO: Make additional constructors that save the user.
-	private Hashtable<String, String> data;
+	private Hashtable<String, String> database;
 	private static File DataDir = new File("../Users");
 	private static Hashtable<String,User> Users = new Hashtable<String,User>();
 	
@@ -61,16 +62,16 @@ public class User {
 		return User.Users.get(username);
 	}
 
-	public String getUserName() {
-		return (String) data.get("username");
+	public String getUsername() {
+		return (String) database.get("username");
 	}
 	
 	public String getUserLevelString() {
-		return (String) data.get("userlevel");
+		return (String) database.get("userlevel");
 	}
 
 	public UserLevel getUserLevel() {
-		String userLevelString = ((String) data.get("userlevel"));//.replace(" ","").replace("\n","");
+		String userLevelString = ((String) database.get("userlevel"));//.replace(" ","").replace("\n","");
 		if (userLevelString.equals("recruiter")) {
 			return UserLevel.RECRUITER;
 		} else if (userLevelString.equals("reviewer")) {
@@ -86,7 +87,7 @@ public class User {
 	}
 	
 	public String getUserPassword() {
-		return (String) data.get("password");
+		return (String) database.get("password");
 	}
 	
 	public boolean remove() {
@@ -96,13 +97,14 @@ public class User {
 		 * 
 		 * Returns the success of the removal of the User (should never not succeed).
 		 */
-		String userName = getUserName();
-		File userFile = new File(User.DataDir, userName + ".user");
+		String username = getUsername();
+		File userFile = new File(User.DataDir,username + ".user");
 		boolean success = userFile.delete();
 		if (! success) {
-			System.out.println("ERROR: Cannot delete " + userName);
+			System.err.println("Cannot delete " + username);
+			return false;
 		}
-		Users.remove(userName);
+		Users.remove(username);
 		return success;
 	}
 	
@@ -110,27 +112,25 @@ public class User {
 		/*
 		 * save will save this User to the Users directory, for future reloading.
 		 */
-		System.out.println("DEBUG: Attempting to save user data to file: " + getUserName());
-		if (this.getUserName() == null) {
-			System.out.println("ERROR: Cannot save a User with no username.");
+		if (this.getUsername() == null) {
+			System.err.println("Cannot save a User with no username.");
 			return;
 		}
 		File dir = User.DataDir;
-		File userFile = new File(dir,getUserName() + ".user");
+		File userFile = new File(dir,getUsername() + ".user");
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(userFile));
-			Iterator<String> hashedKeys = this.data.keySet().iterator();
+			Iterator<String> hashedKeys = this.database.keySet().iterator();
 			String cur;
 			while(hashedKeys.hasNext()) {
 				cur = hashedKeys.next();
-				out.write(cur + "=" + this.data.get(cur));
+				out.write(cur + "=" + this.database.get(cur));
 				out.newLine();
 			
 			}
-			System.out.println("Success!");
 			out.close();
 		} catch (IOException e) {
-			System.out.println("ERROR: Unable to open " + getUserName() + ".user for writing");
+			System.err.println("Unable to open " + getUsername() + ".user for writing");
 			e.printStackTrace();
 			return;
 		}
@@ -138,99 +138,48 @@ public class User {
 	}
 	
 	public void setUserName(String username) {
-		this.data.put("username", username);
+		this.database.put("username", username);
 	}
 	
 	public void setUserPassword(String password) {
-		this.data.put("password", password);
+		this.database.put("password", password);
 	}
 	
 	public void setUserLevel(String userLevel) {
-		this.data.put("userlevel", userLevel);
+		this.database.put("userlevel", userLevel);
 	}
 	
 	public User(String username, String password, String userlevel) {
-		this.data = new Hashtable<String, String>();
-		this.data.put("username",username);
-		this.data.put("password",password);
-		this.data.put("userlevel",userlevel);
+		this.database = new Hashtable<String, String>();
+		this.database.put("username",username);
+		this.database.put("password",password);
+		this.database.put("userlevel",userlevel);
+		User.Users.put(username, this);
 	}
 
-	public User() {
-		//TODO: Replace this constructor with constructor that saves users
-		this.data = new Hashtable<String, String>();
-		this.data.put("password","");
-		this.data.put("userlevel","");
-	}
+	public User() {}
 
 	public static void loadUserList(){
 		/*
 		 * loadUserList loads all .user files in src/Main/Users/ , and parses them into User objects.
 		 * Each user is stored in the User.Users ArrayList.
-		 * User information (username/password/userlevel) is stored in the user.data hashtable.
+		 * User information (username/password/userlevel) is stored in the user.database hashtable.
 		 * 
 		 * loadUserList will also clear all users currently in the hashtable
 		 */
-		System.out.println("DEBUG: Attempting to load users");
 		User.Users.clear();
-		File dir = User.DataDir;
-		File currentUser;
-		BufferedReader bufferedReader;
-		String[] userFiles = dir.list();
-		if (userFiles == null) {
-			System.out.println("DEBUG: No existing users, or unable to find Users/*");
-			return;
-		}
-		for (int i = 0; i < userFiles.length; i++) {
-			System.out.println("DEBUG: Found " + userFiles[i]);
-			currentUser = new File(dir, userFiles[i]);
-			try { //Try to open the file
-				bufferedReader = new BufferedReader(new FileReader(currentUser));
-			} catch (FileNotFoundException ex) {
-				System.out.println("DEBUG: Unable to open " + userFiles[i]);
+		Hashtable<String,Hashtable<String,String>> directory_data = DatabaseParser.loadDatabase(DataDir,"user");
+		Enumeration<String> user_data_enum = directory_data.keys(); 
+		while (user_data_enum.hasMoreElements()) {
+			String file = user_data_enum.nextElement();
+			Hashtable<String,String> user_data = directory_data.get(file);
+			if (! user_data.containsKey("username")) {
+				System.out.println("File " + file + " has no username. Skipping that file.");
 				continue;
 			}
-			try { //Try to read the data from the file
-				String line = bufferedReader.readLine();
-				//Lines -> Arrays split by '='
-				User newUser = new User();
-				while (line != null) {
-					ArrayList<String> keyVal = new ArrayList<String>();
-					String[] temp = line.replace(" ", "").replace("\n", "").toLowerCase().split("=");
-					for (int j = 0; j < temp.length; j++) {
-						keyVal.add(temp[j]);
-					}
-					//Arrays -> Users with arrays in hashtable
-					if (keyVal.size() == 1) {
-						keyVal.add("");
-					} else if (keyVal.size() == 2) {
-					} else {
-						System.out.print("WARNING: Invalid line in User File: " + userFiles[i]);
-						for(int j=0; j < keyVal.size();j++) {
-							System.out.print(keyVal.get(j) +",");
-						}
-						continue;
-					}
-					newUser.data.put(keyVal.get(0), keyVal.get(1));
-					line = bufferedReader.readLine();
-
-				}
-			if (newUser.data.containsKey("username")) {
-				User.Users.put(newUser.data.get("username"), newUser);
-			} else {
-				System.out.println("WARNING: User file " + userFiles[i] + " has no username");
-			}
-			
-			} catch (IOException ex) {
-				System.out.println("DEBUG: Unable to read from " + userFiles[i]);
-
-			}
-			try {
-				bufferedReader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			User new_user = new User();
+			new_user.database = user_data;
+			User.Users.put(user_data.get("username"), new_user);
 		}
-		System.out.println("Users loaded");
 	}
 }

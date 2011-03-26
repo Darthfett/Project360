@@ -43,10 +43,11 @@ public class LoginPanel extends JPanel {
 							loginView.setVisible(true);
 							replacePanel = loginView.getReplacePanel();
 							JApplet applet = (JApplet) getTopLevelAncestor();
-							applet.setContentPane(replacePanel);
-							applet.invalidate();
-							applet.validate();
-							
+							if (replacePanel != null) {
+								applet.setContentPane(replacePanel);
+								applet.invalidate();
+								applet.validate();
+							}
 						}
 					});
 				} catch(Exception e) {

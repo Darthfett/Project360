@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -65,6 +66,7 @@ public class UserEditPanel extends JPanel {
 		
 		if (mode == 'e') {
 			deleteButton = new JButton("Delete User");
+			southPanel.add(Box.createRigidArea(new Dimension(30, 0)));
 			southPanel.add(deleteButton);
 			deleteButton.addActionListener(new UEListener());
 			unameField.setEditable(false);

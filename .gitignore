@@ -2,3 +2,9 @@
 bin/
 bin
 bin/*
+.metadata/
+.metadata
+.metadata/*
+.svn
+.svn/
+.svn/*

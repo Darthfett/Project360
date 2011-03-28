@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -15,6 +18,7 @@ public class Job {
 	private static Hashtable<String,Job> Jobs;
 	private ArrayList<User> applicants;
 	private Hashtable<String, String> database;
+	private static DateFormat dateFormat = new SimpleDateFormat("MMMMM.dd.yyyy");
 	//title/description/id/date/deadline/location/salary/benefits
 	
 	public Integer getId() {
@@ -29,13 +33,22 @@ public class Job {
 		return database.get("description");
 	}
 	
-	public String getPostDate() {
-		//TODO This is a placeholder until they are parsed into Date objects
-		return database.get("date");
+	public Date getPostDate() {
+		try {
+			return Job.dateFormat.parse(database.get("date"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
-	public String getDeadline() {
-		return database.get("deadline");
+	public Date getDeadline() {
+		try {
+			return Job.dateFormat.parse(database.get("deadline"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public String getLocation() {
@@ -59,11 +72,11 @@ public class Job {
 	}
 	
 	public void setPostDate(Date postDate) {
-		database.put("date",postDate.toString());
+		database.put("date",Job.dateFormat.format(postDate));
 	}
 	
 	public void setDeadline(Date deadline) {
-		database.put("deadline",deadline.toString());
+		database.put("deadline",Job.dateFormat.format(deadline));
 	}
 	
 	public void setLocation(String location) {

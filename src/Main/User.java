@@ -71,7 +71,7 @@ public class User {
 	}
 
 	public UserLevel getUserLevel() {
-		String userLevelString = ((String) database.get("userlevel"));//.replace(" ","").replace("\n","");
+		String userLevelString = ((String) database.get("userlevel"));
 		if (userLevelString.equals("recruiter")) {
 			return UserLevel.RECRUITER;
 		} else if (userLevelString.equals("reviewer")) {
@@ -159,7 +159,7 @@ public class User {
 
 	public User() {}
 
-	public static void loadUserList(){
+	public static void loadUserList() {
 		/*
 		 * loadUserList loads all .user files in src/Main/Users/ , and parses them into User objects.
 		 * Each user is stored in the User.Users Hashtable.

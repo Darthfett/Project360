@@ -9,6 +9,7 @@ public class Applicant {
 	private int reviewerRating;
 	private String resume;
 	private String username;
+	private int id;
 	
 	
 	Applicant(){
@@ -16,7 +17,14 @@ public class Applicant {
 		setReviewerComment(new String());
 	}
 
-
+	public void setId(int id){
+		this.id = id;
+	}
+	
+	public int getId(){
+		return id;
+	}
+	
 	public void setReferenceRatings(ArrayList<Integer> referenceRatings) {
 		this.referenceRatings = referenceRatings;
 	}

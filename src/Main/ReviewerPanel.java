@@ -1,4 +1,5 @@
 package Main;
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
@@ -9,6 +10,7 @@ public class ReviewerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ApplicantsPanel appsPanel;
 	private JTabbedPane tabs;
+	private LogoutPanel logoutPanel;
 	
 	public ReviewerPanel() {
 		initUI();
@@ -18,6 +20,9 @@ public class ReviewerPanel extends JPanel {
 		setSize(770, 670);
 		setBackground(Color.black);
 		setLayout(null);
+		
+		logoutPanel = new LogoutPanel();
+		add(logoutPanel, BorderLayout.NORTH);
 		
 		tabs = new JTabbedPane();
 		appsPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());

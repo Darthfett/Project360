@@ -16,10 +16,15 @@ import java.util.Iterator;
 public class Job {
 	private static File JobDatabaseLocation = new File("../Jobs");
 	private static Hashtable<String,Job> Jobs;
-	private ArrayList<User> applicants;
 	private Hashtable<String, String> database;
 	private static DateFormat dateFormat = new SimpleDateFormat("MMMMM.dd.yyyy");
 	//title/description/id/date/deadline/location/salary/benefits
+	
+	public Job() {
+		database = new Hashtable<String, String>();
+		database.put("id", "0"); //TODO Generate a Unique Job Id
+		database.put("applicants", "");
+	}
 	
 	public Integer getId() {
 		return new Integer(database.get("id"));
@@ -59,6 +64,18 @@ public class Job {
 		return database.get("salary");
 	}
 	
+	public ArrayList<Integer> getApplicants() {
+		String[] applicantIdStrings = database.get("applicants").split(",");
+		ArrayList<Integer> applicantIds = new ArrayList<Integer>();
+		if (applicantIdStrings.length == 1 && applicantIdStrings[0] == "") {
+			return applicantIds;
+		}
+		for (int i = 0; i < applicantIdStrings.length; i++) {
+			applicantIds.add(new Integer(applicantIdStrings[i]));
+		}
+		return applicantIds;
+	}
+	
 	public void setId(Integer id) {
 		database.put("id",id.toString());
 	}
@@ -85,6 +102,14 @@ public class Job {
 	
 	public void setSalary(String salary) {
 		database.put("salary", salary);
+	}
+	
+	public void addApplicant(Integer applicantId) {
+		if (database.get("applicants") == "") {
+			database.put("applicants",applicantId.toString());
+		} else {
+			database.put("applicants", database.get("applicants") + "," + applicantId.toString());
+		}
 	}
 
 	

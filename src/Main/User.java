@@ -13,7 +13,7 @@ import Main.Types.UserLevel;
  * 
  * Members
  * 	Static
- *    	- DataDir:File
+ *    	- UserDatabaseLocation:File
  *  	- Users:Hashtable<String,User> //Maps usernames to Users
  * 
  * 	Dynamic
@@ -41,7 +41,7 @@ import Main.Types.UserLevel;
 public class User {
 	//TODO: Make additional constructors that save the user.
 	private Hashtable<String, String> database;
-	private static File DataDir = new File("../Users");
+	private static File UserDatabaseLocation = new File("../Users");
 	private static Hashtable<String,User> Users = new Hashtable<String,User>();
 	
 	public static ArrayList<User> getUserList() {
@@ -71,7 +71,7 @@ public class User {
 	}
 
 	public UserLevel getUserLevel() {
-		String userLevelString = ((String) database.get("userlevel"));//.replace(" ","").replace("\n","");
+		String userLevelString = ((String) database.get("userlevel"));
 		if (userLevelString.equals("recruiter")) {
 			return UserLevel.RECRUITER;
 		} else if (userLevelString.equals("reviewer")) {
@@ -98,7 +98,7 @@ public class User {
 		 * Returns the success of the removal of the User (should never not succeed).
 		 */
 		String username = getUsername();
-		File userFile = new File(User.DataDir,username + ".user");
+		File userFile = new File(User.UserDatabaseLocation,username + ".user");
 		boolean success = userFile.delete();
 		if (! success) {
 			System.err.println("Cannot delete " + username);
@@ -116,7 +116,7 @@ public class User {
 			System.err.println("Cannot save a User with no username.");
 			return;
 		}
-		File dir = User.DataDir;
+		File dir = User.UserDatabaseLocation;
 		File userFile = new File(dir,getUsername() + ".user");
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(userFile));
@@ -124,7 +124,7 @@ public class User {
 			String cur;
 			while(hashedKeys.hasNext()) {
 				cur = hashedKeys.next();
-				out.write(cur + "=" + this.database.get(cur));
+				out.write(cur + "=" + this.database.get(cur).replace("=", "\\="));
 				out.newLine();
 			
 			}
@@ -159,16 +159,16 @@ public class User {
 
 	public User() {}
 
-	public static void loadUserList(){
+	public static void loadUserList() {
 		/*
 		 * loadUserList loads all .user files in src/Main/Users/ , and parses them into User objects.
-		 * Each user is stored in the User.Users ArrayList.
+		 * Each user is stored in the User.Users Hashtable.
 		 * User information (username/password/userlevel) is stored in the user.database hashtable.
 		 * 
 		 * loadUserList will also clear all users currently in the hashtable
 		 */
 		User.Users.clear();
-		Hashtable<String,Hashtable<String,String>> directory_data = DatabaseParser.loadDatabase(DataDir,"user");
+		Hashtable<String,Hashtable<String,String>> directory_data = DatabaseParser.loadDatabase(User.UserDatabaseLocation,"user");
 		Enumeration<String> user_data_enum = directory_data.keys(); 
 		while (user_data_enum.hasMoreElements()) {
 			String file = user_data_enum.nextElement();

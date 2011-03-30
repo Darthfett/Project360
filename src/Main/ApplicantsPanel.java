@@ -57,5 +57,11 @@ public class ApplicantsPanel extends JPanel {
 			 * For the reviewer, we will show only a subset of the applicants.
 			 */
 		}
+		
+		if (userLevel == Types.UserLevel.REFERENCE){
+			/*
+			 * For the reviewer, we will show only a subset of the applicants.
+			 */
+		}
 	}
 }

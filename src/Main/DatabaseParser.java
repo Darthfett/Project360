@@ -10,12 +10,47 @@ import java.util.Hashtable;
 
 public class DatabaseParser {
 
+	
+	public static String strip(String toStrip) {
+		/*
+		 * Strips all spaces from the beginning and end of the string
+		 */
+		int start;
+		int end;
+		for (start = 0; start < toStrip.length(); start++) {
+			if (toStrip.charAt(start) != ' ' && toStrip.charAt(start) != '\n') {
+				break;
+			}
+		}
+		for (end = toStrip.length()-1; end > -1; end--) {
+			if (toStrip.charAt(end) != ' ' && toStrip.charAt(end) != '\n') {
+				break;
+			}
+		}
+		return toStrip.substring(start,end+1);
+	}
 
 	public static Hashtable<String,Hashtable<String,String>> loadDatabase(File directory, String extension){
 		/*
 		 * loadDatabase loads all .'extension' files in directory , and parses them into a Hashtable
-		 * of file names pointing to a Hashtable with 'username'/'password'/'userlevel' pointing to their
-		 * actual username/password/userlevel
+		 * of file names pointing to a Hashtable with keys pointing to their value.
+		 * 
+		 * The file format:
+		 * lines with key mapping to value:
+		 * 		key1=value
+		 * 		key2=value
+		 * 		More of key2 value
+		 * 		key3=anothervalue
+		 * 
+		 * This file would map 
+		 * "key1"=>"value", 
+		 * "key2"=>"value\nMore of key2 value", 
+		 * "key3"=>"anothervalue"
+		 * 
+		 * Note that multi-line values ARE supported, but the file must Escape any '=' signs.
+		 * This can be done by replacing all '=' symbols with "\\=" 
+		 * 		(here the second backslash escapes the first)
+		 * 
 		 * 
 		 */
 		Hashtable<String,Hashtable<String,String>> database = new Hashtable<String,Hashtable<String,String>>();
@@ -44,29 +79,61 @@ public class DatabaseParser {
 				continue;
 			}
 			Hashtable<String,String> current_file_data = new Hashtable<String,String>();
+			String key = "";
+			String value = "";
 			try { //Try to read the data from the file
 				String line = reader.readLine();
-				//Lines -> Arrays split by '='
 				while (line != null) {
-					ArrayList<String> keyVal = new ArrayList<String>();
-					String[] temp = line.replace(" ", "").replace("\n", "").toLowerCase().split("=");
-					for (int j = 0; j < temp.length; j++) {
-						keyVal.add(temp[j]);
-					}
-					
-					if (keyVal.size() == 1) {
-						keyVal.add("");
-					} else if (keyVal.size() != 2) {
-						for(int j=0; j < keyVal.size();j++) {
-							System.out.print(keyVal.get(j) +",");
+					if (line.contains("\\=")) {
+						String[] temp = line.split("\\=");
+						if (temp[0].contains("=")) {
+							if (! key.equals("")) {
+								current_file_data.put(key,value);
+								System.out.println("put " + key + ": " + value);
+								key = "";
+								value = "";
+							}
+							String[] keyVals = line.replace("\\=","=").split("=");
+							if (keyVals.length > 2) {
+								String val = "";
+								for (int j = 1; j < keyVals.length; j++) {
+									val += keyVals[j];
+								}
+								keyVals = new String[]{keyVals[0],val};
+							}
+							key = keyVals[0].replace(" ","");
+							value = keyVals[1];
+							//keyVals is now length 2
+						} else {
+							value += "\n" + line.replace("\\=","=");
 						}
-						continue;
+					} else {
+						if (line.contains("=")) {
+							if (! key.equals("")) {
+								current_file_data.put(key,value);
+								key = "";
+								value = "";
+							}
+							String[] keyVals = line.split("=");
+							if (keyVals.length > 2) {
+								String val = "";
+								for (int j = 1; j < keyVals.length; j++) {
+									val += keyVals[j];
+								}
+								keyVals = new String[]{keyVals[0],val};
+							}
+							key = keyVals[0].replace(" ","");
+							value = keyVals[1];
+							//keyVals is now length 2
+						} else {
+							value += "\n" + line;
+						}
 					}
-					current_file_data.put(keyVal.get(0), keyVal.get(1));
 					line = reader.readLine();
-
+				}	
+				if (! key.equals("")) {
+					current_file_data.put(key,value);
 				}
-			
 			} catch (IOException ex) {
 				System.out.println("DEBUG: Unable to read from " + files.get(i));
 				continue;

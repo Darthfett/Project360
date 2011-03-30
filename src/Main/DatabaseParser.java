@@ -105,7 +105,7 @@ public class DatabaseParser {
 							value = keyVals[1];
 							//keyVals is now length 2
 						} else {
-							value += line.replace("\\=","=");
+							value += "\n" + line.replace("\\=","=");
 						}
 					} else {
 						if (line.contains("=")) {
@@ -126,7 +126,7 @@ public class DatabaseParser {
 							value = keyVals[1];
 							//keyVals is now length 2
 						} else {
-							value += line;
+							value += "\n" + line;
 						}
 					}
 					line = reader.readLine();

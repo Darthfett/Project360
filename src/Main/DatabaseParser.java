@@ -111,7 +111,6 @@ public class DatabaseParser {
 						if (line.contains("=")) {
 							if (! key.equals("")) {
 								current_file_data.put(key,value);
-								System.out.println("put " + key + ": " + value);
 								key = "";
 								value = "";
 							}

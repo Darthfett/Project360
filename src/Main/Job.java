@@ -20,6 +20,10 @@ public class Job {
 	private static DateFormat dateFormat = new SimpleDateFormat("MMMMM.dd.yyyy");
 	//title/description/id/date/deadline/location/salary/benefits
 	
+	public static Job getJobFromId(Integer id) {
+		return Job.Jobs.get(id.toString());
+	}
+	
 	public Job() {
 		database = new Hashtable<String, String>();
 		database.put("id", "0"); //TODO Generate a Unique Job Id
@@ -64,16 +68,16 @@ public class Job {
 		return database.get("salary");
 	}
 	
-	public ArrayList<Integer> getApplicants() {
+	public ArrayList<Applicant> getApplicants() {
 		String[] applicantIdStrings = database.get("applicants").split(",");
-		ArrayList<Integer> applicantIds = new ArrayList<Integer>();
+		ArrayList<Applicant> applicants = new ArrayList<Applicant>();
 		if (applicantIdStrings.length == 1 && applicantIdStrings[0] == "") {
-			return applicantIds;
+			return applicants;
 		}
 		for (int i = 0; i < applicantIdStrings.length; i++) {
-			applicantIds.add(new Integer(applicantIdStrings[i]));
+			applicants.add(Applicant.getApplicantFromId(new Integer(applicantIdStrings[i])));
 		}
-		return applicantIds;
+		return applicants;
 	}
 	
 	public void setId(Integer id) {
@@ -104,14 +108,34 @@ public class Job {
 		database.put("salary", salary);
 	}
 	
-	public void addApplicant(Integer applicantId) {
+	public void setApplicants(ArrayList<Applicant> applicants) {
+		String value = "";
+		for (int i = 0; i < applicants.size(); i++) {
+			value += applicants.get(i).getId().toString();
+			if (i+1 != applicants.size()) {
+				value+= ",";
+			}
+		} 
+		database.put("applicants", value);
+	}
+	
+	public void addApplicant(Applicant applicant) {
 		if (database.get("applicants") == "") {
-			database.put("applicants",applicantId.toString());
+			database.put("applicants",applicant.getId().toString());
 		} else {
-			database.put("applicants", database.get("applicants") + "," + applicantId.toString());
+			database.put("applicants", database.get("applicants") + "," + applicant.getId().toString());
 		}
 	}
-
+	
+	public void removeApplicant(Applicant applicant) {
+		ArrayList<Applicant> applicants = getApplicants();
+		for (int i = 0; i < applicants.size(); i++) {
+			if (applicants.get(i) == applicant) {
+				applicants.remove(i);
+				setApplicants(applicants);
+			}
+		}
+	}
 	
 	public boolean remove() {
 		/*
@@ -120,12 +144,17 @@ public class Job {
 		 * 
 		 * Returns the success of the removal of the Job (should never not succeed).
 		 */
+	
 		String Id = this.getId().toString();
 		File jobFile = new File(Job.JobDatabaseLocation,Id + ".job");
 		boolean success = jobFile.delete();
 		if (! success) {
 			System.err.println("Cannot delete " + Id);
 			return false;
+		}
+		ArrayList<Applicant> applicants = getApplicants();
+		for (int i = 0; i < applicants.size(); i++) {
+			applicants.get(i).remove();
 		}
 		Jobs.remove(Id);
 		return success;
@@ -180,7 +209,7 @@ public class Job {
 			}
 			Job new_job = new Job();
 			new_job.database = job_data;
-			Job.Jobs.put(job_data.get("username"), new_job);
+			Job.Jobs.put(job_data.get("id"), new_job);
 		}
 		
 	}

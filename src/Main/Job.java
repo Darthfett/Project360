@@ -15,10 +15,20 @@ import java.util.Iterator;
 
 public class Job {
 	private static File JobDatabaseLocation = new File("../Jobs");
-	private static Hashtable<String,Job> Jobs;
+	private static Hashtable<String,Job> Jobs = new Hashtable<String,Job>();
 	private Hashtable<String, String> database;
 	private static DateFormat dateFormat = new SimpleDateFormat("MMMMM.dd.yyyy");
 	//title/description/id/date/deadline/location/salary/benefits
+	
+	public static ArrayList<Job> getJobList() {
+		ArrayList<Job> jobList = new ArrayList<Job>();
+		Job[] jobListArr = (Job[]) (Job.Jobs.values().toArray(new Job[0]));
+		for (int i = 0; i < jobListArr.length; i++) {
+			jobList.add(jobListArr[i]);
+		}
+		
+		return jobList;
+	}
 	
 	public static Job getJobFromId(Integer id) {
 		return Job.Jobs.get(id.toString());
@@ -48,6 +58,9 @@ public class Job {
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
+		} catch (NullPointerException e) {
+			//No post date
+			return null;
 		}
 	}
 	
@@ -56,6 +69,9 @@ public class Job {
 			return Job.dateFormat.parse(database.get("deadline"));
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e) {
+			//No deadline
 			return null;
 		}
 	}
@@ -136,6 +152,14 @@ public class Job {
 			}
 		}
 	}
+
+	public void setBenefits(String benefits) {
+		database.put("benefits",benefits);
+	}
+
+	public String getBenefits() {
+		return database.get("benefits");
+	}
 	
 	public boolean remove() {
 		/*
@@ -189,7 +213,7 @@ public class Job {
 		
 	}
 	
-	public void loadJobList() {
+	public static void loadJobList() {
 		/*
 		 * loadJobList loads all .job files in src/Main/Jobs/ , and parses them into Job objects.
 		 * Each job is stored in the Job.Jobs Hashtable.

@@ -1,10 +1,13 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +19,7 @@ import javax.swing.ListSelectionModel;
 
 public class JobsPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
+	private static final String APPLYPANEL = "ApplyPanel";
 	private JList jobList;
 	private JScrollPane scrollPane;
 	private JLabel description;
@@ -23,11 +27,11 @@ public class JobsPanel extends JPanel{
 	private JPanel descriptionPadding;
 	private JPanel innerPanel;
 	private JPanel rightPanel;
-	private JPanel buttonsPanel;	
+	private JPanel buttonsPanel;
 	private JButton createButton;
 	private JButton editButton;
 	private JButton applyButton;
-
+	private ApplyPanel applyPanel;
 	
 	String[] sampleData = {"Software Engineer", "Senior Software Engineer", "Operations Coordinator",
 			"Program Manager", "Software Tester", "Ice Cream Tasting Specialist"};
@@ -87,7 +91,22 @@ public class JobsPanel extends JPanel{
 		
 		if (userLevel == Types.UserLevel.APPLICANT) {
 			applyButton = new JButton("Apply...");
+			applyButton.addActionListener(new JPListener());
 			buttonsPanel.add(applyButton);
+		}
+	}
+	
+	public JPanel getThisPanel() {
+		return this;
+	}
+	
+	private class JPListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			JPanel cards = (JPanel) getThisPanel().getParent();
+			CardLayout cl = (CardLayout) cards.getLayout();
+			if (event.getSource() == applyButton) {
+				cl.show(cards, )
+			}
 		}
 	}
 }

@@ -69,7 +69,6 @@ public class UserEditPanel extends JPanel {
 			southPanel.add(Box.createRigidArea(new Dimension(30, 0)));
 			southPanel.add(deleteButton);
 			deleteButton.addActionListener(new UEListener());
-			unameField.setEditable(false);
 		}
 		
 		submitButton.addActionListener(new UEListener());

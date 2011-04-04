@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,17 +29,19 @@ public class JobsPanel extends JPanel{
 	private JButton editButton;
 	private JButton applyButton;
 
-	
-	String[] sampleData = {"Software Engineer", "Senior Software Engineer", "Operations Coordinator",
-			"Program Manager", "Software Tester", "Ice Cream Tasting Specialist"};
-
 	public JobsPanel(Types.UserLevel userLevel) {
 		setLayout(new GridLayout(1,2));
 		
 		rightPanel = new JPanel();
 		rightPanel.setLayout(new BorderLayout());
+
+		ArrayList<Job> jobs = Job.getJobList();
+		ArrayList<String> jobTitles = new ArrayList<String>();
+		for (int i = 0; i < jobs.size(); i++) {
+			jobTitles.add(jobs.get(i).getTitle());
+		}
 		
-		jobList = new JList(sampleData);
+		jobList = new JList(jobTitles.toArray());
 		innerPanel = new JPanel();
 		innerPanel.setBackground(Color.white);
 		jobList.setPreferredSize(new Dimension(340, 600));

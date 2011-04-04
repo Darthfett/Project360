@@ -36,7 +36,18 @@ public class Job {
 	
 	public Job() {
 		database = new Hashtable<String, String>();
-		database.put("id", "0"); //TODO Generate a Unique Job Id
+		ArrayList<Job> jobList = Job.getJobList();
+		int i;
+		for (i = 0; i < jobList.size(); i++) {
+			if (! Job.idExists(i)) {
+				//CRAP, this is O(n^2)!  Fix this later!
+				database.put("id",new Integer(i).toString());
+				break;
+			}
+		}
+		if (database.get("id") == null) {
+			database.put("id", new Integer(i+1).toString());
+		}
 		database.put("applicants", "");
 	}
 	
@@ -96,12 +107,29 @@ public class Job {
 		return applicants;
 	}
 	
-	public void setId(Integer id) {
-		database.put("id",id.toString());
-	}
-	
 	public void setTitle(String title) {
 		database.put("title",title);
+	}
+	
+	public static boolean idExists(Integer id) {
+		ArrayList<Job> jobList = Job.getJobList();
+		for (int i = 0; i < jobList.size(); i++) {
+			if (jobList.get(i).getId().equals(id)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean setId(Integer id) {
+		if (id.equals(database.get("id"))) {
+			return true;
+		}
+		if (Job.idExists(id)) {
+			return false;
+		}
+		database.put("id",id.toString());
+		return true;
 	}
 	
 	public void setDescription(String desc) {

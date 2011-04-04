@@ -43,6 +43,7 @@ public class User {
 	private Hashtable<String, String> database;
 	private static File UserDatabaseLocation = new File("../Users");
 	private static Hashtable<String,User> Users = new Hashtable<String,User>();
+	private String oldName;
 	
 	public static ArrayList<User> getUserList() {
 		ArrayList<User> userList = new ArrayList<User>();
@@ -117,6 +118,14 @@ public class User {
 			return;
 		}
 		File dir = User.UserDatabaseLocation;
+		if (oldName != null) {
+			File oldUserFile = new File(dir,oldName + ".user");
+			if (oldUserFile.exists()) {
+				oldUserFile.delete();
+			} else {
+				System.out.println("Warning: " + oldName + ".user user File does not exist?");
+			}
+		}
 		File userFile = new File(dir,getUsername() + ".user");
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(userFile));
@@ -128,6 +137,7 @@ public class User {
 				out.newLine();
 			
 			}
+			oldName = getUsername();
 			out.close();
 		} catch (IOException e) {
 			System.err.println("Unable to open " + getUsername() + ".user for writing");
@@ -138,6 +148,9 @@ public class User {
 	}
 	
 	public void setUserName(String username) {
+		if (oldName == null) {
+			oldName = database.get("username");
+		}
 		this.database.put("username", username);
 	}
 	
@@ -155,9 +168,10 @@ public class User {
 		this.database.put("password",password);
 		this.database.put("userlevel",userlevel);
 		User.Users.put(username, this);
+		this.oldName = null;
 	}
 
-	public User() {}
+	public User() {oldName = null;}
 
 	public static void loadUserList() {
 		/*
@@ -179,6 +193,7 @@ public class User {
 			}
 			User new_user = new User();
 			new_user.database = user_data;
+			new_user.oldName = user_data.get("username");
 			User.Users.put(user_data.get("username"), new_user);
 		}
 	}

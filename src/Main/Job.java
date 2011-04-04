@@ -15,11 +15,30 @@ import java.util.Iterator;
 
 public class Job {
 	private static File JobDatabaseLocation = new File("../Jobs");
-	private static Hashtable<String,Job> Jobs;
-	private ArrayList<User> applicants;
+	private static Hashtable<String,Job> Jobs = new Hashtable<String,Job>();
 	private Hashtable<String, String> database;
 	private static DateFormat dateFormat = new SimpleDateFormat("MMMMM.dd.yyyy");
 	//title/description/id/date/deadline/location/salary/benefits
+	
+	public static ArrayList<Job> getJobList() {
+		ArrayList<Job> jobList = new ArrayList<Job>();
+		Job[] jobListArr = (Job[]) (Job.Jobs.values().toArray(new Job[0]));
+		for (int i = 0; i < jobListArr.length; i++) {
+			jobList.add(jobListArr[i]);
+		}
+		
+		return jobList;
+	}
+	
+	public static Job getJobFromId(Integer id) {
+		return Job.Jobs.get(id.toString());
+	}
+	
+	public Job() {
+		database = new Hashtable<String, String>();
+		database.put("id", "0"); //TODO Generate a Unique Job Id
+		database.put("applicants", "");
+	}
 	
 	public Integer getId() {
 		return new Integer(database.get("id"));
@@ -39,6 +58,9 @@ public class Job {
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
+		} catch (NullPointerException e) {
+			//No post date
+			return null;
 		}
 	}
 	
@@ -47,6 +69,9 @@ public class Job {
 			return Job.dateFormat.parse(database.get("deadline"));
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e) {
+			//No deadline
 			return null;
 		}
 	}
@@ -57,6 +82,18 @@ public class Job {
 	
 	public String getSalary() {
 		return database.get("salary");
+	}
+	
+	public ArrayList<Applicant> getApplicants() {
+		String[] applicantIdStrings = database.get("applicants").split(",");
+		ArrayList<Applicant> applicants = new ArrayList<Applicant>();
+		if (applicantIdStrings.length == 1 && applicantIdStrings[0] == "") {
+			return applicants;
+		}
+		for (int i = 0; i < applicantIdStrings.length; i++) {
+			applicants.add(Applicant.getApplicantFromId(new Integer(applicantIdStrings[i])));
+		}
+		return applicants;
 	}
 	
 	public void setId(Integer id) {
@@ -86,7 +123,43 @@ public class Job {
 	public void setSalary(String salary) {
 		database.put("salary", salary);
 	}
+	
+	public void setApplicants(ArrayList<Applicant> applicants) {
+		String value = "";
+		for (int i = 0; i < applicants.size(); i++) {
+			value += applicants.get(i).getId().toString();
+			if (i+1 != applicants.size()) {
+				value+= ",";
+			}
+		} 
+		database.put("applicants", value);
+	}
+	
+	public void addApplicant(Applicant applicant) {
+		if (database.get("applicants") == "") {
+			database.put("applicants",applicant.getId().toString());
+		} else {
+			database.put("applicants", database.get("applicants") + "," + applicant.getId().toString());
+		}
+	}
+	
+	public void removeApplicant(Applicant applicant) {
+		ArrayList<Applicant> applicants = getApplicants();
+		for (int i = 0; i < applicants.size(); i++) {
+			if (applicants.get(i) == applicant) {
+				applicants.remove(i);
+				setApplicants(applicants);
+			}
+		}
+	}
 
+	public void setBenefits(String benefits) {
+		database.put("benefits",benefits);
+	}
+
+	public String getBenefits() {
+		return database.get("benefits");
+	}
 	
 	public boolean remove() {
 		/*
@@ -95,12 +168,17 @@ public class Job {
 		 * 
 		 * Returns the success of the removal of the Job (should never not succeed).
 		 */
+	
 		String Id = this.getId().toString();
 		File jobFile = new File(Job.JobDatabaseLocation,Id + ".job");
 		boolean success = jobFile.delete();
 		if (! success) {
 			System.err.println("Cannot delete " + Id);
 			return false;
+		}
+		ArrayList<Applicant> applicants = getApplicants();
+		for (int i = 0; i < applicants.size(); i++) {
+			applicants.get(i).remove();
 		}
 		Jobs.remove(Id);
 		return success;
@@ -135,7 +213,7 @@ public class Job {
 		
 	}
 	
-	public void loadJobList() {
+	public static void loadJobList() {
 		/*
 		 * loadJobList loads all .job files in src/Main/Jobs/ , and parses them into Job objects.
 		 * Each job is stored in the Job.Jobs Hashtable.
@@ -155,7 +233,7 @@ public class Job {
 			}
 			Job new_job = new Job();
 			new_job.database = job_data;
-			Job.Jobs.put(job_data.get("username"), new_job);
+			Job.Jobs.put(job_data.get("id"), new_job);
 		}
 		
 	}

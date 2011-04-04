@@ -1,4 +1,6 @@
 package Main;
+import java.util.ArrayList;
+
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -20,6 +22,7 @@ public class TheAppletItself extends JApplet {
 	public void init() {
 		setSize(770, 600);
 		User.loadUserList();
+		Job.loadJobList();
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {

@@ -18,6 +18,7 @@ public class Job {
 	private static Hashtable<String,Job> Jobs = new Hashtable<String,Job>();
 	private Hashtable<String, String> database;
 	private static DateFormat dateFormat = new SimpleDateFormat("MMMMM.dd.yyyy");
+	private Integer oldId;
 	//title/description/id/date/deadline/location/salary/benefits
 	
 	public static ArrayList<Job> getJobList() {
@@ -39,8 +40,7 @@ public class Job {
 		ArrayList<Job> jobList = Job.getJobList();
 		int i;
 		for (i = 0; i < jobList.size(); i++) {
-			if (! Job.idExists(i)) {
-				//CRAP, this is O(n^2)!  Fix this later!
+			if (Job.getJobFromId(new Integer(i)) == null) {
 				database.put("id",new Integer(i).toString());
 				break;
 			}
@@ -49,6 +49,8 @@ public class Job {
 			database.put("id", new Integer(i+1).toString());
 		}
 		database.put("applicants", "");
+		Job.Jobs.put(database.get("id"), this);
+		oldId = null;
 	}
 	
 	public Integer getId() {
@@ -111,24 +113,16 @@ public class Job {
 		database.put("title",title);
 	}
 	
-	public static boolean idExists(Integer id) {
-		ArrayList<Job> jobList = Job.getJobList();
-		for (int i = 0; i < jobList.size(); i++) {
-			if (jobList.get(i).getId().equals(id)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	public boolean setId(Integer id) {
 		if (id.equals(database.get("id"))) {
 			return true;
 		}
-		if (Job.idExists(id)) {
+		if (Job.getJobFromId(id) != null) {
 			return false;
 		}
+		Job.Jobs.remove(getId().toString());
 		database.put("id",id.toString());
+		Job.Jobs.put(id.toString(), this);
 		return true;
 	}
 	
@@ -196,19 +190,23 @@ public class Job {
 		 * 
 		 * Returns the success of the removal of the Job (should never not succeed).
 		 */
-	
-		String Id = this.getId().toString();
-		File jobFile = new File(Job.JobDatabaseLocation,Id + ".job");
+		String id;
+		if (oldId == null) {
+			id = this.getId().toString();
+		} else {
+			id = oldId.toString();
+		}
+		File jobFile = new File(Job.JobDatabaseLocation,id + ".job");
 		boolean success = jobFile.delete();
 		if (! success) {
-			System.err.println("Cannot delete " + Id);
+			System.err.println("Cannot delete " + id);
 			return false;
 		}
 		ArrayList<Applicant> applicants = getApplicants();
 		for (int i = 0; i < applicants.size(); i++) {
 			applicants.get(i).remove();
 		}
-		Jobs.remove(Id);
+		Jobs.remove(id);
 		return success;
 	}
 
@@ -238,6 +236,7 @@ public class Job {
 			e.printStackTrace();
 			return;
 		}
+		oldId = null;
 		
 	}
 	
@@ -260,6 +259,7 @@ public class Job {
 				continue;
 			}
 			Job new_job = new Job();
+			new_job.oldId = new Integer(job_data.get("id"));
 			new_job.database = job_data;
 			Job.Jobs.put(job_data.get("id"), new_job);
 		}

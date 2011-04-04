@@ -153,8 +153,17 @@ public class User {
 		
 	}
 	
-	public void setUserName(String username) {
+	public boolean setUserName(String username) {
+		if (username.equalsIgnoreCase(getUsername())) {
+			return true;
+		}
+		if (User.getUserFromUserName(username) != null) {
+			return false;
+		}
+		User.Users.remove(getUsername());
+		User.Users.put(username,this);
 		this.database.put("username", username);
+		return true;
 	}
 	
 	public void setUserPassword(String password) {

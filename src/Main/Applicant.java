@@ -205,6 +205,5 @@ public class Applicant {
 			new_applicant.database = applicant_data;
 			Applicant.Applicants.put(applicant_data.get("id"), new_applicant);
 		}
-		
 	}
 }

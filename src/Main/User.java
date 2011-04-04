@@ -98,7 +98,12 @@ public class User {
 		 * 
 		 * Returns the success of the removal of the User (should never not succeed).
 		 */
-		String username = getUsername();
+		String username;
+		if (oldName == null) {
+			username = getUsername();
+		} else {
+			username = oldName;
+		}
 		File userFile = new File(User.UserDatabaseLocation,username + ".user");
 		boolean success = userFile.delete();
 		if (! success) {
@@ -106,6 +111,7 @@ public class User {
 			return false;
 		}
 		Users.remove(username);
+		oldName = null;
 		return success;
 	}
 	
@@ -118,7 +124,7 @@ public class User {
 			return;
 		}
 		File dir = User.UserDatabaseLocation;
-		if (oldName != null) {
+		if (oldName != null && ! oldName.equals(getUsername())) {
 			File oldUserFile = new File(dir,oldName + ".user");
 			if (oldUserFile.exists()) {
 				oldUserFile.delete();
@@ -148,9 +154,6 @@ public class User {
 	}
 	
 	public void setUserName(String username) {
-		if (oldName == null) {
-			oldName = database.get("username");
-		}
 		this.database.put("username", username);
 	}
 	

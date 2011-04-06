@@ -296,7 +296,7 @@ public class Job {
 				new_job.database = job_data;
 			}
 			Job new_job = new Job(new Integer(job_data.get("id")));
-			new_job.oldId = new Integer(file.split(".")[0]);
+			new_job.oldId = new Integer(file.split("\\.")[0]);
 			new_job.database = job_data;
 		}
 		

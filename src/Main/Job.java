@@ -46,7 +46,32 @@ public class Job {
 			}
 		}
 		if (database.get("id") == null) {
+			System.out.println("new id");
 			database.put("id", new Integer(i+1).toString());
+		}
+		database.put("applicants", "");
+		Job.Jobs.put(database.get("id"), this);
+		oldId = null;
+	}
+	
+	public Job(Integer id) {
+		database = new Hashtable<String, String>();
+		ArrayList<Job> jobList = Job.getJobList();
+		int i;
+		if (Job.getJobFromId(id) == null) {
+			database.put("id", id.toString());
+		} else {
+			for (i = 0; i < jobList.size(); i++) {
+				if (Job.getJobFromId(new Integer(i)) == null) {
+					database.put("id",new Integer(i).toString());
+					break;
+				}
+			}
+			if (database.get("id") == null) {
+				System.out.println("new id");
+				database.put("id", new Integer(i+1).toString());
+			}
+			
 		}
 		database.put("applicants", "");
 		Job.Jobs.put(database.get("id"), this);
@@ -219,7 +244,18 @@ public class Job {
 			return;
 		}
 		File dir = Job.JobDatabaseLocation;
-		File jobFile = new File(dir,getId() + ".job");
+		File jobFile;
+		if (oldId == null) {
+			jobFile = new File(dir,getId() + ".job");
+		} else {
+			jobFile = new File(dir,oldId + ".job");
+			if (! jobFile.exists()) {
+				System.out.println("Attempting to delete job " + oldId + ".job, but it does not exist?");
+			} else {
+				jobFile.delete();
+			}
+			jobFile = new File(dir, getId() + ".job");
+		}
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(jobFile));
 			Iterator<String> hashedKeys = this.database.keySet().iterator();
@@ -255,13 +291,13 @@ public class Job {
 			String file = job_data_enum.nextElement();
 			Hashtable<String,String> job_data = directory_data.get(file);
 			if (! job_data.containsKey("id")) {
-				System.out.println("File " + file + " has no Job Id. Skipping that file.");
-				continue;
+				Job new_job = new Job();
+				new_job.oldId = new Integer(file.split(".")[0]);
+				new_job.database = job_data;
 			}
-			Job new_job = new Job();
-			new_job.oldId = new Integer(job_data.get("id"));
+			Job new_job = new Job(new Integer(job_data.get("id")));
+			new_job.oldId = new Integer(file.split(".")[0]);
 			new_job.database = job_data;
-			Job.Jobs.put(job_data.get("id"), new_job);
 		}
 		
 	}

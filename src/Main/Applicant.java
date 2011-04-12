@@ -11,8 +11,19 @@ import java.util.Iterator;
 
 public class Applicant {
 	private static File ApplicantDatabaseLocation = new File("../Applicants");
-	private static Hashtable<String,Applicant> Applicants;
+	private static Hashtable<String,Applicant> Applicants = new Hashtable<String,Applicant>();
 	private Hashtable<String, String> database;
+	private Integer oldId;
+	
+	public static ArrayList<Applicant> getApplicantList() {
+		ArrayList<Applicant> applicantList = new ArrayList<Applicant>();
+		Applicant[] applicantListArr = (Applicant[]) (Applicant.Applicants.values().toArray(new Applicant[0]));
+		for (int i = 0; i < applicantListArr.length; i++) {
+			applicantList.add(applicantListArr[i]);
+		}
+		
+		return applicantList;
+	}
 	
 	public static Applicant getApplicantFromId(Integer id) {
 		return Applicant.Applicants.get(id.toString());
@@ -22,6 +33,44 @@ public class Applicant {
 		database = new Hashtable<String, String>();
 		database.put("id", "0"); //TODO Generate a Unique Applicant Id
 		database.put("referenceRatings", "");
+		ArrayList<Applicant> applicantList = Applicant.getApplicantList();
+		int i;
+		for (i = 0; i < applicantList.size(); i++) {
+			if (Applicant.getApplicantFromId(new Integer(i)) == null) {
+				database.put("id",new Integer(i).toString());
+				break;
+			}
+		}
+		if (database.get("id") == null) {
+			System.out.println("new id");
+			database.put("id", new Integer(i+1).toString());
+		}
+		Applicant.Applicants.put(database.get("id"), this);
+		oldId = null;
+	}
+	
+	public Applicant(Integer id) {
+		database = new Hashtable<String, String>();
+		ArrayList<Applicant> applicantList = Applicant.getApplicantList();
+		int i;
+		if (Applicant.getApplicantFromId(id) == null) {
+			database.put("id", id.toString());
+		} else {
+			for (i = 0; i < applicantList.size(); i++) {
+				if (Applicant.getApplicantFromId(new Integer(i)) == null) {
+					database.put("id",new Integer(i).toString());
+					break;
+				}
+			}
+			if (database.get("id") == null) {
+				System.out.println("new id");
+				database.put("id", new Integer(i+1).toString());
+			}
+			
+		}
+		database.put("applicants", "");
+		Applicant.Applicants.put(database.get("id"), this);
+		oldId = null;
 	}
 
 	public void setId(Integer id){
@@ -139,18 +188,23 @@ public class Applicant {
 		 * 
 		 * Returns the success of the removal of the Applicant (should never not succeed).
 		 */
-		String Id = this.getId().toString();
-		File applicantFile = new File(Applicant.ApplicantDatabaseLocation,Id + ".applicant");
+		String id;
+		if (oldId == null) {
+			id = this.getId().toString();
+		} else {
+			id = oldId.toString();
+		}
+		File applicantFile = new File(Applicant.ApplicantDatabaseLocation,id + ".applicant");
 		boolean success = applicantFile.delete();
 		if (! success) {
-			System.err.println("Cannot delete " + Id);
+			System.err.println("Cannot delete " + id);
 			return false;
 		}
 		Job appliedJob = getAppliedJob();
 		if (appliedJob != null) {
 			appliedJob.removeApplicant(this);
 		}
-		Applicants.remove(Id);
+		Applicants.remove(id);
 		return success;
 	}
 
@@ -162,8 +216,23 @@ public class Applicant {
 			System.err.println("Cannot save a Applicant with no Applicant Id.");
 			return;
 		}
+		if (this.getId() == null) {
+			System.err.println("Cannot save a Job with no Job Id.");
+			return;
+		}
 		File dir = Applicant.ApplicantDatabaseLocation;
-		File applicantFile = new File(dir,getId() + ".applicant");
+		File applicantFile;
+		if (oldId == null) {
+			applicantFile = new File(dir,getId() + ".applicant");
+		} else {
+			applicantFile = new File(dir,oldId + ".applicant");
+			if (! applicantFile.exists()) {
+				System.out.println("Attempting to delete applicant " + oldId + ".applicant, but it does not exist?");
+			} else {
+				applicantFile.delete();
+			}
+			applicantFile = new File(dir, getId() + ".applicant");
+		}
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(applicantFile));
 			Iterator<String> hashedKeys = this.database.keySet().iterator();
@@ -183,7 +252,7 @@ public class Applicant {
 		
 	}
 	
-	public void loadApplicantList() {
+	public static void loadApplicantList() {
 		/*
 		 * loadApplicantList loads all .applicant files in src/Main/Applicants/ , and parses them into Applicant objects.
 		 * Each applicant is stored in the Applicant.Applicants Hashtable.
@@ -201,9 +270,9 @@ public class Applicant {
 				System.out.println("File " + file + " has no Applicant Id. Skipping that file.");
 				continue;
 			}
-			Applicant new_applicant = new Applicant();
+			Applicant new_applicant = new Applicant(new Integer(applicant_data.get("id")));
+			new_applicant.oldId = new Integer(file.split("\\.")[0]);
 			new_applicant.database = applicant_data;
-			Applicant.Applicants.put(applicant_data.get("id"), new_applicant);
 		}
 	}
 }

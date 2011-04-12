@@ -22,7 +22,9 @@ public class TheAppletItself extends JApplet {
 	public void init() {
 		setSize(770, 600);
 		User.loadUserList();
+		Applicant.loadApplicantList();
 		Job.loadJobList();
+		
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {

@@ -12,12 +12,18 @@ public class RecruiterPanel extends JPanel {
 	private static final String USERSPANEL = "UsersPanel";
 	private static final String USEREDITPANEL = "UserEditPanel";
 	private static final String USERADDPANEL = "UserAddPanel";
+	private static final String JOBSPANEL = "JobsPanel";
+	private static final String JOBADDPANEL = "JobAddPanel";
+	private static final String JOBEDITPANEL = "JobEditPanel";
 	private JTabbedPane tabs;
 	private JobsPanel jobsPanel;
 	private JPanel usersCards;
+	private JPanel jobsCards;
 	private UsersPanel usersPanel;
 	private UserEditPanel userEditPanel;
 	private UserEditPanel userAddPanel;
+	private JobEditPanel jobAddPanel;
+	private JobEditPanel jobEditPanel;
 	private ApplicantsPanel appPanel;
 	private LogoutPanel logoutPanel;
 	
@@ -31,7 +37,6 @@ public class RecruiterPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		tabs = new JTabbedPane();
-		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
 		appPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
 		
 		usersCards = new JPanel();
@@ -43,7 +48,16 @@ public class RecruiterPanel extends JPanel {
 		usersCards.add(userEditPanel, USEREDITPANEL);
 		usersCards.add(userAddPanel, USERADDPANEL);
 		
-		tabs.addTab("Jobs", jobsPanel);
+		jobsCards = new JPanel();
+		jobsCards.setLayout(new CardLayout());
+		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		jobEditPanel = new JobEditPanel('e');
+		jobAddPanel = new JobEditPanel('a');
+		jobsCards.add(jobsPanel, JOBSPANEL);
+		jobsCards.add(jobAddPanel, JOBADDPANEL);
+		jobsCards.add(jobEditPanel, JOBEDITPANEL);
+		
+		tabs.addTab("Jobs", jobsCards);
 		tabs.addTab("Users", usersCards);
 		tabs.addTab("Applicants", appPanel);
 		tabs.setSize(770, 600);
@@ -57,8 +71,16 @@ public class RecruiterPanel extends JPanel {
 		return usersCards;
 	}
 	
+	public JPanel getJobsCards() {
+		return jobsCards;
+	}
+	
 	public UsersPanel getUsersPanel() {
 		return usersPanel;
+	}
+	
+	public JobsPanel getJobsPanel() {
+		return jobsPanel;
 	}
 	
 	public UserEditPanel getUserEditPanel() {

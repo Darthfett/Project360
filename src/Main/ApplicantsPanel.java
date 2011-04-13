@@ -55,7 +55,7 @@ public class ApplicantsPanel extends JPanel {
 		
 		scrollPane = new JScrollPane(innerPanel);
 		
-		scrollPane.setBounds(30, 55, 540, 520);
+		scrollPane.setBounds(30, 55, 540, 490);
 		scrollPane.setBackground(Color.white);
 		add(scrollPane);
 

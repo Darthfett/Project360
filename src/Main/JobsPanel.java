@@ -1,13 +1,17 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -58,6 +62,7 @@ public class JobsPanel extends JPanel{
 		descriptionPanel = new JPanel();
 		descriptionPadding = new JPanel();
 		descriptionPanel.setBorder(BorderFactory.createTitledBorder("Job Information"));
+		descriptionPanel.setVisible(false);
 		descriptionPadding.add(descriptionPanel);
 		rightPanel.add(descriptionPadding, BorderLayout.CENTER);
 		
@@ -77,6 +82,7 @@ public class JobsPanel extends JPanel{
 		
 		if (userLevel == Types.UserLevel.RECRUITER) {
 			createButton = new JButton("Create new...");
+			createButton.addActionListener(new JPListener());
 			editButton = new JButton("Edit...");
 			buttonsPanel.add(createButton);
 			buttonsPanel.add(editButton);
@@ -85,8 +91,14 @@ public class JobsPanel extends JPanel{
 		
 		if (userLevel == Types.UserLevel.APPLICANT) {
 			applyButton = new JButton("Apply...");
+			applyButton.addActionListener(new JPListener());
+			applyButton.setEnabled(false);
 			buttonsPanel.add(applyButton);
 		}
+	}
+	
+	public JPanel getThisPanel() {
+		return this;
 	}
 	
 	public Job getSelectedJob() {
@@ -100,6 +112,37 @@ public class JobsPanel extends JPanel{
 				String text = getSelectedJob().getDescription();
 				String fText = String.format("<html><div WIDTH=%d>%s</div></html>", 320, text);
 				description.setText(fText);
+				descriptionPanel.setVisible(true);
+				applyButton.setEnabled(true);
+			}
+		}
+	}
+	
+	private class JPListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			JPanel cards = (JPanel) getThisPanel().getParent();
+			CardLayout cl = (CardLayout) cards.getLayout();
+			if (event.getSource() == createButton) {
+				cl.show(cards, "JobAddPanel");
+			}
+			if (event.getSource() == editButton) {
+				RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
+				JobsPanel jobsPanel = recPanel.getJobsPanel();
+				/*
+				 * TODO: Make this do stuff... get correct job from job list with jobsPanel
+				 * reference above, and load correct info into jobEditPanel fields.
+				 */
+				
+				cl.show(cards, "JobEditPanel");
+			}
+			if (event.getSource() == applyButton) {
+				ApplicantPanel appPanel = (ApplicantPanel) cards.getParent().getParent();
+				JobsPanel jobsPanel = appPanel.getJobsPanel();
+				/*
+				 * TODO: Make this do stuff too... get correct job from job list, load
+				 * correct info into applyPanel fields.
+				 */
+				cl.show(cards, "ApplyPanel");
 			}
 		}
 	}

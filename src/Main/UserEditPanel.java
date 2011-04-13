@@ -33,7 +33,7 @@ public class UserEditPanel extends JPanel {
 	private JPanel padding;
 	private User user;
 	
-	// mode: a for add mode, e for edit mode
+	// mode: 'a' for add mode, 'e' for edit mode
 	public UserEditPanel(char mode) {
 		this.mode = mode;
 		setLayout(new BorderLayout());

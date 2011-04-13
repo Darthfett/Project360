@@ -19,7 +19,7 @@ public class ReviewerPanel extends JPanel {
 	private void initUI() {
 		setSize(770, 670);
 		setBackground(Color.black);
-		setLayout(null);
+		setLayout(new BorderLayout());
 		
 		logoutPanel = new LogoutPanel();
 		add(logoutPanel, BorderLayout.NORTH);

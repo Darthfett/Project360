@@ -1,6 +1,4 @@
 package Main;
-import java.util.ArrayList;
-
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;

@@ -104,6 +104,7 @@ public class ApplyPanel extends JPanel {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();
+			
 			if (event.getSource() == submitButton) {
 				confirm = JOptionPane.showConfirmDialog(null, "Submit application?",
 									"Apply", JOptionPane.YES_NO_OPTION);

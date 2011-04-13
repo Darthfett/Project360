@@ -16,14 +16,25 @@ public class ApplicantsPanel extends JPanel {
 	private JScrollPane scrollPane;
 	private JButton viewButton;
 	private JPanel innerPanel;
+	private ArrayList<Applicant> applicants;
 
 	public ApplicantsPanel(Types.UserLevel userLevel) {
 		initUI(userLevel);
+	}
+	
+	public Applicant getSelectedApplicant() {
+		Integer selectedRow = appsTable.getSelectedRow();
+		Applicant selectedApplicant = null;
+		if (selectedRow >= 0) {
+			selectedApplicant = applicants.get(appsTable.getSelectedRow());
+		}
+		return selectedApplicant;
 	}
 
 	public void initUI(Types.UserLevel userLevel) {
 		setLayout(null);
 		String[] columnNames = {"Jobs", "Applicants"};
+		applicants = new ArrayList<Applicant>();
 		
 		ArrayList<Job> jobs = Job.getJobList();
 		
@@ -42,6 +53,7 @@ public class ApplicantsPanel extends JPanel {
 			for (int j = 0; j < applicantsForJob.get(i).size(); j++) {
 				data[i+j][0] = jobs.get(i).getTitle();
 				data[i+j][1] = applicantsForJob.get(i).get(j).getUsername();
+				applicants.add(applicantsForJob.get(i).get(j));
 			}
 		}
 		

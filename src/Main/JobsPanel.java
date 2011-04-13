@@ -133,6 +133,20 @@ public class JobsPanel extends JPanel{
 				 * reference above, and load correct info into jobEditPanel fields.
 				 */
 				
+				Job job = getSelectedJob();
+				
+				/* Labels */
+				jobsPanel.getIdLabel().setText(job.getId().toString());
+				
+				/* TextFields */
+				jobsPanel.getTitleField().setText(job.getTitle());
+				jobsPanel.getDeadlineField().setText(job.getDeadline());
+				jobsPanel.getLocationField().setText(job.getLocation());
+				jobsPanel.getSalaryField().setText(job.getSalary());
+				
+				/* TextAreas */
+				jobsPanel.getJobDescriptionArea().setText(job.getDescription());
+				
 				cl.show(cards, "JobEditPanel");
 			}
 			if (event.getSource() == applyButton) {

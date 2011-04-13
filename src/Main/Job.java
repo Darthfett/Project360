@@ -301,4 +301,42 @@ public class Job {
 		}
 		
 	}
+	
+	public String toString() {
+		//title/description/id/date/deadline/location/salary/benefits
+		ArrayList<String> s = new ArrayList<String>();
+
+		if (getId() != null) {
+			s.add("Id: " + getId());
+		}
+		if (getTitle() != null) {
+			s.add("Title: " + getTitle());
+		}
+		if (getDescription() != null) {
+			s.add("Description: " + getDescription());
+		}
+		if (getPostDate() != null) {
+			s.add("Posting Date: " + getPostDate());
+		}
+		if (getDeadline() != null) {
+			s.add("Deadline: " + getDeadline());
+		}
+		if (getLocation() != null) {
+			s.add("Location: " + getLocation());
+		}
+		if (getSalary() != null) {
+			s.add("Salary: " + getSalary());
+		}
+		if (getBenefits() != null) {
+			s.add("Benefits: " + getBenefits());
+		}
+		String str = new String("");
+		for (int i = 0; i < s.size(); i++) {
+			str = str + s.get(i) + "<br><br>";
+		}
+		if (str.endsWith("\n")) {
+			str = str.substring(0, str.length() - 2);
+		}
+		return str;
+	}
 }

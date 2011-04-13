@@ -35,13 +35,14 @@ public class JobsPanel extends JPanel{
 	private JButton editButton;
 	private JButton applyButton;
 	private ArrayList<Job> jobs;
+	private Types.UserLevel userType;
 
 	public JobsPanel(Types.UserLevel userLevel) {
 		setLayout(new GridLayout(1,2));
 		
 		rightPanel = new JPanel();
 		rightPanel.setLayout(new BorderLayout());
-
+		userType = userLevel;
 		jobs = Job.getJobList();
 		ArrayList<String> jobTitles = new ArrayList<String>();
 		for (int i = 0; i < jobs.size(); i++) {
@@ -109,11 +110,13 @@ public class JobsPanel extends JPanel{
 	private class JPSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent event) {
 			if (getSelectedJob() != null) {
-				String text = getSelectedJob().getDescription();
+				String text = getSelectedJob().toString();
 				String fText = String.format("<html><div WIDTH=%d>%s</div></html>", 320, text);
 				description.setText(fText);
 				descriptionPanel.setVisible(true);
-				applyButton.setEnabled(true);
+				if (userType != Types.UserLevel.RECRUITER) {
+					applyButton.setEnabled(true);
+				}
 			}
 		}
 	}
@@ -135,18 +138,18 @@ public class JobsPanel extends JPanel{
 				
 				Job job = getSelectedJob();
 				
-				/* Labels */
-				jobsPanel.getIdLabel().setText(job.getId().toString());
-				
-				/* TextFields */
-				jobsPanel.getTitleField().setText(job.getTitle());
-				jobsPanel.getDeadlineField().setText(job.getDeadline());
-				jobsPanel.getLocationField().setText(job.getLocation());
-				jobsPanel.getSalaryField().setText(job.getSalary());
-				
-				/* TextAreas */
-				jobsPanel.getJobDescriptionArea().setText(job.getDescription());
-				
+//				/* Labels */
+//				jobsPanel.getIdLabel().setText(job.getId().toString());
+//				
+//				/* TextFields */
+//				jobsPanel.getTitleField().setText(job.getTitle());
+//				jobsPanel.getDeadlineField().setText(job.getDeadline());
+//				jobsPanel.getLocationField().setText(job.getLocation());
+//				jobsPanel.getSalaryField().setText(job.getSalary());
+//				
+//				/* TextAreas */
+//				jobsPanel.getJobDescriptionArea().setText(job.getDescription());
+//				
 				cl.show(cards, "JobEditPanel");
 			}
 			if (event.getSource() == applyButton) {

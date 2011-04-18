@@ -93,7 +93,7 @@ public class Applicant {
 	}
 
 	public void addReferenceRating(Integer referenceRating) {
-		if (database.get("referenceRatings").equals("")) {
+		if (database.get("referenceRatings") == null || database.get("referenceRatings").equals("")) {
 			database.put("referenceRatings", referenceRating.toString());
 		} else {
 			database.put("referenceRatings",database.get("referenceRatings") + "," + referenceRating.toString());

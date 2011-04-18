@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -85,6 +84,7 @@ public class JobsPanel extends JPanel{
 			createButton = new JButton("Create new...");
 			createButton.addActionListener(new JPListener());
 			editButton = new JButton("Edit...");
+			editButton.addActionListener(new JPListener());
 			buttonsPanel.add(createButton);
 			buttonsPanel.add(editButton);
 	
@@ -130,7 +130,7 @@ public class JobsPanel extends JPanel{
 			}
 			if (event.getSource() == editButton) {
 				RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
-				JobsPanel jobsPanel = recPanel.getJobsPanel();
+				JobEditPanel jePanel = recPanel.getJobEditPanel();
 				/*
 				 * TODO: Make this do stuff... get correct job from job list with jobsPanel
 				 * reference above, and load correct info into jobEditPanel fields.
@@ -138,27 +138,21 @@ public class JobsPanel extends JPanel{
 				
 				Job job = getSelectedJob();
 				
-//				/* Labels */
-//				jobsPanel.getIdLabel().setText(job.getId().toString());
-//				
-//				/* TextFields */
-//				jobsPanel.getTitleField().setText(job.getTitle());
-//				jobsPanel.getDeadlineField().setText(job.getDeadline());
-//				jobsPanel.getLocationField().setText(job.getLocation());
-//				jobsPanel.getSalaryField().setText(job.getSalary());
-//				
-//				/* TextAreas */
-//				jobsPanel.getJobDescriptionArea().setText(job.getDescription());
-//				
+				/* Labels */
+				jePanel.getIdLabel().setText(job.getId().toString());
+				
+				/* TextFields */
+				jePanel.getTitleField().setText(job.getTitle());
+				jePanel.getDeadlineField().setText(job.getDeadline().toString());
+				jePanel.getLocationField().setText(job.getLocation());
+				jePanel.getSalaryField().setText(job.getSalary());
+				
+				/* TextAreas */
+				jePanel.getJobDescriptionArea().setText(job.getDescription());
+				
 				cl.show(cards, "JobEditPanel");
 			}
 			if (event.getSource() == applyButton) {
-				ApplicantPanel appPanel = (ApplicantPanel) cards.getParent().getParent();
-				JobsPanel jobsPanel = appPanel.getJobsPanel();
-				/*
-				 * TODO: Make this do stuff too... get correct job from job list, load
-				 * correct info into applyPanel fields.
-				 */
 				cl.show(cards, "ApplyPanel");
 			}
 		}

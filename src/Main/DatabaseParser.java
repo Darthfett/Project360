@@ -102,12 +102,13 @@ public class DatabaseParser {
 								keyVals = new String[]{keyVals[0],val};
 							}
 							key = keyVals[0].replace(" ","");
-							value = keyVals[1];
+							value = keyVals[1];value = keyVals[1];
 							//keyVals is now length 2
 						} else {
 							value += "\n" + line.replace("\\=","=");
 						}
 					} else {
+					
 						if (line.contains("=")) {
 							if (! key.equals("")) {
 								current_file_data.put(key,value);

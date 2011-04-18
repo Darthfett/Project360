@@ -1,8 +1,13 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -14,6 +19,8 @@ import javax.swing.JTextField;
 
 public class JobEditPanel extends JPanel{
 	
+	private static final long serialVersionUID = 1L;
+	private char mode;
 	private JButton submitButton;
 	private JButton cancelButton;
 	private JLabel titleLabel;
@@ -38,17 +45,19 @@ public class JobEditPanel extends JPanel{
 	private JPanel centerPanel;
 	private JPanel centerTop;
 	private JPanel centerBottom;
+	private Job job;
 	
 	//mode: 'a' for add, 'e' for edit
 	public JobEditPanel(char mode) {
 		
 		setLayout(new BorderLayout());
+		this.mode = mode;
 		
 		submitButton = new JButton("Submit");
 		cancelButton = new JButton("Cancel");
 		titleLabel = new JLabel("Job Title");
 		descLabel = new JLabel("Job Description");
-		deadlineLabel = new JLabel("Application Deadline");
+		deadlineLabel = new JLabel("Application Deadline (mm/dd/yyyy)");
 		locationLabel = new JLabel("Location");
 		salaryLabel = new JLabel("Salary");
 		benefitsLabel = new JLabel("Benefits");
@@ -87,12 +96,15 @@ public class JobEditPanel extends JPanel{
 		centerPanel.add(centerTop, BorderLayout.NORTH);
 		centerPanel.add(centerBottom, BorderLayout.CENTER);
 		centerTop.setLayout(new BorderLayout());		
+		centerTop.setPreferredSize(new Dimension(470,50));
 		centerTop.add(benefitsLabel, BorderLayout.NORTH);
-		centerTop.add(benefits, BorderLayout.CENTER);
+		centerTop.add(bScroll, BorderLayout.CENTER);
 		centerBottom.setLayout(new BorderLayout());
 		centerBottom.add(descLabel, BorderLayout.NORTH);
-		centerBottom.add(description, BorderLayout.CENTER);
+		centerBottom.add(dScroll, BorderLayout.CENTER);
 		
+		submitButton.addActionListener(new JEListener());
+		cancelButton.addActionListener(new JEListener());
 		southPanel.add(submitButton);
 		southPanel.add(cancelButton);
 		
@@ -101,5 +113,80 @@ public class JobEditPanel extends JPanel{
 		add(southPanel, BorderLayout.SOUTH);
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.WEST);
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
+	}
+	
+		public JLabel getIdLabel() {
+		return jobIdLabel;
+	}
+		
+	public JTextField getTitleField() {
+		return titleField;
+	}
+	
+	public JTextField getDeadlineField() {
+		return deadlineField;
+	}
+	
+	public JTextField getLocationField() {
+		return locationField;
+	}
+	
+	public JTextField getSalaryField() {
+		return salaryField;
+	}
+	
+	public JTextArea getJobDescriptionArea() {
+		return description;
+	}
+	
+	public void setJob(Job job) {
+		this.job = job;
+	}
+	
+	public void clearFields() {
+		titleField.setText("");
+		deadlineField.setText("");
+		locationField.setText("");
+		salaryField.setText("");
+		benefits.setText("");
+		description.setText("");
+	}
+	
+	public JPanel getThisPanel() {
+		return this;
+	}
+		
+	private class JEListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			JPanel cards = (JPanel) getThisPanel().getParent();
+			RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
+			CardLayout cl = (CardLayout) cards.getLayout();
+			if (event.getSource() == cancelButton) {
+				cl.show(cards, "JobsPanel");
+				clearFields();
+			}
+			if (event.getSource() ==  submitButton) {
+				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+				if (mode == 'a') {
+					job = new Job();
+					job.setPostDate(new Date());
+				}
+				try {
+					job.setTitle(titleField.getText());
+					job.setDeadline(sdf.parse(deadlineField.getText()));
+					job.setLocation(locationField.getText());
+					job.setSalary(salaryField.getText());
+					job.setBenefits(benefits.getText());
+					job.save();
+					recPanel.refreshJobs();
+				}
+				catch (Exception e) {	
+					System.out.println("Something bad happened while creating the job, check date format.");
+					e.printStackTrace();
+				}
+				cl.show(cards, "JobsPanel");
+				clearFields();
+			}
+		}
 	}
 }

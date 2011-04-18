@@ -12,6 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/*
+ * This is the top panel of the UI when a user is logged in, it appears as the black
+ * bar at the top. When the logout button is pressed, the applet's content pane is 
+ * set as a new applicant panel.
+ */
 public class LogoutPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton logoutButton;

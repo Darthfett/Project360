@@ -84,10 +84,6 @@ public class UserEditPanel extends JPanel {
 		passwdField.setText("");
 	}
 	
-	public char getMode() {
-		return this.mode;
-	}
-	
 	public JTextField getUnameField() {
 		return unameField;
 	}
@@ -113,7 +109,7 @@ public class UserEditPanel extends JPanel {
 				cl.show(cards, "UsersPanel");
 				clearFields();
 			}
-			if (getMode() == 'a') {
+			if (mode == 'a') {
 				if (event.getSource() == submitButton) {
 					String uname = unameField.getText();
 					String passwd = passwdField.getText();
@@ -125,7 +121,7 @@ public class UserEditPanel extends JPanel {
 					clearFields();
 				}
 			}
-			if (getMode() == 'e') {
+			if (mode == 'e') {
 				if (event.getSource() == submitButton) {
 					user.setUserName(unameField.getText());
 					user.setUserPassword(passwdField.getText());

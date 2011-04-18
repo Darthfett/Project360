@@ -109,12 +109,10 @@ public class ApplyPanel extends JPanel {
 				confirm = JOptionPane.showConfirmDialog(null, "Submit application?",
 									"Apply", JOptionPane.YES_NO_OPTION);
 				if (confirm == JOptionPane.YES_OPTION) {
-						
+
 					/*
-					 * TODO: Insert code that accomplishes the actual job application;
-					 * 			create a new Applicant object, etc...
+					 * TODO: Make this do stuff
 					 */
-					
 					clearFields();
 					cl.show(cards, "JobsPanel");
 				}

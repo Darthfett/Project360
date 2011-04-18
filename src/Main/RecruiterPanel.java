@@ -79,17 +79,27 @@ public class RecruiterPanel extends JPanel {
 		return usersPanel;
 	}
 	
+	public UserEditPanel getUserEditPanel() {
+		return userEditPanel;
+	}
+	
 	public JobsPanel getJobsPanel() {
 		return jobsPanel;
 	}
 	
-	public UserEditPanel getUserEditPanel() {
-		return userEditPanel;
+	public JobEditPanel getJobEditPanel() {
+		return jobEditPanel;
 	}
 	
 	public void refreshUsers() {
 		usersCards.remove(usersPanel);
 		usersPanel = new UsersPanel();
 		usersCards.add(usersPanel, USERSPANEL);
+	}
+	
+	public void refreshJobs() {
+		jobsCards.remove(jobsPanel);
+		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		jobsCards.add(jobsPanel, JOBSPANEL);
 	}
 }

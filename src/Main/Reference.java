@@ -12,6 +12,12 @@ public class Reference extends User {
 		applicants = new ArrayList<Applicant>();
 	}
 	
+	/* Reference constructor with email */
+	Reference(String email) {
+		this.email = email;
+		applicants = new ArrayList<Applicant>();
+	}
+	
 	/* Adding an Applicant for the Reference to rate */
 	public void addApplicant(Applicant applicant) {
 		applicants.add(applicant);

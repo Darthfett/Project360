@@ -103,13 +103,29 @@ public class ApplyPanel extends JPanel {
 	private class ApplyListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
+			JobsPanel jobsPanel = (JobsPanel) ((ApplicantPanel)cards.getParent().getParent()).getJobsPanel();
 			CardLayout cl = (CardLayout) cards.getLayout();
 			
 			if (event.getSource() == submitButton) {
 				confirm = JOptionPane.showConfirmDialog(null, "Submit application?",
 									"Apply", JOptionPane.YES_NO_OPTION);
 				if (confirm == JOptionPane.YES_OPTION) {
-
+					if (nameField.getText().equals("") || ref1Field.getText().equals("") || ref2Field.getText().equals("") || ref3Field.getText().equals("") || resume.getText().equals("")) {
+						return;
+					}
+					Applicant applicant = new Applicant();
+					
+					Reference ref1 = new Reference(ref1Field.getText());
+					Reference ref2 = new Reference(ref2Field.getText());
+					Reference ref3 = new Reference(ref3Field.getText());
+					
+					applicant.addReference(ref1);
+					applicant.addReference(ref2);
+					applicant.addReference(ref3);
+					applicant.setUsername(nameField.getText());
+					applicant.setResume(resume.getText());
+					applicant.setAppliedJob(jobsPanel.getSelectedJob());
+					applicant.save();
 					/*
 					 * TODO: Make this do stuff
 					 */

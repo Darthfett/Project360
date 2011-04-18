@@ -114,11 +114,11 @@ public class Applicant {
 		return referenceRatings;	
 	}
 
-	public void addReference(User reference) {
+	public void addReference(Reference reference) {
 		if (! (database.get("references") == null) && ! database.get("references").equals("")) {
-			database.put("references", database.get("references") + reference.getUsername());
+			database.put("references", database.get("references") + "," + reference.getEmail());
 		} else {
-			database.put("references",reference.getUsername());
+			database.put("references",reference.getEmail());
 		}
 	}
 

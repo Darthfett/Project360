@@ -262,8 +262,10 @@ public class Job {
 			String cur;
 			while(hashedKeys.hasNext()) {
 				cur = hashedKeys.next();
-				out.write(cur + "=" + this.database.get(cur).replace("=", "\\="));
-				out.newLine();
+				if (this.database.get(cur) != null) {
+					out.write(cur + "=" + this.database.get(cur).replace("=", "\\="));
+					out.newLine();
+				}
 			
 			}
 			out.close();

@@ -143,9 +143,15 @@ public class JobsPanel extends JPanel{
 				
 				/* TextFields */
 				jePanel.getTitleField().setText(job.getTitle());
-				jePanel.getDeadlineField().setText(job.getDeadline().toString());
-				jePanel.getLocationField().setText(job.getLocation());
-				jePanel.getSalaryField().setText(job.getSalary());
+				if (job.getDeadline() != null) {
+					jePanel.getDeadlineField().setText(job.getDeadline().toString());
+				}
+				if (job.getLocation() != null) {
+					jePanel.getLocationField().setText(job.getLocation());
+				}
+				if (job.getSalary() != null) {
+					jePanel.getSalaryField().setText(job.getSalary());
+				}
 				
 				/* TextAreas */
 				jePanel.getJobDescriptionArea().setText(job.getDescription());

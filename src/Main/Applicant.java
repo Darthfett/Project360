@@ -239,7 +239,7 @@ public class Applicant {
 			String cur;
 			while(hashedKeys.hasNext()) {
 				cur = hashedKeys.next();
-				if (this.database.get(cur) != null) {
+				if (this.database.get(cur) != null && this.database.get(cur) != "") {
 					out.write(cur + "=" + this.database.get(cur).replace("=", "\\="));
 					out.newLine();
 				}

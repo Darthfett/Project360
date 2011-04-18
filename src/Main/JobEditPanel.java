@@ -166,17 +166,33 @@ public class JobEditPanel extends JPanel{
 				clearFields();
 			}
 			if (event.getSource() ==  submitButton) {
+				if (titleField.getText().equals("") || description.getText().equals("")) {
+					return;
+				}
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				if (mode == 'a') {
 					job = new Job();
 					job.setPostDate(new Date());
 				}
 				try {
+					
 					job.setTitle(titleField.getText());
-					job.setDeadline(sdf.parse(deadlineField.getText()));
-					job.setLocation(locationField.getText());
-					job.setSalary(salaryField.getText());
-					job.setBenefits(benefits.getText());
+					try {
+						Date deadline = sdf.parse(deadlineField.getText());
+						if (deadline != null) {
+							job.setDeadline(deadline);
+						}
+					} catch (java.text.ParseException e) {}
+					job.setPostDate(new Date());
+					if (! locationField.getText().equals("")) {
+						job.setLocation(locationField.getText());
+					}
+					if (! salaryField.getText().equals("")) {
+						job.setSalary(salaryField.getText());
+					}
+					if (! benefits.getText().equals("")) {
+						job.setBenefits(benefits.getText());
+					}
 					job.save();
 					recPanel.refreshJobs();
 				}

@@ -34,27 +34,11 @@ public class ApplicantsPanel extends JPanel {
 	public void initUI(Types.UserLevel userLevel) {
 		setLayout(null);
 		String[] columnNames = {"Jobs", "Applicants"};
-		applicants = new ArrayList<Applicant>();
-		
-		ArrayList<Job> jobs = Job.getJobList();
-		
-		ArrayList<ArrayList<Applicant>> applicantsForJob = new ArrayList<ArrayList<Applicant>>();
-
-		Integer totalApplicants = new Integer(0);
-		
-		for (int i = 0; i < jobs.size(); i++) {
-			applicantsForJob.add(jobs.get(i).getApplicants());
-			totalApplicants = totalApplicants + applicantsForJob.get(i).size();
-		}
-		
-		String[][] data = new String[totalApplicants][2];
-		
-		for (int i = 0; i < applicantsForJob.size(); i++) {
-			for (int j = 0; j < applicantsForJob.get(i).size(); j++) {
-				data[i+j][0] = jobs.get(i).getTitle();
-				data[i+j][1] = applicantsForJob.get(i).get(j).getUsername();
-				applicants.add(applicantsForJob.get(i).get(j));
-			}
+		applicants = Applicant.getApplicantList();
+		String[][] data = new String[applicants.size()][2];
+		for (int i = 0; i < applicants.size(); i++) {
+			data[i][0] = applicants.get(i).getAppliedJob().getTitle();
+			data[i][1] = applicants.get(i).getUsername();
 		}
 		
 		appsTable = new JTable(data, columnNames);

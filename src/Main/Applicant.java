@@ -178,6 +178,9 @@ public class Applicant {
 	}
 	
 	public Job getAppliedJob() {
+		if (database.get("appliedJob") == null) {
+			return null;
+		}
 		return Job.getJobFromId(new Integer(database.get("appliedJob")));
 	}
 

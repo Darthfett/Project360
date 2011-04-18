@@ -123,8 +123,11 @@ public class Job {
 	}
 	
 	public ArrayList<Applicant> getApplicants() {
-		String[] applicantIdStrings = database.get("applicants").split(",");
 		ArrayList<Applicant> applicants = new ArrayList<Applicant>();
+		if (database.get("applicants") == null) {
+			return applicants;
+		}
+		String[] applicantIdStrings = database.get("applicants").split(",");
 		if (applicantIdStrings.length == 1 && applicantIdStrings[0] == "") {
 			return applicants;
 		}

@@ -115,7 +115,7 @@ public class Applicant {
 	}
 
 	public void addReference(User reference) {
-		if (! database.get("references").equals("")) {
+		if (! (database.get("references") == null) && ! database.get("references").equals("")) {
 			database.put("references", database.get("references") + reference.getUsername());
 		} else {
 			database.put("references",reference.getUsername());
@@ -123,8 +123,11 @@ public class Applicant {
 	}
 
 	public ArrayList<User> getReferences() {
-		String value = database.get("references");
 		ArrayList<User> references = new ArrayList<User>();
+		String value = database.get("references");
+		if (value == null) {
+			return references;
+		}
 		if (value.contains(",")) {
 			String[] refs = value.split(",");
 			for (int i = 0; i < refs.length; i++) {

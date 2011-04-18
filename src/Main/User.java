@@ -87,7 +87,7 @@ public class User {
 		}
 	}
 	
-	public String getUserPassword() {
+	public String getPassword() {
 		return (String) database.get("password");
 	}
 	

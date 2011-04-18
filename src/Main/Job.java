@@ -46,7 +46,6 @@ public class Job {
 			}
 		}
 		if (database.get("id") == null) {
-			System.out.println("new id");
 			database.put("id", new Integer(i+1).toString());
 		}
 		database.put("applicants", "");
@@ -186,7 +185,7 @@ public class Job {
 	}
 	
 	public void addApplicant(Applicant applicant) {
-		if (database.get("applicants") == "") {
+		if (database.get("applicants") == null || database.get("applicants") == "") {
 			database.put("applicants",applicant.getId().toString());
 		} else {
 			database.put("applicants", database.get("applicants") + "," + applicant.getId().toString());

@@ -68,14 +68,9 @@ public class UsersPanel extends JPanel {
 		ArrayList<User> userList = User.getUserList();
 		String[][] usersData = new String[userList.size()][3];
 		for (int i = 0; i < userList.size(); i++ ) {
-			for (int j = 0; j < 3; j++ ) {
-				if (j == 0)
-					usersData[i][j] = userList.get(i).getUsername();
-				if (j == 1)
-				 	usersData[i][j] = userList.get(i).getUserPassword();
-				if (j == 2)
-					usersData[i][j] = userList.get(i).getUserLevelString();
-			}
+			usersData[i][0] = userList.get(i).getUsername();
+			usersData[i][1] = userList.get(i).getPassword();
+			usersData[i][2] = userList.get(i).getUserLevelString();
 		}
 		return usersData;
 	}
@@ -102,7 +97,7 @@ public class UsersPanel extends JPanel {
 				String userName = recPanel.getUsersPanel().getSelectedUser();
 				User user = User.getUserFromUserName(userName);
 				recPanel.getUserEditPanel().getUnameField().setText(user.getUsername());
-				recPanel.getUserEditPanel().getPasswdField().setText(user.getUserPassword());
+				recPanel.getUserEditPanel().getPasswdField().setText(user.getPassword());
 				recPanel.getUserEditPanel().getUlevelBox().setSelectedItem((String) user.getUserLevelString());
 				recPanel.getUserEditPanel().setUser(user);
 			}

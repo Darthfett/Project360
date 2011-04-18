@@ -1,7 +1,0 @@
-<html>
-	<head>
-		<title>Project360 Test</title>
-	</head>
-	<applet code="TheAppletItself.class" archive="TheJar.jar"
-	width="760" height="660"/>
-</html>

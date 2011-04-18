@@ -99,40 +99,46 @@ public class LoginView extends JDialog{
 			char[] passArray = passwdField.getPassword();
 			String passwd = new String(passArray);
 			String uname = unameField.getText();
-			ArrayList<User> userList = User.getUserList();
-			for (int i = 0; i < userList.size(); i++) {
-				User check = userList.get(i);
-				if (check.getUsername().equals(uname)) {
-					if (check.getUserPassword().equals(passwd)) {
-						Types.UserLevel userLevel = check.getUserLevel();
-						TheAppletItself.setCurrentUserLevel(userLevel);
-						switch(userLevel) {
-							case RECRUITER:
-								replacePanel = new RecruiterPanel();
-								cleanUp();
-								break;
-							case REVIEWER:
-								replacePanel = new ReviewerPanel();
-								cleanUp();
-								break;
-							case REFERENCE:
-								replacePanel = new ReferencePanel();
-								cleanUp();
-								break;
-							default:
-								replacePanel = null;
-								cleanUp();
-								break;
-						}							
-					}
-					else {
-						errorLabel.setText(errorMsg);
-					}
-				}
-				else {
+			User currentUser = User.getUserFromUserName(uname);
+			if (currentUser == null) {
+				Reference currentReference = Reference.getReferenceFromEmail(uname);
+				if (currentReference == null) {
 					errorLabel.setText(errorMsg);
+					return;
+				} else {
+					if (! currentReference.getPassword().equals(passwd)) {
+						errorLabel.setText(errorMsg);
+						return;
+					} else {
+						replacePanel = new ReferencePanel();
+						cleanUp();
+					}
 				}
 			}
+			if (! currentUser.getPassword().equals(passwd)) {
+				errorLabel.setText(errorMsg);
+				return;
+			}
+			Types.UserLevel userLevel = currentUser.getUserLevel();
+			TheAppletItself.setCurrentUserLevel(userLevel);
+			switch(userLevel) {
+				case RECRUITER:
+					replacePanel = new RecruiterPanel();
+					cleanUp();
+					break;
+				case REVIEWER:
+					replacePanel = new ReviewerPanel();
+					cleanUp();
+					break;
+				case REFERENCE:
+					replacePanel = new ReferencePanel();
+					cleanUp();
+					break;
+				default:
+					replacePanel = null;
+					cleanUp();
+					break;
+			}			
 		}
 	}
 }

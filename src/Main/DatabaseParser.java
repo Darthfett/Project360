@@ -102,7 +102,11 @@ public class DatabaseParser {
 								keyVals = new String[]{keyVals[0],val};
 							}
 							key = keyVals[0].replace(" ","");
-							value = keyVals[1];value = keyVals[1];
+							if (keyVals.length > 1) {
+								value = keyVals[1];								
+							} else {
+								value = "";
+							}
 							//keyVals is now length 2
 						} else {
 							value += "\n" + line.replace("\\=","=");
@@ -124,7 +128,11 @@ public class DatabaseParser {
 								keyVals = new String[]{keyVals[0],val};
 							}
 							key = keyVals[0].replace(" ","");
-							value = keyVals[1];
+							if (keyVals.length > 1) {
+								value = keyVals[1];								
+							} else {
+								value = "";
+							}
 							//keyVals is now length 2
 						} else {
 							value += "\n" + line;

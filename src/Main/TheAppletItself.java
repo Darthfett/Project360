@@ -22,6 +22,7 @@ public class TheAppletItself extends JApplet {
 		User.loadUserList();
 		Applicant.loadApplicantList();
 		Job.loadJobList();
+		Reference.loadReferenceList();
 		
 		
 		try {

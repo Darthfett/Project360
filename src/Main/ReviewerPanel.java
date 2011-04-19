@@ -19,10 +19,7 @@ public class ReviewerPanel extends JPanel {
 	private User currentUser;
 	
 	public ReviewerPanel(User currentUser) {
-<<<<<<< HEAD
 		this.currentUser = currentUser;
-=======
->>>>>>> bd8cc1deed16ab8d9bc7db4c4d0ec36e2d8cfeb9
 		initUI(currentUser);
 	}
 	
@@ -33,7 +30,6 @@ public class ReviewerPanel extends JPanel {
 		logoutPanel = new LogoutPanel();
 		add(logoutPanel, BorderLayout.NORTH);
 		tabs = new JTabbedPane();
-<<<<<<< HEAD
 		
 		appViewPanel = new AppViewPanel(Types.UserLevel.REVIEWER);
 		appsPanel = new ApplicantsPanel(currentUser, Types.UserLevel.REVIEWER);
@@ -41,9 +37,6 @@ public class ReviewerPanel extends JPanel {
 		appsCards.setLayout(new CardLayout());
 		appsCards.add(appsPanel, APPLICANTSPANEL);
 		appsCards.add(appViewPanel, APPLICANTVIEWPANEL);
-=======
-		appsPanel = new ApplicantsPanel(currentUser, TheAppletItself.getCurrentUserLevel());
->>>>>>> bd8cc1deed16ab8d9bc7db4c4d0ec36e2d8cfeb9
 		
 		tabs.setSize(770, 655);
 		tabs.addTab("My Applicants", appsPanel);

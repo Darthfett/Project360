@@ -34,11 +34,8 @@ public class RecruiterPanel extends JPanel {
 	private User currentUser;
 	
 	public RecruiterPanel(User currentUser) {
-<<<<<<< HEAD
 		this.currentUser = currentUser;
 		userLevel = TheAppletItself.getCurrentUserLevel();
-=======
->>>>>>> bd8cc1deed16ab8d9bc7db4c4d0ec36e2d8cfeb9
 		initUI(currentUser);
 	}
 	
@@ -48,17 +45,12 @@ public class RecruiterPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		tabs = new JTabbedPane();
-<<<<<<< HEAD
 		appsPanel = new ApplicantsPanel(currentUser, userLevel);
 		appsCards = new JPanel();
 		appsCards.setLayout(new CardLayout());
 		appViewPanel = new AppViewPanel(userLevel);
 		appsCards.add(appsPanel, APPLICANTSPANEL);
 		appsCards.add(appViewPanel, APPLICANTVIEWPANEL);
-=======
-		appPanel = new ApplicantsPanel(currentUser, TheAppletItself.getCurrentUserLevel());
->>>>>>> bd8cc1deed16ab8d9bc7db4c4d0ec36e2d8cfeb9
-		
 		usersCards = new JPanel();
 		usersCards.setLayout(new CardLayout());
 		usersPanel = new UsersPanel();

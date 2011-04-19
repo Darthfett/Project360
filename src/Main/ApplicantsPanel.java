@@ -21,9 +21,16 @@ public class ApplicantsPanel extends JPanel {
 	private JButton rateButton;
 	private JPanel innerPanel;
 	private ArrayList<Applicant> applicants;
+	private Types.UserLevel userLevel;
+	private User currentUser;
 
-	public ApplicantsPanel(Types.UserLevel userLevel) {
-		initUI(userLevel);
+	public ApplicantsPanel(User currentUser, Types.UserLevel currentUserLevel) {
+		userLevel = currentUserLevel;
+		if (userLevel == Types.UserLevel.APPLICANT) {
+			currentUser = null;
+		}
+		
+		initUI(currentUser, userLevel);
 	}
 	
 	public Applicant getSelectedApplicant() {
@@ -35,14 +42,67 @@ public class ApplicantsPanel extends JPanel {
 		return selectedApplicant;
 	}
 
-	public void initUI(Types.UserLevel userLevel) {
+	public void initUI(User currentUser, Types.UserLevel unused_currentUserLevel) {
 		setLayout(null);
 		String[] columnNames = {"Jobs", "Applicants"};
-		applicants = Applicant.getApplicantList();
-		String[][] data = new String[applicants.size()][2];
-		for (int i = 0; i < applicants.size(); i++) {
-			data[i][0] = applicants.get(i).getAppliedJob().getTitle();
-			data[i][1] = applicants.get(i).getUsername();
+		String[][] data = null;
+		
+		if (userLevel == Types.UserLevel.RECRUITER){
+			/*
+			 * The recruiter will see all applicants.
+			 */
+			applicants = Applicant.getApplicantList();
+			data = new String[applicants.size()][2];
+			for (int i = 0; i < applicants.size(); i++) {
+				data[i][0] = applicants.get(i).getAppliedJob().getTitle();
+				data[i][1] = applicants.get(i).getUsername();
+			}
+
+			viewButton = new JButton("View...");
+			viewButton.setBounds(600, 55, 120, 30);
+			viewButton.addActionListener(new ButtonListener());
+		}
+		if (userLevel == Types.UserLevel.REVIEWER){
+			/*
+			 * For the reviewer, we will show only a subset of the applicants.
+			 */
+			ArrayList<Job> jobs = ((Reviewer) currentUser).getJobs();
+			applicants = new ArrayList<Applicant>();
+			for (int i = 0; i < jobs.size(); i++) {
+				applicants.addAll(jobs.get(i).getApplicants());
+			}
+			data = new String[applicants.size()][2];
+			for (int i = 0; i < applicants.size(); i++) {
+				data[i][0] = applicants.get(i).getAppliedJob().getTitle();
+				data[i][1] = applicants.get(i).getUsername();
+			}
+			
+			viewButton = new JButton("View...");
+			viewButton.addActionListener(new ButtonListener());
+			viewButton.setBounds(600, 55, 120, 30);
+		}
+
+		if (userLevel == Types.UserLevel.REFERENCE){
+			/*
+			 * For the reference, we will show only a subset of the applicants.
+			 */
+			applicants = Applicant.getApplicantList();
+			ArrayList<Applicant> assigned = ((Reference) currentUser).getApplicants();
+			
+			data = new String[applicants.size()][2];
+			for (int i = 0; i < applicants.size(); i++) {
+				for (int j = 0; j < assigned.size(); j++) {
+					if (assigned.get(j).equals(applicants.get(i))) {
+						data[i][0] = applicants.get(i).getAppliedJob().getTitle();
+						data[i][1] = applicants.get(i).getUsername();
+						break;
+					}
+				}
+			}
+			
+			rateButton = new JButton("Rate...");
+			rateButton.setBounds(600, 55, 120, 30);
+			rateButton.addActionListener(new ButtonListener());
 		}
 		
 		appsTable = new JTable(data, columnNames);
@@ -58,36 +118,10 @@ public class ApplicantsPanel extends JPanel {
 		scrollPane.setBounds(30, 55, 540, 490);
 		scrollPane.setBackground(Color.white);
 		add(scrollPane);
-		
-		if (userLevel == Types.UserLevel.RECRUITER){
-			/*
-			 * The recruiter will see all applicants.
-			 */
-
-			viewButton = new JButton("View...");
-			viewButton.setBounds(600, 55, 120, 30);
-			viewButton.addActionListener(new ButtonListener());
-			add(viewButton);
-		}
-
-		if (userLevel == Types.UserLevel.REVIEWER){
-			/*
-			 * For the reviewer, we will show only a subset of the applicants.
-			 */
-			viewButton = new JButton("View...");
-			viewButton.addActionListener(new ButtonListener());
-			viewButton.setBounds(600, 55, 120, 30);
-			add(viewButton);
-		}
-
-		if (userLevel == Types.UserLevel.REFERENCE){
-			/*
-			 * For the reviewer, we will show only a subset of the applicants.
-			 */
-			rateButton = new JButton("Rate...");
-			rateButton.setBounds(600, 55, 120, 30);
-			rateButton.addActionListener(new ButtonListener());
+		if (userLevel == Types.UserLevel.REFERENCE) {
 			add(rateButton);
+		} else {
+			add(viewButton);
 		}
 	}
 	

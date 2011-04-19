@@ -119,8 +119,11 @@ public class ApplyPanel extends JPanel {
 					Reference ref3 = new Reference();
 					
 					ref1.setEmail(ref1Field.getText());
+					ref1.addApplicant(applicant);
 					ref2.setEmail(ref2Field.getText());
+					ref2.addApplicant(applicant);
 					ref3.setEmail(ref3Field.getText());
+					ref3.addApplicant(applicant);
 					ref1.save();
 					ref2.save();
 					ref3.save();

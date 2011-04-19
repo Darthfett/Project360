@@ -2,7 +2,6 @@ package Main;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -110,7 +109,7 @@ public class LoginView extends JDialog{
 						errorLabel.setText(errorMsg);
 						return;
 					} else {
-						replacePanel = new ReferencePanel();
+						replacePanel = new ReferencePanel(currentReference);
 						cleanUp();
 						return;
 					}
@@ -124,15 +123,15 @@ public class LoginView extends JDialog{
 			TheAppletItself.setCurrentUserLevel(userLevel);
 			switch(userLevel) {
 				case RECRUITER:
-					replacePanel = new RecruiterPanel();
+					replacePanel = new RecruiterPanel(currentUser);
 					cleanUp();
 					break;
 				case REVIEWER:
-					replacePanel = new ReviewerPanel();
+					replacePanel = new ReviewerPanel(currentUser);
 					cleanUp();
 					break;
 				case REFERENCE:
-					replacePanel = new ReferencePanel();
+					replacePanel = new ReferencePanel(currentUser);
 					cleanUp();
 					break;
 				default:

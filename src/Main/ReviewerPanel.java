@@ -12,11 +12,11 @@ public class ReviewerPanel extends JPanel {
 	private JTabbedPane tabs;
 	private LogoutPanel logoutPanel;
 	
-	public ReviewerPanel() {
-		initUI();
+	public ReviewerPanel(User currentUser) {
+		initUI(currentUser);
 	}
 	
-	private void initUI() {
+	private void initUI(User currentUser) {
 		setSize(770, 670);
 		setBackground(Color.black);
 		setLayout(new BorderLayout());
@@ -25,7 +25,7 @@ public class ReviewerPanel extends JPanel {
 		add(logoutPanel, BorderLayout.NORTH);
 		
 		tabs = new JTabbedPane();
-		appsPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
+		appsPanel = new ApplicantsPanel(currentUser, TheAppletItself.getCurrentUserLevel());
 		
 		tabs.setSize(770, 655);
 		tabs.addTab("My Applicants", appsPanel);

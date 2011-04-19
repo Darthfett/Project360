@@ -120,6 +120,12 @@ public class UserEditPanel extends JPanel {
 						userToAdd.setPassword(passwd);
 						userToAdd.setUserLevel(ulevel);
 						userToAdd.save();
+					} else if (ulevel.equals("reviewer")) {
+						Reviewer userToAdd = new Reviewer();
+						userToAdd.setUserLevel(uname);
+						userToAdd.setPassword(passwd);
+						userToAdd.setUserLevel(ulevel);
+						userToAdd.save();
 					} else {
 						User userToAdd = new User(uname, passwd, ulevel);
 						userToAdd.save();
@@ -139,8 +145,12 @@ public class UserEditPanel extends JPanel {
 						((Reference) user).setUserLevel((String) ulevelBox.getSelectedItem());
 						((Reference) user).save();
 					} else {
+						if (! user.getUserLevelString().equals((String) ulevelBox.getSelectedItem()) && ((String) ulevelBox.getSelectedItem()).equals("reviewer")) {
+							user.remove();
+							user = new Reviewer();
+						}
 						user.setUserName(unameField.getText());
-						user.setUserPassword(passwdField.getText());
+						user.setPassword(passwdField.getText());
 						user.setUserLevel((String) ulevelBox.getSelectedItem());
 						user.save();
 					}

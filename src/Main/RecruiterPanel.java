@@ -27,17 +27,17 @@ public class RecruiterPanel extends JPanel {
 	private ApplicantsPanel appPanel;
 	private LogoutPanel logoutPanel;
 	
-	public RecruiterPanel() {
-		initUI();
+	public RecruiterPanel(User currentUser) {
+		initUI(currentUser);
 	}
 	
-	private void initUI() {
+	private void initUI(User currentUser) {
 		setSize(770, 600);
 		setBackground(Color.black);
 		setLayout(new BorderLayout());
 		
 		tabs = new JTabbedPane();
-		appPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
+		appPanel = new ApplicantsPanel(currentUser, TheAppletItself.getCurrentUserLevel());
 		
 		usersCards = new JPanel();
 		usersCards.setLayout(new CardLayout());

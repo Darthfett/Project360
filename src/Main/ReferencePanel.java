@@ -13,11 +13,11 @@ public class ReferencePanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 
-	public ReferencePanel() {
-		initUI();
+	public ReferencePanel(User reference) {
+		initUI(reference);
 	}
 	
-	private void initUI(){
+	private void initUI(User reference){
 		setSize(770, 670);
 		setBackground(Color.black);
 		setLayout(new BorderLayout());
@@ -26,7 +26,7 @@ public class ReferencePanel extends JPanel {
 		add(logoutPanel, BorderLayout.NORTH);
 	
 		tabs = new JTabbedPane();
-		appsPanel = new ApplicantsPanel(TheAppletItself.getCurrentUserLevel());
+		appsPanel = new ApplicantsPanel(reference, Types.UserLevel.REFERENCE);
 		
 		/*
 		 * CHANGE APPLICANTSPANEL FOR REFERENCE

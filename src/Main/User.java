@@ -168,7 +168,7 @@ public class User {
 		return true;
 	}
 	
-	public void setUserPassword(String password) {
+	public void setPassword(String password) {
 		this.database.put("password", password);
 	}
 	
@@ -205,7 +205,12 @@ public class User {
 				System.out.println("File " + file + " has no username. Skipping that file.");
 				continue;
 			}
-			User new_user = new User();
+			User new_user;
+			if (user_data.get("userlevel").equals("reviewer")) {
+				new_user = new Reviewer();
+			} else {
+				new_user = new User();
+			}
 			new_user.database = user_data;
 			new_user.oldName = user_data.get("username");
 			User.Users.put(user_data.get("username"), new_user);

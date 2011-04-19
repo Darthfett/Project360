@@ -38,6 +38,7 @@ public class ApplicantsPanel extends JPanel {
 	 */
 	public ApplicantsPanel(User currentUser, Types.UserLevel currentUserLevel) {
 		userLevel = currentUserLevel;
+		this.currentUser = currentUser;
 		if (userLevel == Types.UserLevel.APPLICANT) {
 			currentUser = null;
 		}
@@ -110,15 +111,10 @@ public class ApplicantsPanel extends JPanel {
 			applicants = Applicant.getApplicantList();
 			ArrayList<Applicant> assigned = ((Reference) currentUser).getApplicants();
 			
-			data = new String[applicants.size()][2];
-			for (int i = 0; i < applicants.size(); i++) {
-				for (int j = 0; j < assigned.size(); j++) {
-					if (assigned.get(j).equals(applicants.get(i))) {
-						data[i][0] = applicants.get(i).getAppliedJob().getTitle();
-						data[i][1] = applicants.get(i).getUsername();
-						break;
-					}
-				}
+			data = new String[assigned.size()][2];
+			for (int i = 0; i < assigned.size(); i++) {
+				data[i][0] = assigned.get(i).getAppliedJob().getTitle();
+				data[i][1] = assigned.get(i).getUsername();
 			}
 			
 			rateButton = new JButton("Rate...");
@@ -209,6 +205,9 @@ public class ApplicantsPanel extends JPanel {
 							options[5]);
 					if(n < 6 & n > 0){
 						tempApplicant.addReferenceRating(n);
+						((Reference) currentUser).removeApplicant(tempApplicant);
+						tempApplicant.save();
+						((Reference) currentUser).save();
 					}
 				}
 

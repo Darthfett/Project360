@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -26,6 +27,7 @@ public class JobEditPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton submitButton;
 	private JButton cancelButton;
+	private JButton deleteButton;
 	private JLabel titleLabel;
 	private JLabel descLabel;
 	private JLabel deadlineLabel;
@@ -62,6 +64,7 @@ public class JobEditPanel extends JPanel {
 		
 		submitButton = new JButton("Submit");
 		cancelButton = new JButton("Cancel");
+		deleteButton = new JButton("Delete");
 		titleLabel = new JLabel("Job Title");
 		descLabel = new JLabel("Job Description");
 		deadlineLabel = new JLabel("Application Deadline (mm/dd/yyyy)");
@@ -112,8 +115,10 @@ public class JobEditPanel extends JPanel {
 		
 		submitButton.addActionListener(new JEListener());
 		cancelButton.addActionListener(new JEListener());
+		deleteButton.addActionListener(new JEListener());
 		southPanel.add(submitButton);
 		southPanel.add(cancelButton);
+		southPanel.add(deleteButton);
 		
 		add(padding, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
@@ -182,6 +187,25 @@ public class JobEditPanel extends JPanel {
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();
+			if (event.getSource() == deleteButton) {
+				ArrayList<Applicant> applicants = job.getApplicants();
+				for (int i = 0; i < applicants.size(); i++) {
+					ArrayList<User> refs = applicants.get(i).getReferences();
+					for (int j = 0; j < refs.size(); j++) {
+						((Reference)refs.get(i)).removeApplicant(applicants.get(i));
+					}
+					applicants.get(i).remove();
+				}
+				ArrayList<User> revs = Reviewer.getUserList();
+				for (int i = 0; i < revs.size(); i++) {
+					if (revs.get(i).getUserLevel() == Types.UserLevel.REVIEWER) {
+						((Reviewer) revs.get(i)).removeJob(job);
+					}
+				}
+				job.remove();
+				cl.show(cards, "JobsPanel");
+				clearFields();
+			}
 			if (event.getSource() == cancelButton) {
 				cl.show(cards, "JobsPanel");
 				clearFields();

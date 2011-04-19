@@ -61,7 +61,11 @@ public class ApplicantsPanel extends JPanel {
 
 			viewButton = new JButton("View...");
 			viewButton.setBounds(600, 55, 120, 30);
+<<<<<<< HEAD
 			viewButton.addActionListener(new APPListener());
+=======
+			viewButton.addActionListener(new ButtonListener());
+>>>>>>> bd8cc1deed16ab8d9bc7db4c4d0ec36e2d8cfeb9
 		}
 		if (userLevel == Types.UserLevel.REVIEWER){
 			/*
@@ -103,7 +107,11 @@ public class ApplicantsPanel extends JPanel {
 			
 			rateButton = new JButton("Rate...");
 			rateButton.setBounds(600, 55, 120, 30);
+<<<<<<< HEAD
 			rateButton.addActionListener(new APPListener());
+=======
+			rateButton.addActionListener(new ButtonListener());
+>>>>>>> bd8cc1deed16ab8d9bc7db4c4d0ec36e2d8cfeb9
 		}
 		
 		appsTable = new JTable(data, columnNames);

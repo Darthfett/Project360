@@ -40,7 +40,7 @@ import Main.Types.UserLevel;
 
 public class User {
 	//TODO: Make additional constructors that save the user.
-	private Hashtable<String, String> database;
+	protected Hashtable<String, String> database;
 	private static File UserDatabaseLocation = new File("../Users");
 	private static Hashtable<String,User> Users = new Hashtable<String,User>();
 	private String oldName;

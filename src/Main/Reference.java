@@ -9,14 +9,10 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-public class Reference {
+public class Reference extends User{
 	private static File ReferenceDatabaseLocation = new File("../References");
 	private static Hashtable<String, Reference> References = new Hashtable<String, Reference>();
-	private Hashtable<String, String> database;
 	private Integer oldId;
-
-	private String email;
-	private ArrayList<Applicant> applicants;
 
 	/* Reference constructor */
 
@@ -35,6 +31,7 @@ public class Reference {
 		}
 		database.put("applicants", "");
 		database.put("password", PasswordGenerator.createPassword());
+		database.put("userlevel", "reference");
 		Reference.References.put(database.get("id"), this);
 		oldId = null;
 	}
@@ -59,6 +56,7 @@ public class Reference {
 		}
 		database.put("applicants", "");
 		database.put("password", PasswordGenerator.createPassword());
+		database.put("userlevel", "reference");
 		Reference.References.put(database.get("id"), this);
 		oldId = null;
 	}
@@ -87,6 +85,14 @@ public class Reference {
 		}
 		return null;
 	}
+	
+	public static User getUserFromUserName(String username) {
+		/* 
+		 * Given a username, will try to find a User of that username.
+		 * Invalid usernames will return null.
+		 */
+		return Reference.getReferenceFromEmail(username);
+	}
 
 	public Integer getId() {
 		return new Integer(database.get("id"));
@@ -97,6 +103,14 @@ public class Reference {
 	}
 	
 	public String getEmail() {
+		return database.get("email");
+	}
+	
+	public void setUsername(String email) {
+		database.put("email", email);
+	}
+	
+	public String getUsername() {
 		return database.get("email");
 	}
 

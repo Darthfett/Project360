@@ -112,6 +112,7 @@ public class LoginView extends JDialog{
 					} else {
 						replacePanel = new ReferencePanel();
 						cleanUp();
+						return;
 					}
 				}
 			}

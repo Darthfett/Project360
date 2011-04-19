@@ -1,6 +1,7 @@
 package Main;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -21,9 +22,11 @@ public class ApplicantsPanel extends JPanel {
 	private JButton rateButton;
 	private JPanel innerPanel;
 	private ArrayList<Applicant> applicants;
+	private Types.UserLevel userLevel;
 
 	public ApplicantsPanel(Types.UserLevel userLevel) {
 		initUI(userLevel);
+		this.userLevel = userLevel;
 	}
 	
 	public Applicant getSelectedApplicant() {
@@ -66,7 +69,7 @@ public class ApplicantsPanel extends JPanel {
 
 			viewButton = new JButton("View...");
 			viewButton.setBounds(600, 55, 120, 30);
-			viewButton.addActionListener(new ButtonListener());
+			viewButton.addActionListener(new APPListener());
 			add(viewButton);
 		}
 
@@ -75,33 +78,33 @@ public class ApplicantsPanel extends JPanel {
 			 * For the reviewer, we will show only a subset of the applicants.
 			 */
 			viewButton = new JButton("View...");
-			viewButton.addActionListener(new ButtonListener());
+			viewButton.addActionListener(new APPListener());
 			viewButton.setBounds(600, 55, 120, 30);
 			add(viewButton);
 		}
 
 		if (userLevel == Types.UserLevel.REFERENCE){
-			/*
-			 * For the reviewer, we will show only a subset of the applicants.
-			 */
+
 			rateButton = new JButton("Rate...");
 			rateButton.setBounds(600, 55, 120, 30);
-			rateButton.addActionListener(new ButtonListener());
+			rateButton.addActionListener(new RateListener());
 			add(rateButton);
 		}
 	}
 	
-	private class ButtonListener implements ActionListener{
+	public ApplicantsPanel getThisPanel() {
+		return this;
+	}
+	
+	private class RateListener implements ActionListener{
 
-		@Override
 		public void actionPerformed(ActionEvent event) {
-			// TODO Auto-generated method stub
 			JButton source = (JButton)event.getSource();
 
-			if(source == viewButton){
+			if(source == viewButton) {
 				//handle view here
 			}
-			if(source == rateButton){
+			if(source == rateButton) {
 				Applicant tempApplicant = getSelectedApplicant();
 
 				if(tempApplicant != null){
@@ -114,13 +117,40 @@ public class ApplicantsPanel extends JPanel {
 							null,
 							options,
 							options[5]);
-					if(n < 6 & n > 0){
+					if(n < 6 & n > 0) {
 						tempApplicant.addReferenceRating(n);
 					}
 				}
-
 			}
 		}
-
+	}
+	
+	private class APPListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			JPanel cards = (JPanel) getThisPanel().getParent();
+			CardLayout cl = (CardLayout) cards.getLayout();
+			Applicant app = getThisPanel().getSelectedApplicant();
+			JPanel parent = null;
+			ApplicantViewPanel avp = null;
+			if (userLevel == Types.UserLevel.RECRUITER) {
+				parent = (RecruiterPanel) cards.getParent().getParent();
+				avp = ((RecruiterPanel) parent).getApplicantViewPanel();
+			}
+			if (userLevel == Types.UserLevel.REVIEWER) {
+				parent = (ReviewerPanel) cards.getParent().getParent();
+				avp = ((ReviewerPanel)parent).getApplicantViewPanel();
+			}
+			
+			ArrayList<User> refs = app.getReferences();
+			avp.getNameField().setText(app.getUsername());
+			System.out.println(refs.get(0));
+			avp.getRef1Field().setText(refs.get(0).getUsername());
+			avp.getRef2Field().setText(refs.get(1).getUsername());
+			avp.getRef3Field().setText(refs.get(2).getUsername());
+			avp.getResume().setText(app.getResume());
+			
+			cl.show(cards, "ApplicantViewPanel");
+		}
 	}
 }
+

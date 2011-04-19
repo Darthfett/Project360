@@ -15,19 +15,27 @@ public class RecruiterPanel extends JPanel {
 	private static final String JOBSPANEL = "JobsPanel";
 	private static final String JOBADDPANEL = "JobAddPanel";
 	private static final String JOBEDITPANEL = "JobEditPanel";
+	private static final String APPLICANTSPANEL = "ApplicantsPanel";
+	private static final String APPLICANTVIEWPANEL = "ApplicantViewPanel";
 	private JTabbedPane tabs;
 	private JobsPanel jobsPanel;
 	private JPanel usersCards;
 	private JPanel jobsCards;
+	private JPanel appsCards;
 	private UsersPanel usersPanel;
 	private UserEditPanel userEditPanel;
 	private UserEditPanel userAddPanel;
 	private JobEditPanel jobAddPanel;
 	private JobEditPanel jobEditPanel;
-	private ApplicantsPanel appPanel;
+	private ApplicantsPanel appsPanel;
+	private AppViewPanel appViewPanel;
 	private LogoutPanel logoutPanel;
+	private Types.UserLevel userLevel;
+	private User currentUser;
 	
 	public RecruiterPanel(User currentUser) {
+		this.currentUser = currentUser;
+		userLevel = TheAppletItself.getCurrentUserLevel();
 		initUI(currentUser);
 	}
 	
@@ -37,8 +45,12 @@ public class RecruiterPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		tabs = new JTabbedPane();
-		appPanel = new ApplicantsPanel(currentUser, TheAppletItself.getCurrentUserLevel());
-		
+		appsPanel = new ApplicantsPanel(currentUser, userLevel);
+		appsCards = new JPanel();
+		appsCards.setLayout(new CardLayout());
+		appViewPanel = new AppViewPanel(userLevel);
+		appsCards.add(appsPanel, APPLICANTSPANEL);
+		appsCards.add(appViewPanel, APPLICANTVIEWPANEL);
 		usersCards = new JPanel();
 		usersCards.setLayout(new CardLayout());
 		usersPanel = new UsersPanel();
@@ -50,7 +62,7 @@ public class RecruiterPanel extends JPanel {
 		
 		jobsCards = new JPanel();
 		jobsCards.setLayout(new CardLayout());
-		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		jobsPanel = new JobsPanel(userLevel);
 		jobEditPanel = new JobEditPanel('e');
 		jobAddPanel = new JobEditPanel('a');
 		jobsCards.add(jobsPanel, JOBSPANEL);
@@ -59,7 +71,7 @@ public class RecruiterPanel extends JPanel {
 		
 		tabs.addTab("Jobs", jobsCards);
 		tabs.addTab("Users", usersCards);
-		tabs.addTab("Applicants", appPanel);
+		tabs.addTab("Applicants", appsCards);
 		tabs.setSize(770, 600);
 		add(tabs, BorderLayout.CENTER);
 		
@@ -91,6 +103,10 @@ public class RecruiterPanel extends JPanel {
 		return jobEditPanel;
 	}
 	
+	public AppViewPanel getAppViewPanel(){
+		return appViewPanel;
+	}
+	
 	public void refreshUsers() {
 		usersCards.remove(usersPanel);
 		usersPanel = new UsersPanel();
@@ -99,7 +115,13 @@ public class RecruiterPanel extends JPanel {
 	
 	public void refreshJobs() {
 		jobsCards.remove(jobsPanel);
-		jobsPanel = new JobsPanel(TheAppletItself.getCurrentUserLevel());
+		jobsPanel = new JobsPanel(userLevel);
 		jobsCards.add(jobsPanel, JOBSPANEL);
+	}
+	
+	public void refreshApps() {
+		appsCards.remove(appsPanel);
+		appsPanel = new ApplicantsPanel(currentUser, userLevel);
+		appsCards.add(appsPanel, APPLICANTSPANEL);
 	}
 }

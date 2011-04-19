@@ -17,10 +17,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class JobEditPanel extends JPanel{
+/*
+ * The JobEditPanel contains the recruiters user interface for creating and editing 
+ * jobs in the system.
+ */
+public class JobEditPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private char mode;
 	private JButton submitButton;
 	private JButton cancelButton;
 	private JLabel titleLabel;
@@ -46,12 +49,16 @@ public class JobEditPanel extends JPanel{
 	private JPanel centerTop;
 	private JPanel centerBottom;
 	private Job job;
+	private char mode;
 	
-	//mode: 'a' for add, 'e' for edit
+	/*
+	 * The constructor takes a character as a parameter, which determines if this
+	 * JobEditPanel is for creating or editing jobs: 'a' for add, 'e' for edit.
+	 */
 	public JobEditPanel(char mode) {
 		
-		setLayout(new BorderLayout());
 		this.mode = mode;
+		setLayout(new BorderLayout());
 		
 		submitButton = new JButton("Submit");
 		cancelButton = new JButton("Cancel");
@@ -115,7 +122,7 @@ public class JobEditPanel extends JPanel{
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
 	}
 	
-		public JLabel getIdLabel() {
+	public JLabel getIdLabel() {
 		return jobIdLabel;
 	}
 		
@@ -152,10 +159,24 @@ public class JobEditPanel extends JPanel{
 		description.setText("");
 	}
 	
+	/*
+	 * Return a reference to this JobEditPanel for use in the listener class below.
+	 */
 	public JPanel getThisPanel() {
 		return this;
 	}
-		
+	
+	/*
+	 * This listener is applied to this panel's buttons and accomplishes the following:
+	 * o Determine which button is being pressed, and redirect control accordingly.
+	 * o If the cancel button is being pressed, show the JobsPanel.
+	 * o If the submit button is being pressed, either create a new job or edit an existing
+	 * 		job using the information from the text fields.
+	 * 	o Save the job object in the database.
+	 * 	o Clear the text fields and show the User edit
+	 * o If the delete button is pressed, delete the job which is being edited from the database,
+	 *  remove it from the jobs list, and show the JobsPanel.
+	 */
 	private class JEListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();

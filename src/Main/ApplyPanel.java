@@ -16,6 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/*
+ * The ApplyPanel contains the user interface which allows users to apply for jobs.
+ */
 public class ApplyPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -24,19 +27,19 @@ public class ApplyPanel extends JPanel {
 	private JPanel southPanel;
 	private JPanel centerPanel;
 	private JPanel padding;
-	private JButton submitButton;
-	private JButton cancelButton;
-	private JTextField nameField;
-	private JTextField ref1Field;
-	private JTextField ref2Field;
-	private JTextField ref3Field;
-	private JTextArea resume;
 	private JLabel nameLabel;
 	private JLabel ref1Label;
 	private JLabel ref2Label;
 	private JLabel ref3Label;
 	private JLabel resumeLabel;
 	private JScrollPane resumeScroll;
+	protected JButton cancelButton;
+	protected JTextField nameField;
+	protected JTextField ref1Field;
+	protected JTextField ref2Field;
+	protected JTextField ref3Field;
+	protected JButton submitButton;
+	protected JTextArea resume;
 	
 	public ApplyPanel() {
 		
@@ -88,6 +91,9 @@ public class ApplyPanel extends JPanel {
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
 	}
 	
+	/*
+	 * Get a reference to this ApplyPanel for use in the listener.
+	 */
 	public JPanel getThisPanel() { 
 		return this;
 	}
@@ -100,6 +106,13 @@ public class ApplyPanel extends JPanel {
 		resume.setText("");
 	}
 	
+	/*
+	 * This listener, which is used with the apply button, accomplishes the following:
+	 * o Show a confirmation dialog to confirm the user's intention to submit the application.
+	 * o If the user wants to submit, create an Applicant object in the system using the
+	 * 		provided information.
+	 * o Clear the text fields and show the ApplicantsPanel.
+	 */
 	private class ApplyListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
@@ -135,9 +148,6 @@ public class ApplyPanel extends JPanel {
 					applicant.setResume(resume.getText());
 					applicant.setAppliedJob(jobsPanel.getSelectedJob());
 					applicant.save();
-					/*
-					 * TODO: Make this do stuff
-					 */
 					clearFields();
 					cl.show(cards, "JobsPanel");
 				}

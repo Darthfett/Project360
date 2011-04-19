@@ -42,6 +42,11 @@ public class JobsPanel extends JPanel{
 	private ArrayList<Job> jobs;
 	private Types.UserLevel userType;
 
+	/*
+	 * The argument taken by the constructor of type Types.UserLevel
+	 * determines which type of user is logged in to the system. 
+	 * (See Types.java)
+	 */
 	public JobsPanel(Types.UserLevel userLevel) {
 		setLayout(new GridLayout(1,2));
 		
@@ -104,15 +109,27 @@ public class JobsPanel extends JPanel{
 		}
 	}
 	
+	/*
+	 * Return a reference to this JobsPanel for use in this class' listener.
+	 */
 	public JPanel getThisPanel() {
 		return this;
 	}
 	
+	/*
+	 * Return a reference to the job which is currently selected in the jobsList JList.
+	 */
 	public Job getSelectedJob() {
 		Job selectedJob =  jobs.get(jobList.getSelectedIndex());
 		return selectedJob;
 	}
 	
+	/*
+	 * This listener determines whether or not a job is selected. This is done so the apply
+	 * button cannot be pressed unless a job is selected. It also causes the job's information
+	 * of the selected job to be displayed in the right panel. Once a job is selected, the apply
+	 * button is enabled.
+	 */
 	private class JPSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent event) {
 			if (getSelectedJob() != null) {
@@ -127,6 +144,14 @@ public class JobsPanel extends JPanel{
 		}
 	}
 	
+	/*
+	 * This listener is used for the edit/create buttons for recruiters, and for the apply
+	 * button for regular users. It first gets a reference to it parent RecruiterPanel/ApplicantPanel
+	 * in order to use CardLayout to accomplish the view switching. As recruiter, pressing the create
+	 * button shows a JobEditPanel('a'), and pressing edit shows a JobEditPanel('e') with information
+	 * filled in based on the currently selected job. Pressing the apply button when not logged simply
+	 * shows an ApplyPanel.
+	 */
 	private class JPListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
@@ -157,7 +182,6 @@ public class JobsPanel extends JPanel{
 				
 				/* TextAreas */
 				jePanel.getJobDescriptionArea().setText(job.getDescription());
-				
 				cl.show(cards, "JobEditPanel");
 			}
 			if (event.getSource() == applyButton) {

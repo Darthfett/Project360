@@ -6,9 +6,16 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+/*
+ * This is the panel which contains the entire user interface for recruiters. There
+ * are three tabs: Jobs, Users, and Applicants, which contain a JobsPanel, UsersPanel,
+ * and ApplicantsPanel respectively.
+ */
 public class RecruiterPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
+	
+	// These constants are used by the CardLayout for each tab
 	private static final String USERSPANEL = "UsersPanel";
 	private static final String USEREDITPANEL = "UserEditPanel";
 	private static final String USERADDPANEL = "UserAddPanel";
@@ -17,6 +24,7 @@ public class RecruiterPanel extends JPanel {
 	private static final String JOBEDITPANEL = "JobEditPanel";
 	private static final String APPLICANTSPANEL = "ApplicantsPanel";
 	private static final String APPLICANTVIEWPANEL = "ApplicantViewPanel";
+	
 	private JTabbedPane tabs;
 	private JobsPanel jobsPanel;
 	private JPanel usersCards;
@@ -33,12 +41,19 @@ public class RecruiterPanel extends JPanel {
 	private Types.UserLevel userLevel;
 	private User currentUser;
 	
+	/*
+	 * The constructor takes the currently logged in user as a parameter.
+	 * It also sets the userLevel Field as the current user level of the applet.
+	 */
 	public RecruiterPanel(User currentUser) {
 		this.currentUser = currentUser;
 		userLevel = TheAppletItself.getCurrentUserLevel();
 		initUI(currentUser);
 	}
 	
+	/*
+	 * This function creates and lays out the actual user interface.
+	 */
 	private void initUI(User currentUser) {
 		setSize(770, 600);
 		setBackground(Color.black);

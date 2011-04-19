@@ -9,9 +9,10 @@ import javax.swing.JTabbedPane;
 /*
  * This is the JPanel which is shown by the applet when an applicant is using the
  * system. It is the default content of the applet when no user is logged in. The 
- * panel consists of a login panel at the top, and and list of jobs. The selected
- * job's information is displayed in the right-hand panel. When a job is selected,
- * the user may begin applying for that job by pressing the apply button.
+ * panel consists of a login panel at the top, and and list of jobs, which is a 
+ * JobsPanel object. The selected job's information is displayed in the right-hand
+ * panel. When a job is selected, the user may begin applying for that job by
+ * pressing the apply button.
  */
 public class ApplicantPanel extends JPanel {
 	

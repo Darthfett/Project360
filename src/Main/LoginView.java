@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+/*
+ * This class is a modal dialog box which serves as the user interface for allowing
+ * users to log in.
+ */
 public class LoginView extends JDialog{
 
 	private static final long serialVersionUID = 1L;
@@ -87,10 +91,18 @@ public class LoginView extends JDialog{
 		this.dispose();
 	}
 	
+	/*
+	 * This method is used by the LoginPanel to extract the new content for the
+	 * applet based on the type of user logging in to the system.
+	 */
 	public JPanel getReplacePanel() {
 		return replacePanel;
 	}
 	
+	/*
+	 * The button listener does the work of determining if a login is valid and
+	 * creates the panel which will become the content pane of the applet.
+	 */
 	private class LoginListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent event) {
@@ -115,10 +127,13 @@ public class LoginView extends JDialog{
 					}
 				}
 			}
+			
 			if (! currentUser.getPassword().equals(passwd)) {
 				errorLabel.setText(errorMsg);
 				return;
 			}
+			
+			//If a match between username and password is found in the user list...
 			Types.UserLevel userLevel = currentUser.getUserLevel();
 			TheAppletItself.setCurrentUserLevel(userLevel);
 			switch(userLevel) {

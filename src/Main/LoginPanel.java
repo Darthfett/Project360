@@ -11,6 +11,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/*
+ * This is the black bar that appears at the top of the interface when no user is
+ * logged in. It contains a single button to login, which shows the login
+ * dialog box, LoginView.
+ */
 public class LoginPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -33,6 +38,14 @@ public class LoginPanel extends JPanel {
 		
 		add(buttonPanel, BorderLayout.EAST);
 		
+		/*
+		 * This listener allows the login button to show the LoginView.
+		 * The Dialog is modal, which allows us time to extract 
+		 * the type of user logging in with the getReplacePanel() call.
+		 * Then we set the content pane of the applet to the appropriate panel
+		 * type. The two function calls at the end, invalidate()/validate() are
+		 * used to fix the UI after the content pane has been switched.
+		 */
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				try {

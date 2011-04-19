@@ -20,6 +20,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/*
+ * This is the user interface component which contains the list of jobs in the system. 
+ * It contains the functionality to add/edit jobs, delete jobs, and apply for jobs, 
+ * depending on the type of user logged in, which is determined by the parameter passed to
+ * the constructor.
+ */
 public class JobsPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JList jobList;

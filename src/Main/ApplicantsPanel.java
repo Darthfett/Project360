@@ -14,6 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+/*
+ * The applicants panel class contains a list which displays a list of applicants
+ * that exist in the system. It displays different sets of applicants depending on
+ * which user is logged in. Recruiters can see all of the applicants, and reviewers
+ * and references onyl see the applicants they need to see.
+ */
+
 public class ApplicantsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable appsTable;
@@ -25,6 +32,10 @@ public class ApplicantsPanel extends JPanel {
 	private Types.UserLevel userLevel;
 	private User currentUser;
 
+	/*
+	 * The constructor for ApplicantsPanel takes a User object, the currently
+	 * logged in user, and a UserLevel (See Types.java).
+	 */
 	public ApplicantsPanel(User currentUser, Types.UserLevel currentUserLevel) {
 		userLevel = currentUserLevel;
 		if (userLevel == Types.UserLevel.APPLICANT) {
@@ -34,6 +45,10 @@ public class ApplicantsPanel extends JPanel {
 		initUI(currentUser, userLevel);
 	}
 	
+	/*
+	 * Return a reference to the applicant object which is currently selected
+	 * in the appsTable JTable.
+	 */
 	public Applicant getSelectedApplicant() {
 		Integer selectedRow = appsTable.getSelectedRow();
 		Applicant selectedApplicant = null;
@@ -43,7 +58,10 @@ public class ApplicantsPanel extends JPanel {
 		return selectedApplicant;
 	}
 
-	public void initUI(User currentUser, Types.UserLevel unused_currentUserLevel) {
+	/*
+	 * Create and lay out the user interface of the ApplicantsPanel.
+	 */
+	private void initUI(User currentUser, Types.UserLevel unused_currentUserLevel) {
 		setLayout(null);
 		String[] columnNames = {"Jobs", "Applicants"};
 		String[][] data = null;
@@ -128,11 +146,24 @@ public class ApplicantsPanel extends JPanel {
 		}
 	}
 	
+	/*
+	 * Return a reference to this ApplicantsPanel for use by the 
+	 * button listener.
+	 */
 	public ApplicantsPanel getThisPanel() {
 		return this;
 	}
 	
-	private class APPListener implements ActionListener{
+	/*
+	 * This is the listener which is applied to the view/rate button.
+	 * It accomplishes the following:
+	 * 	o Get a reference to the parent RecruiterPanel/ReviewerPanel/ReferencePanel,
+	 * 		which is used CardLayout to accomplish the view switching to an AppViewPanel.
+	 * 	o Determine which type of AppViewPanel to show
+	 *  o Show the appropriate panel, either to view the applicant, or to rate the applicant
+	 *  	in the case of a Reference user.
+	 */
+	private class APPListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent event) {
 			JButton source = (JButton)event.getSource();
@@ -155,9 +186,9 @@ public class ApplicantsPanel extends JPanel {
 				//Not sure if this stuff is correct or not...
 				ArrayList<User> refs = app.getReferences();
 				avp.getNameField().setText(app.getUsername());
-				//avp.getRef1Field().setText(refs.get(0).getUsername());
-				//avp.getRef2Field().setText(refs.get(1).getUsername());
-				//avp.getRef3Field().setText(refs.get(2).getUsername());
+				avp.getRef1Field().setText(refs.get(0).getUsername());
+				avp.getRef2Field().setText(refs.get(1).getUsername());
+				avp.getRef3Field().setText(refs.get(2).getUsername());
 				avp.getResumeArea().setText(app.getResume());
 				
 				cl.show(cards, "ApplicantViewPanel");

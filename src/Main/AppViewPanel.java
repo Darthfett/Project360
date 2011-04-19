@@ -9,7 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-
+/*
+ * This is the panel shown to recruiters and reviewers who wish to view or rate
+ * an applicant.
+ */
 public class AppViewPanel extends ApplyPanel {
 	
 	private static final long serialVersionUID = 1L;

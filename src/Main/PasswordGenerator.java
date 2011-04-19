@@ -6,7 +6,6 @@ public class PasswordGenerator {
 	private static String allowedChars = new String("abdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 	
 	public static String createPassword() {
-		System.out.println("Create a freakin' password!:");
 		Integer length = new Random().nextInt(4) + 8;
 		String password = "";
 		Integer random;
@@ -15,7 +14,6 @@ public class PasswordGenerator {
 			String next = allowedChars.substring(random,random+1);
 			password += next;
 		}
-		System.out.println(password);
 		return password;
 	}
 

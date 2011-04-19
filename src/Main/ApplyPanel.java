@@ -30,12 +30,12 @@ public class ApplyPanel extends JPanel {
 	private JLabel ref3Label;
 	private JLabel resumeLabel;
 	private JScrollPane resumeScroll;
-	protected JButton submitButton;
 	protected JButton cancelButton;
 	protected JTextField nameField;
 	protected JTextField ref1Field;
 	protected JTextField ref2Field;
 	protected JTextField ref3Field;
+	protected JButton submitButton;
 	protected JTextArea resume;
 	
 	public ApplyPanel() {
@@ -108,10 +108,9 @@ public class ApplyPanel extends JPanel {
 			
 			if (event.getSource() == submitButton) {
 				confirm = JOptionPane.showConfirmDialog(null, "Submit application?",
-							"Apply", JOptionPane.YES_NO_OPTION);
+									"Apply", JOptionPane.YES_NO_OPTION);
 				if (confirm == JOptionPane.YES_OPTION) {
-					if (nameField.getText().equals("") || ref1Field.getText().equals("") || 
-							ref2Field.getText().equals("") || ref3Field.getText().equals("") || resume.getText().equals("")) {
+					if (nameField.getText().equals("") || ref1Field.getText().equals("") || ref2Field.getText().equals("") || ref3Field.getText().equals("") || resume.getText().equals("")) {
 						return;
 					}
 					Applicant applicant = new Applicant();
@@ -120,8 +119,11 @@ public class ApplyPanel extends JPanel {
 					Reference ref3 = new Reference();
 					
 					ref1.setEmail(ref1Field.getText());
+					ref1.addApplicant(applicant);
 					ref2.setEmail(ref2Field.getText());
+					ref2.addApplicant(applicant);
 					ref3.setEmail(ref3Field.getText());
+					ref3.addApplicant(applicant);
 					ref1.save();
 					ref2.save();
 					ref3.save();

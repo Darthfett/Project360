@@ -66,6 +66,7 @@ public class UsersPanel extends JPanel {
 	
 	public String[][] buildUserData() {	
 		ArrayList<User> userList = User.getUserList();
+		userList.addAll(Reference.getReferenceList());
 		String[][] usersData = new String[userList.size()][3];
 		for (int i = 0; i < userList.size(); i++ ) {
 			usersData[i][0] = userList.get(i).getUsername();
@@ -96,6 +97,9 @@ public class UsersPanel extends JPanel {
 				RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
 				String userName = recPanel.getUsersPanel().getSelectedUser();
 				User user = User.getUserFromUserName(userName);
+				if (user == null) {
+					user = Reference.getReferenceFromEmail(userName);
+				}
 				recPanel.getUserEditPanel().getUnameField().setText(user.getUsername());
 				recPanel.getUserEditPanel().getPasswdField().setText(user.getPassword());
 				recPanel.getUserEditPanel().getUlevelBox().setSelectedItem((String) user.getUserLevelString());

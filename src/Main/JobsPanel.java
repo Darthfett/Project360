@@ -131,12 +131,8 @@ public class JobsPanel extends JPanel{
 			if (event.getSource() == editButton) {
 				RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
 				JobEditPanel jePanel = recPanel.getJobEditPanel();
-				/*
-				 * TODO: Make this do stuff... get correct job from job list with jobsPanel
-				 * reference above, and load correct info into jobEditPanel fields.
-				 */
-				
 				Job job = getSelectedJob();
+				jePanel.setJob(job);
 				
 				/* Labels */
 				jePanel.getIdLabel().setText(job.getId().toString());

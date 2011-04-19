@@ -20,7 +20,6 @@ import javax.swing.JTextField;
 public class JobEditPanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
-	private char mode;
 	private JButton submitButton;
 	private JButton cancelButton;
 	private JLabel titleLabel;
@@ -46,12 +45,12 @@ public class JobEditPanel extends JPanel{
 	private JPanel centerTop;
 	private JPanel centerBottom;
 	private Job job;
+	private char mode;
 	
-	//mode: 'a' for add, 'e' for edit
 	public JobEditPanel(char mode) {
 		
-		setLayout(new BorderLayout());
 		this.mode = mode;
+		setLayout(new BorderLayout());
 		
 		submitButton = new JButton("Submit");
 		cancelButton = new JButton("Cancel");
@@ -115,7 +114,7 @@ public class JobEditPanel extends JPanel{
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
 	}
 	
-		public JLabel getIdLabel() {
+	public JLabel getIdLabel() {
 		return jobIdLabel;
 	}
 		

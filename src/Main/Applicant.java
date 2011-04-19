@@ -125,16 +125,17 @@ public class Applicant {
 	public ArrayList<User> getReferences() {
 		ArrayList<User> references = new ArrayList<User>();
 		String value = database.get("references");
+		System.out.println(value);
 		if (value == null) {
 			return references;
 		}
 		if (value.contains(",")) {
 			String[] refs = value.split(",");
 			for (int i = 0; i < refs.length; i++) {
-				references.add(User.getUserFromUserName(refs[i]));
+				references.add(Reference.getReferenceFromEmail(refs[i]));
 			}
 		} else if (! value.equals("")) {
-			references.add(User.getUserFromUserName(value));
+			references.add(Reference.getReferenceFromEmail(value));
 		}
 		return references;
 	}
@@ -281,6 +282,7 @@ public class Applicant {
 			Applicant new_applicant = new Applicant(new Integer(applicant_data.get("id")));
 			new_applicant.oldId = new Integer(file.split("\\.")[0]);
 			new_applicant.database = applicant_data;
+			new_applicant.getReferences();
 		}
 	}
 }

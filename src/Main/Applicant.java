@@ -42,7 +42,6 @@ public class Applicant {
 			}
 		}
 		if (database.get("id") == null) {
-			System.out.println("new id");
 			database.put("id", new Integer(i+1).toString());
 		}
 		Applicant.Applicants.put(database.get("id"), this);
@@ -63,7 +62,6 @@ public class Applicant {
 				}
 			}
 			if (database.get("id") == null) {
-				System.out.println("new id");
 				database.put("id", new Integer(i+1).toString());
 			}
 			
@@ -125,7 +123,6 @@ public class Applicant {
 	public ArrayList<User> getReferences() {
 		ArrayList<User> references = new ArrayList<User>();
 		String value = database.get("references");
-		System.out.println(value);
 		if (value == null) {
 			return references;
 		}

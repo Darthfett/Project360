@@ -1,5 +1,46 @@
 package Main;
 
+/*
+ * Applicant class
+ * 
+ * Represents an application or applicant for a specified job.
+ * 
+ * 
+ * Members
+ * 	Static
+ *    	- ReferenceDatabaseLocation:File
+ *  	- References:Hashtable<String, Reference> //Maps usernames to Applicants
+ * 
+ * 	Dynamic
+ * 		- data:Hashtable - Stores all the data for the applicant
+ * 		- oldId:Integer - Stores the old id for the applicant, used to know when a new file should be created
+ * 
+ * Methods
+ * 	 Static
+ * 		+ getApplicantFromId(Integer):Reference
+ * 		+ getApplicantList():ArrayList<Reference>
+ * 		+ loadApplicantList()
+ * 
+ * 	 Dynamic
+ * 		+ getId():Integer
+ * 		+ setId(Integer)
+ * 		+ setReferenceRatings(ArrayList<Integer>)
+ * 		+ addReferenceRating(Integer)
+ * 		+ getReferenceRatings:ArrayList<Integer>
+ * 		+ addReference(Reference)
+ * 		+ getReferences():ArrayList<Reference>
+ * 		+ setReviewerRating(Integer)
+ * 		+ setReviewerComment(Integer)
+ * 		+ getReviewerRating():Integer
+ * 		+ getReviewerComment():String
+ * 		+ setUsername(String)
+ * 		+ getUsername():String
+ * 		+ setAppliedJob(Job)
+ * 		+ getAppliedJob():Job
+ * 		+ remove()
+ * 		+ save()
+ * 
+ */
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

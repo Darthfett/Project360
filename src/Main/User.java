@@ -10,6 +10,7 @@ import Main.Types.UserLevel;
 /*
  * User class
  * 
+ * Works as the generic log-in-able user, that is of a certain user level
  * 
  * Members
  * 	Static
@@ -17,24 +18,26 @@ import Main.Types.UserLevel;
  *  	- Users:Hashtable<String,User> //Maps usernames to Users
  * 
  * 	Dynamic
- * 		- data:Hashtable
+ * 		- data:Hashtable - Stores all the data for the users
+ * 		- oldName:String - Stores the old name for the user, used to know when a new file should be created
  * 
  * Methods
  * 	 Static
  * 		+ getUserFromUserName(String):User
+ * 		+ getUserList():ArrayList<User>
+ * 		+ loadUserList()
  * 
  * 	 Dynamic
- * 		+ getUserList():ArrayList<User>
  *   	+ getUsername():String
  *   	+ getUserLevelString():String
  *   	+ getUserLevel():Main.Types.UserLevel
- * 		+ getUserPassword():String
+ * 		+ getPassword():String
  * 		+ remove()
  * 		+ save()
  * 		+ setUserName(String)
- * 		+ setUserPassword(String)
+ * 		+ setPassword(String)
  * 		+ setUserLevel(String)
- * 		+ loadUserList()
+ * 
  * 
  */
 
@@ -64,6 +67,9 @@ public class User {
 	}
 
 	public String getUsername() {
+		if (database.get("username") == null || database.get("username") == "") {
+			return "";
+		}
 		return (String) database.get("username");
 	}
 	

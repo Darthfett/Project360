@@ -9,6 +9,42 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+/*
+ * Reference class extends User
+ * 
+ * Works as a log-in-able user that is created with a random password.
+ * 
+ * Members
+ * 	Static
+ *    	- ReferenceDatabaseLocation:File
+ *  	- References:Hashtable<String, Reference> //Maps usernames to References
+ * 
+ * 	Dynamic
+ * 		- data:Hashtable - Stores all the data for the users
+ * 		- oldId:Integer - Stores the old id for the reference, used to know when a new file should be created
+ * 
+ * Methods
+ * 	 Static
+ * 		+ getReferenceFromId(Integer):Reference
+ * 		+ getReferenceFromEmail(String):Reference
+ * 		+ getReferenceList():ArrayList<Reference>
+ * 		+ loadReferenceList()
+ * 
+ * 	 Dynamic
+ *   	+ getEmail():String
+ * 		+ getPassword():String
+ * 		+ remove()
+ * 		+ save()
+ * 		+ setEmail(String)
+ * 		+ setPassword(String)
+ * 		+ setUserLevel(String)
+ * 		+ setApplicants(ArrayList<Applicant>)
+ * 		+ getApplicants():ArrayList<Applicant>
+ * 		+ addApplicant(Applicant)
+ * 		+ removeApplicant(Applicant)
+ * 
+ * 
+ */
 public class Reference extends User{
 	private static File ReferenceDatabaseLocation = new File("../References");
 	private static Hashtable<String, Reference> References = new Hashtable<String, Reference>();

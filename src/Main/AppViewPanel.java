@@ -92,11 +92,11 @@ public class AppViewPanel extends ApplyPanel {
 					ratePanel.set(applicant);
 					cl.show(cards, "RatingsPanel");
 				}
-				if (userLevel == Types.UserLevel.RECRUITER) {
+				//if (userLevel == Types.UserLevel.REVEIWER) {
 					/*
 					 * Need interface for reviewers to rate/comment
 					 */
-				}
+				//}
 			}
 		}
 	}

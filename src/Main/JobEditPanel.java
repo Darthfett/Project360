@@ -278,7 +278,9 @@ public class JobEditPanel extends JPanel {
 						ArrayList<User> users = User.getUserList();
 							for (int i = 0; i < users.size(); i++) {
 								if (users.get(i).getUsername().equals(selectedReviewer)) {
-									((Reviewer) users.get(i)).addJob(job);
+									Reviewer reviewer = (Reviewer) users.get(i);
+									reviewer.addJob(job);
+									reviewer.save();
 								}
 							}
 					}

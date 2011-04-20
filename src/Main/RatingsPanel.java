@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class RatingsPanel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private JLabel ref1Label;
 	private JLabel ref2Label;
 	private JLabel ref3Label;
@@ -53,6 +55,7 @@ public class RatingsPanel extends JPanel {
 		northPanel.add(ref2Label);
 		northPanel.add(ref2Rating);
 		northPanel.add(ref3Label);
+		northPanel.add(ref3Rating);
 		northPanel.add(revLabel);
 		northPanel.add(revRating);
 		northPanel.setPreferredSize(new Dimension(470, 80));

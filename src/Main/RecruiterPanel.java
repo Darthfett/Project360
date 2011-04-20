@@ -24,6 +24,7 @@ public class RecruiterPanel extends JPanel {
 	private static final String JOBEDITPANEL = "JobEditPanel";
 	private static final String APPLICANTSPANEL = "ApplicantsPanel";
 	private static final String APPLICANTVIEWPANEL = "ApplicantViewPanel";
+	private static final String RATINGSPANEL = "RatingsPanel";
 	
 	private JTabbedPane tabs;
 	private JobsPanel jobsPanel;
@@ -37,6 +38,7 @@ public class RecruiterPanel extends JPanel {
 	private JobEditPanel jobEditPanel;
 	private ApplicantsPanel appsPanel;
 	private AppViewPanel appViewPanel;
+	private RatingsPanel ratingsPanel;
 	private LogoutPanel logoutPanel;
 	private Types.UserLevel userLevel;
 	private User currentUser;
@@ -64,8 +66,11 @@ public class RecruiterPanel extends JPanel {
 		appsCards = new JPanel();
 		appsCards.setLayout(new CardLayout());
 		appViewPanel = new AppViewPanel(userLevel);
+		ratingsPanel = new RatingsPanel();
 		appsCards.add(appsPanel, APPLICANTSPANEL);
 		appsCards.add(appViewPanel, APPLICANTVIEWPANEL);
+		appsCards.add(ratingsPanel, RATINGSPANEL);
+		
 		usersCards = new JPanel();
 		usersCards.setLayout(new CardLayout());
 		usersPanel = new UsersPanel();

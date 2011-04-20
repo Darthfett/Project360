@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -16,9 +17,12 @@ import javax.swing.JTextField;
 public class AppViewPanel extends ApplyPanel {
 	
 	private static final long serialVersionUID = 1L;
+	private JButton rateViewButton;
+	private JButton viewCancelButton;
 	
 	public AppViewPanel(Types.UserLevel userLevel) {
 		super();
+		
 		nameField.setEnabled(false);
 		nameField.setDisabledTextColor(Color.black);
 		ref1Field.setEnabled(false);
@@ -29,12 +33,19 @@ public class AppViewPanel extends ApplyPanel {
 		ref3Field.setDisabledTextColor(Color.black);
 		resume.setEnabled(false);
 		resume.setDisabledTextColor(Color.black);
+		viewCancelButton = new JButton("Cancel");
+		
+		rateViewButton = new JButton();
+		southPanel.remove(submitButton);
+		southPanel.remove(cancelButton);
+		southPanel.add(rateViewButton);
+		southPanel.add(viewCancelButton);
 		if(userLevel == Types.UserLevel.RECRUITER)
-			submitButton.setText("View Rating...");
+			rateViewButton.setText("View Rating...");
 		else
-			submitButton.setText("Rate...");
-		submitButton.addActionListener(new AVListener());
-		cancelButton.addActionListener(new AVListener());
+			rateViewButton.setText("Rate...");
+		rateViewButton.addActionListener(new AVListener());
+		viewCancelButton.addActionListener(new AVListener());
 	}
 	
 	public JTextField getNameField() {
@@ -62,14 +73,11 @@ public class AppViewPanel extends ApplyPanel {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();
-			if (event.getSource() == cancelButton) {
+			if (event.getSource() == viewCancelButton) {
 				cl.show(cards, "ApplicantsPanel");
 			}
-			if (event.getSource() == submitButton) {
-				/*
-				 * Need to implement this stuff
-				 */
-				cl.show(cards, "ApplicantsPanel");
+			if (event.getSource() == rateViewButton) {
+				cl.show(cards, "RatingsPanel");
 			}
 		}
 	}

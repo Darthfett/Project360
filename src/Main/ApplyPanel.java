@@ -24,7 +24,7 @@ public class ApplyPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int confirm;
 	private JPanel northPanel;
-	private JPanel southPanel;
+	protected JPanel southPanel;
 	private JPanel centerPanel;
 	private JPanel padding;
 	private JLabel nameLabel;
@@ -40,6 +40,7 @@ public class ApplyPanel extends JPanel {
 	protected JTextField ref3Field;
 	protected JButton submitButton;
 	protected JTextArea resume;
+	protected ApplyListener list;
 	
 	public ApplyPanel() {
 		
@@ -79,7 +80,8 @@ public class ApplyPanel extends JPanel {
 		centerPanel.add(resumeLabel, BorderLayout.NORTH);
 		centerPanel.add(resumeScroll, BorderLayout.CENTER);
 		
-		submitButton.addActionListener(new ApplyListener());
+		list = new ApplyListener();
+		submitButton.addActionListener(list);
 		cancelButton.addActionListener(new ApplyListener());
 		southPanel.add(submitButton);
 		southPanel.add(cancelButton);

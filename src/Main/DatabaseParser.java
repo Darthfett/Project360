@@ -54,6 +54,10 @@ public class DatabaseParser {
 		 * 
 		 */
 		Hashtable<String,Hashtable<String,String>> database = new Hashtable<String,Hashtable<String,String>>();
+		if (! directory.exists()) {
+			directory.mkdir();
+			return database;
+		}
 		File current_file;
 		BufferedReader reader;
 		String[] all_files = directory.list();

@@ -12,6 +12,7 @@ import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,7 +27,6 @@ public class JobEditPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private JButton submitButton;
-	private JButton assignButton;
 	private JButton cancelButton;
 	private JButton deleteButton;
 	private JLabel titleLabel;
@@ -37,6 +37,7 @@ public class JobEditPanel extends JPanel {
 	private JLabel benefitsLabel;
 	private JLabel jobIdLabel;
 	private JLabel jobId;
+	private JLabel reviewerLabel;
 	private JTextField titleField;
 	private JTextField deadlineField;
 	private JTextField locationField;
@@ -45,6 +46,7 @@ public class JobEditPanel extends JPanel {
 	private JTextArea description;
 	private JScrollPane bScroll;
 	private JScrollPane dScroll;
+	private JComboBox reviewerBox;
 	private JPanel padding;
 	private JPanel northPanel;
 	private JPanel southPanel;
@@ -64,7 +66,6 @@ public class JobEditPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		submitButton = new JButton("Submit");
-		assignButton = new JButton("Assign Reviewer");
 		cancelButton = new JButton("Cancel");
 		deleteButton = new JButton("Delete");
 		titleLabel = new JLabel("Job Title");
@@ -75,6 +76,7 @@ public class JobEditPanel extends JPanel {
 		benefitsLabel = new JLabel("Benefits");
 		jobIdLabel = new JLabel("Job ID");
 		jobId = new JLabel();
+		reviewerLabel = new JLabel("Assign Reviewer");
 		titleField = new JTextField();
 		deadlineField = new JTextField();
 		locationField = new JTextField();
@@ -90,7 +92,9 @@ public class JobEditPanel extends JPanel {
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
 		
-		northPanel.setLayout(new GridLayout(5, 2));
+		reviewerBox = new JComboBox(getReviewers());
+		
+		northPanel.setLayout(new GridLayout(6, 2));
 		northPanel.add(jobIdLabel);
 		northPanel.add(jobId);
 		northPanel.add(titleLabel);
@@ -101,7 +105,9 @@ public class JobEditPanel extends JPanel {
 		northPanel.add(locationField);
 		northPanel.add(salaryLabel);
 		northPanel.add(salaryField);
-		northPanel.setPreferredSize(new Dimension(470, 80));
+		northPanel.add(reviewerLabel);
+		northPanel.add(reviewerBox);
+		northPanel.setPreferredSize(new Dimension(470, 100));
 		padding.add(northPanel);
 		
 		centerPanel.setLayout(new BorderLayout());
@@ -129,6 +135,26 @@ public class JobEditPanel extends JPanel {
 		add(southPanel, BorderLayout.SOUTH);
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.WEST);
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
+	}
+	
+	public String[] getReviewers() {
+		ArrayList<User> allUsers = User.getUserList();
+		int reviewerCount = 0;
+		for (int i = 0; i < allUsers.size(); i++) {
+			if(allUsers.get(i).getUserLevel() == Types.UserLevel.REVIEWER) {
+				reviewerCount++;
+			}
+		}
+		String[] reviewers = new String[reviewerCount+1];
+		for (int i = 0; i < allUsers.size(); i++) {
+			int revIndex = 1;
+			if(allUsers.get(i).getUserLevel() == Types.UserLevel.REVIEWER) {
+				reviewers[revIndex] = allUsers.get(i).getUsername();
+				revIndex++;
+			}
+		}
+		reviewers[0] = "None";
+		return reviewers;
 	}
 	
 	public JLabel getIdLabel() {
@@ -250,14 +276,20 @@ public class JobEditPanel extends JPanel {
 					}
 					job.save();
 					recPanel.refreshJobs();
+					
+					String selectedReviewer = (String) reviewerBox.getSelectedItem();
+					if(!selectedReviewer.equals("None")) {
+						ArrayList<User> users = User.getUserList();
+							for (int i = 0; i < users.size(); i++) {
+								if (users.get(i).getUsername().equals(selectedReviewer)) {
+									((Reviewer) users.get(i)).addJob(job);
+								}
+							}
+					}
 				}
-				catch (Exception e) {	
+				catch (Exception e) {
 					System.out.println("Something bad happened while creating the job, check date format.");
 					e.printStackTrace();
-				}
-				
-				if (event.getSource() == assignButton) {
-					
 				}
 				
 				cl.show(cards, "JobsPanel");

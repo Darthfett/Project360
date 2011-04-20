@@ -148,6 +148,8 @@ public class ApplyPanel extends JPanel {
 					applicant.setResume(resume.getText());
 					applicant.setAppliedJob(jobsPanel.getSelectedJob());
 					applicant.save();
+					jobsPanel.getSelectedJob().addApplicant(applicant);
+					jobsPanel.getSelectedJob().save();
 					clearFields();
 					cl.show(cards, "JobsPanel");
 				}

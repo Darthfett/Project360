@@ -122,15 +122,21 @@ public class Job {
 	}
 	
 	public ArrayList<Applicant> getApplicants() {
+		System.out.println("Get Applicants");
 		ArrayList<Applicant> applicants = new ArrayList<Applicant>();
 		if (database.get("applicants") == null) {
+			System.out.println("Applicants are null (?)");
 			return applicants;
 		}
+		System.out.println(database.get("applicants"));
 		String[] applicantIdStrings = database.get("applicants").split(",");
 		if (applicantIdStrings.length == 1 && applicantIdStrings[0] == "") {
+			System.out.println("No Applicants");
 			return applicants;
 		}
+		System.out.println(applicantIdStrings);
 		for (int i = 0; i < applicantIdStrings.length; i++) {
+			System.out.println(Applicant.getApplicantFromId(new Integer(applicantIdStrings[i])));
 			applicants.add(Applicant.getApplicantFromId(new Integer(applicantIdStrings[i])));
 		}
 		return applicants;

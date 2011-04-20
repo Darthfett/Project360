@@ -118,7 +118,9 @@ public class JobEditPanel extends JPanel {
 		deleteButton.addActionListener(new JEListener());
 		southPanel.add(submitButton);
 		southPanel.add(cancelButton);
-		southPanel.add(deleteButton);
+		if (mode == 'e') {
+			southPanel.add(deleteButton);
+		}
 		
 		add(padding, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
@@ -203,6 +205,7 @@ public class JobEditPanel extends JPanel {
 					}
 				}
 				job.remove();
+				recPanel.refreshJobs();
 				cl.show(cards, "JobsPanel");
 				clearFields();
 			}

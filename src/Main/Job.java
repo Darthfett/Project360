@@ -237,6 +237,10 @@ public class Job {
 	
 	public void addApplicant(Applicant applicant) {
 		ArrayList<Applicant> applicants = getApplicants();
+		if (applicant == null) {
+			System.out.println("applicant null");
+			return;
+		}
 		for (int i = 0; i < applicants.size(); i++) {
 			if (applicants.get(i).equals(applicant)) {
 				return;

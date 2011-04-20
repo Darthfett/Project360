@@ -26,6 +26,7 @@ public class JobEditPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private JButton submitButton;
+	private JButton assignButton;
 	private JButton cancelButton;
 	private JButton deleteButton;
 	private JLabel titleLabel;
@@ -63,6 +64,7 @@ public class JobEditPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		submitButton = new JButton("Submit");
+		assignButton = new JButton("Assign Reviewer");
 		cancelButton = new JButton("Cancel");
 		deleteButton = new JButton("Delete");
 		titleLabel = new JLabel("Job Title");
@@ -253,6 +255,11 @@ public class JobEditPanel extends JPanel {
 					System.out.println("Something bad happened while creating the job, check date format.");
 					e.printStackTrace();
 				}
+				
+				if (event.getSource() == assignButton) {
+					
+				}
+				
 				cl.show(cards, "JobsPanel");
 				clearFields();
 			}

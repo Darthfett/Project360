@@ -182,7 +182,6 @@ public class ApplicantsPanel extends JPanel {
 					avp = ((ReviewerPanel) parent).getAppViewPanel();
 				}
 				
-				//Not sure if this stuff is correct or not...
 				ArrayList<User> refs = app.getReferences();
 				avp.getNameField().setText(app.getUsername());
 				avp.getRef1Field().setText(refs.get(0).getUsername());
@@ -207,7 +206,7 @@ public class ApplicantsPanel extends JPanel {
 							options,
 							options[5]);
 					if(n < 6 & n > 0){
-						tempApplicant.addReferenceRating(n);
+						tempApplicant.addReferenceRating(n+1);
 						((Reference) currentUser).removeApplicant(tempApplicant);
 						tempApplicant.save();
 						((Reference) currentUser).save();

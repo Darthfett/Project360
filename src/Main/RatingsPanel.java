@@ -103,7 +103,8 @@ public class RatingsPanel extends JPanel {
 			if (ratings.size() == 2) {
 				ref1Rating.setText(ratings.get(0).toString());
 				ref2Rating.setText(ratings.get(1).toString());
-			} else {
+			} 
+			if (ratings.size() == 3) {
 				ref1Rating.setText(ratings.get(0).toString());
 				ref2Rating.setText(ratings.get(1).toString());
 				ref3Rating.setText(ratings.get(2).toString());

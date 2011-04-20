@@ -26,6 +26,7 @@ public class ApplicantsPanel extends JPanel {
 	private JTable appsTable;
 	private JScrollPane scrollPane;
 	private JButton viewButton;
+	private JButton viewRateButton;
 	private JButton rateButton;
 	private JPanel innerPanel;
 	private ArrayList<Applicant> applicants;
@@ -99,9 +100,9 @@ public class ApplicantsPanel extends JPanel {
 				data[i][1] = applicants.get(i).getUsername();
 			}
 			
-			viewButton = new JButton("View...");
-			viewButton.addActionListener(new APPListener());
-			viewButton.setBounds(600, 55, 120, 30);
+			viewRateButton = new JButton("View...");
+			viewRateButton.addActionListener(new APPListener());
+			viewRateButton.setBounds(600, 55, 120, 30);
 		}
 
 		if (userLevel == Types.UserLevel.REFERENCE){
@@ -137,6 +138,8 @@ public class ApplicantsPanel extends JPanel {
 		add(scrollPane);
 		if (userLevel == Types.UserLevel.REFERENCE) {
 			add(rateButton);
+		} else if(userLevel == Types.UserLevel.REVIEWER){
+			add(viewRateButton);
 		} else {
 			add(viewButton);
 		}
@@ -164,7 +167,7 @@ public class ApplicantsPanel extends JPanel {
 		public void actionPerformed(ActionEvent event) {
 			JButton source = (JButton)event.getSource();
 
-			if(source == viewButton){
+			if(source == viewButton) {
 				if (getSelectedApplicant() == null) {
 					return;
 				}
@@ -181,7 +184,30 @@ public class ApplicantsPanel extends JPanel {
 					parent = (ReviewerPanel) cards.getParent().getParent();
 					avp = ((ReviewerPanel) parent).getAppViewPanel();
 				}
+
+				ArrayList<User> refs = app.getReferences();
+				avp.getNameField().setText(app.getUsername());
+				avp.getRef1Field().setText(refs.get(0).getUsername());
+				avp.getRef2Field().setText(refs.get(1).getUsername());
+				avp.getRef3Field().setText(refs.get(2).getUsername());
+				avp.getResumeArea().setText(app.getResume());
 				
+				cl.show(cards, "ApplicantViewPanel");
+			}
+			
+			if(source == viewRateButton){
+				if (getSelectedApplicant() == null) {
+					return;
+				}
+				JPanel cards = (JPanel) getThisPanel().getParent();
+				CardLayout cl = (CardLayout) cards.getLayout();
+				Applicant app = getThisPanel().getSelectedApplicant();
+				JPanel parent = null;
+				AppViewPanel avp = null;
+				
+				parent = (ReviewerPanel) cards.getParent().getParent();
+				avp = ((ReviewerPanel) parent).getAppViewPanel();
+								
 				ArrayList<User> refs = app.getReferences();
 				avp.getNameField().setText(app.getUsername());
 				avp.getRef1Field().setText(refs.get(0).getUsername());
@@ -206,15 +232,13 @@ public class ApplicantsPanel extends JPanel {
 							options,
 							options[5]);
 					if(n < 6 & n > 0){
-						tempApplicant.addReferenceRating(n+1);
+						tempApplicant.addReferenceRating(n);
 						((Reference) currentUser).removeApplicant(tempApplicant);
 						tempApplicant.save();
 						((Reference) currentUser).save();
 					}
 				}
-
 			}
 		}
-
 	}
 }

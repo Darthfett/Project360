@@ -39,12 +39,16 @@ public class ReviewerPanel extends JPanel {
 		appsCards.add(appViewPanel, APPLICANTVIEWPANEL);
 		
 		tabs.setSize(770, 655);
-		tabs.addTab("My Applicants", appsPanel);
+		tabs.addTab("My Applicants", appsCards);
 		add(tabs);
 	}
 	
 	public AppViewPanel getAppViewPanel() {
 		return appViewPanel;
+	}
+	
+	public ApplicantsPanel getApplicantsPanel() {
+		return appsPanel;
 	}
 	
 	public void refreshApps() {

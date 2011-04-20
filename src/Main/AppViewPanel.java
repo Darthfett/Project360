@@ -1,12 +1,18 @@
 package Main;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -19,6 +25,11 @@ public class AppViewPanel extends ApplyPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton rateViewButton;
 	private JButton viewCancelButton;
+	private JPanel commentPanel;
+	private JPanel buttonPanel;
+	private JLabel commentsLabel;
+	private JTextArea comments;
+	private JScrollPane commentsScrollPane;
 	private Types.UserLevel userLevel;
 	
 	public AppViewPanel(Types.UserLevel userLevel) {
@@ -40,12 +51,33 @@ public class AppViewPanel extends ApplyPanel {
 		rateViewButton = new JButton();
 		southPanel.remove(submitButton);
 		southPanel.remove(cancelButton);
-		southPanel.add(rateViewButton);
-		southPanel.add(viewCancelButton);
-		if(userLevel == Types.UserLevel.RECRUITER)
-			rateViewButton.setText("View Rating...");
-		else
+		if(userLevel == Types.UserLevel.REVIEWER){
+			southPanel.setLayout(new BorderLayout());
+			commentsLabel = new JLabel("Reviewer Comments");
+			comments = new JTextArea();
+			commentsScrollPane = new JScrollPane(comments);
+					
+			commentPanel = new JPanel();
+			commentPanel.setLayout(new BorderLayout());
+			buttonPanel = new JPanel();
+			commentPanel.add(commentsLabel, BorderLayout.NORTH);
+			commentPanel.add(commentsScrollPane, BorderLayout.CENTER);
+			commentPanel.add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.WEST);
+			commentPanel.add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
+			commentPanel.setPreferredSize(new Dimension(470, 100));
+			buttonPanel.add(rateViewButton);
+			buttonPanel.add(cancelButton);
+			
+			southPanel.add(commentPanel, BorderLayout.NORTH);
+			southPanel.add(buttonPanel, BorderLayout.SOUTH);
+			
 			rateViewButton.setText("Rate...");
+		}
+		else{
+			southPanel.add(rateViewButton);
+			southPanel.add(viewCancelButton);
+			rateViewButton.setText("View Rating...");
+		}
 		rateViewButton.addActionListener(new AVListener());
 		viewCancelButton.addActionListener(new AVListener());
 	}
@@ -89,14 +121,36 @@ public class AppViewPanel extends ApplyPanel {
 					ratePanel = recPanel.getRatingsPanel();
 					applicant = appsPanel.getSelectedApplicant();
 					ratePanel.reset();
+					System.out.println(applicant + "is the applicant to set RatingsPanel.");
 					ratePanel.set(applicant);
 					cl.show(cards, "RatingsPanel");
 				}
-				//if (userLevel == Types.UserLevel.REVEIWER) {
-					/*
-					 * Need interface for reviewers to rate/comment
-					 */
-				//}
+				if (userLevel == Types.UserLevel.REVIEWER) {
+					int rating;
+					Applicant applicant = null;
+					ApplicantsPanel appsPanel = null;
+					ReviewerPanel revPanel = (ReviewerPanel) cards.getParent().getParent();
+					appsPanel = revPanel.getApplicantsPanel();
+					applicant = appsPanel.getSelectedApplicant();
+					
+					if(applicant != null){
+						Object[] options = {"1", "2", "3", "4", "5", "Cancel"};
+						rating = JOptionPane.showOptionDialog(getRootPane(),
+								"Designate a rating (5 is good):",
+								"Rate Applicant",
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE,
+								null,
+								options,
+								options[5]);
+						applicant.setReviewerRating(rating);
+						applicant.setReviewerComment(comments.getText());
+						applicant.save();
+						System.out.println(applicant + "is what ReviewerPanel worked on.");
+					
+					cl.show(cards, "ApplicantsPanel");
+					}
+				}
 			}
 		}
 	}

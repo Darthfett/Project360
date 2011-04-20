@@ -110,6 +110,12 @@ public class RatingsPanel extends JPanel {
 				ref3Rating.setText(ratings.get(2).toString());
 			}
 		}
+		if (applicant.getReviewerRating() != null) {
+			revRating.setText(applicant.getReviewerRating().toString());
+		}
+		if (applicant.getReviewerComment() != null && !applicant.getReviewerComment().equals("")) {
+			revComment.setText(applicant.getReviewerComment());
+		}
 	}
 	
 	public RatingsPanel getThisPanel() {

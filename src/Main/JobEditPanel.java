@@ -139,22 +139,18 @@ public class JobEditPanel extends JPanel {
 	
 	public String[] getReviewers() {
 		ArrayList<User> allUsers = User.getUserList();
-		int reviewerCount = 0;
+		ArrayList<Reviewer> reviewers = new ArrayList<Reviewer>();
 		for (int i = 0; i < allUsers.size(); i++) {
-			if(allUsers.get(i).getUserLevel() == Types.UserLevel.REVIEWER) {
-				reviewerCount++;
+			if (allUsers.get(i).getUserLevel() == Types.UserLevel.REVIEWER) {
+				reviewers.add((Reviewer) allUsers.get(i));
 			}
 		}
-		String[] reviewers = new String[reviewerCount+1];
-		for (int i = 0; i < allUsers.size(); i++) {
-			int revIndex = 1;
-			if(allUsers.get(i).getUserLevel() == Types.UserLevel.REVIEWER) {
-				reviewers[revIndex] = allUsers.get(i).getUsername();
-				revIndex++;
-			}
+		String[] revs = new String[reviewers.size()+1];
+		for (int i = 0; i < reviewers.size(); i++) {
+			revs[i+1] = reviewers.get(i).getUsername();
 		}
-		reviewers[0] = "None";
-		return reviewers;
+		revs[0] = "None";
+		return revs;
 	}
 	
 	public JLabel getIdLabel() {

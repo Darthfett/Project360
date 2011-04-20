@@ -2,6 +2,18 @@ package Main;
 
 import java.util.ArrayList;
 
+/*
+ * Reviewer class extends User
+ * 
+ * Works as a User that will rate and comment on applicants
+ * 
+ * 	 Dynamic
+ * 		+ getJobs():ArrayList<Job>
+ * 		+ setJobs(ArrayList<Job>)
+ * 		+ addJob(Job)
+ * 		+ removeJob(Job)
+ * 
+ */
 public class Reviewer extends User {
 	/* Add a Job for Reviewer to rate */
 	public void addJob(Job job) {

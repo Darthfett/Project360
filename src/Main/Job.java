@@ -1,6 +1,43 @@
 package Main;
 
 import java.io.BufferedWriter;
+
+/*
+ * Job class
+ * 
+ * Works as a list of information on a Job, that can be applied for
+ * 
+ * Members
+ * 	Static
+ *    	- JobDatabaseLocation:File
+ *  	- Jobs:Hashtable<String,Jobs> //Maps String Ids to Jobs
+ * 
+ * 	Dynamic
+ * 		- data:Hashtable - Stores all the data for the jobs
+ * 		- oldId:integer - Stores the old id for the job, used to know when a new file should be created
+ * 
+ * Methods
+ * 	 Static
+ * 		+ getJobFromJobId(Integer):Job
+ * 		+ getJobList():ArrayList<Job>
+ * 		+ loadJobList()
+ * 
+ * 	 Dynamic
+		title/description/id/date/deadline/location/salary/benefits
+ *   	+ getJobId():Integer
+ * 		+ setJobId(String)
+ * 		+ getAssignedReviewer():Reviewer
+ * 		+ setAssignedReviewer(User)
+ * 		+ getApplicants():ArrayList<Applicant>
+ * 		+ setApplicants(ArrayList<Applicant>)
+ * 		+ addApplicant(Applicant)
+ * 		+ removeApplicant(Applicant)
+ * 		+ remove()
+ * 		+ save()
+ * 		+ toString()
+ * 
+ * 
+ */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

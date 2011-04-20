@@ -162,10 +162,10 @@ public class ApplyPanel extends JPanel {
 					JobsPanel jobsPanel = (JobsPanel) ((ApplicantPanel)cards.getParent().getParent()).getJobsPanel();
 					applicant.setAppliedJob(jobsPanel.getSelectedJob());
 					applicant.save();
+					cl.show(cards, "JobsPanel");
 					jobsPanel.getSelectedJob().addApplicant(applicant);
 					jobsPanel.getSelectedJob().save();
 					clearFields();
-					cl.show(cards, "JobsPanel");
 				}
 			}
 			if (event.getSource() == cancelButton) {

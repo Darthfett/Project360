@@ -65,7 +65,7 @@ public class RecruiterPanel extends JPanel {
 		appsPanel = new ApplicantsPanel(currentUser, userLevel);
 		appsCards = new JPanel();
 		appsCards.setLayout(new CardLayout());
-		appViewPanel = new AppViewPanel(userLevel);
+		appViewPanel = new AppViewPanel(currentUser,userLevel);
 		ratingsPanel = new RatingsPanel();
 		appsCards.add(appsPanel, APPLICANTSPANEL);
 		appsCards.add(appViewPanel, APPLICANTVIEWPANEL);
@@ -95,7 +95,7 @@ public class RecruiterPanel extends JPanel {
 		tabs.setSize(770, 600);
 		add(tabs, BorderLayout.CENTER);
 		
-		logoutPanel = new LogoutPanel();
+		logoutPanel = new LogoutPanel(currentUser);
 		add(logoutPanel, BorderLayout.NORTH);
 	}
 	

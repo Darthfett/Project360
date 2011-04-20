@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 /*
@@ -109,8 +110,8 @@ public class ApplicantsPanel extends JPanel {
 			/*
 			 * For the reference, we will show only a subset of the applicants.
 			 */
-			applicants = Applicant.getApplicantList();
 			ArrayList<Applicant> assigned = ((Reference) currentUser).getApplicants();
+			applicants = assigned;
 			
 			data = new String[assigned.size()][2];
 			for (int i = 0; i < assigned.size(); i++) {
@@ -219,6 +220,9 @@ public class ApplicantsPanel extends JPanel {
 			}
 			
 			if(source == rateButton){
+				JPanel cards = (JPanel) getThisPanel();
+				ReferencePanel refPanel = (ReferencePanel) cards.getParent().getParent();
+				//ReferencePanel refPanel = (ReferencePanel)jpane.getComponentAt(0);
 				Applicant tempApplicant = getSelectedApplicant();
 
 				if(tempApplicant != null){
@@ -231,11 +235,12 @@ public class ApplicantsPanel extends JPanel {
 							null,
 							options,
 							options[5]);
-					if(n < 6 & n > 0){
+					if(n < 5 && n >= 0){
 						tempApplicant.addReferenceRating(n+1);
 						((Reference) currentUser).removeApplicant(tempApplicant);
 						tempApplicant.save();
 						((Reference) currentUser).save();
+						refPanel.refreshApps();
 					}
 				}
 			}

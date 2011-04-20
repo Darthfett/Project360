@@ -43,7 +43,6 @@ public class Applicant {
 		if (database.get("id") == null) {
 			database.put("id", new Integer(i+1).toString());
 		}
-		System.out.println(database.get("id"));
 		Applicant.Applicants.put(database.get("id"), this);
 		oldId = null;
 	}
@@ -153,6 +152,9 @@ public class Applicant {
 	}
 
 	public Integer getReviewerRating() {
+		if (database.get("reviewerRating") == null || database.get("reviewerRating") == "") {
+			return null;
+		}
 		return new Integer(database.get("reviewerRating"));
 	}
 

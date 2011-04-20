@@ -27,11 +27,11 @@ public class ReviewerPanel extends JPanel {
 		setSize(770, 670);
 		setBackground(Color.black);
 		setLayout(new BorderLayout());
-		logoutPanel = new LogoutPanel();
+		logoutPanel = new LogoutPanel(currentUser);
 		add(logoutPanel, BorderLayout.NORTH);
 		tabs = new JTabbedPane();
 		
-		appViewPanel = new AppViewPanel(Types.UserLevel.REVIEWER);
+		appViewPanel = new AppViewPanel(currentUser, Types.UserLevel.REVIEWER);
 		appsPanel = new ApplicantsPanel(currentUser, Types.UserLevel.REVIEWER);
 		appsCards = new JPanel();
 		appsCards.setLayout(new CardLayout());

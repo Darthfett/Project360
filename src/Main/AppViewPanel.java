@@ -31,9 +31,11 @@ public class AppViewPanel extends ApplyPanel {
 	private JTextArea comments;
 	private JScrollPane commentsScrollPane;
 	private Types.UserLevel userLevel;
+	private User currentUser;
 	
-	public AppViewPanel(Types.UserLevel userLevel) {
+	public AppViewPanel(User currentUser, Types.UserLevel userLevel) {
 		super();
+		this.currentUser = currentUser;
 		this.userLevel = userLevel;
 		
 		nameField.setEnabled(false);
@@ -66,7 +68,7 @@ public class AppViewPanel extends ApplyPanel {
 			commentPanel.add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
 			commentPanel.setPreferredSize(new Dimension(470, 100));
 			buttonPanel.add(rateViewButton);
-			buttonPanel.add(cancelButton);
+			buttonPanel.add(viewCancelButton);
 			
 			southPanel.add(commentPanel, BorderLayout.NORTH);
 			southPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -121,7 +123,6 @@ public class AppViewPanel extends ApplyPanel {
 					ratePanel = recPanel.getRatingsPanel();
 					applicant = appsPanel.getSelectedApplicant();
 					ratePanel.reset();
-					System.out.println(applicant + "is the applicant to set RatingsPanel.");
 					ratePanel.set(applicant);
 					cl.show(cards, "RatingsPanel");
 				}
@@ -146,7 +147,6 @@ public class AppViewPanel extends ApplyPanel {
 						applicant.setReviewerRating(rating+1);
 						applicant.setReviewerComment(comments.getText());
 						applicant.save();
-						System.out.println(applicant + "is what ReviewerPanel worked on.");
 					
 					cl.show(cards, "ApplicantsPanel");
 					}

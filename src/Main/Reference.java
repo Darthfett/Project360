@@ -133,9 +133,10 @@ public class Reference extends User{
 		for (int i = 0; i < applicants.size(); i++) {
 			if (applicants.get(i) == applicant) {
 				applicants.remove(i);
-				setApplicants(applicants);
+				break;
 			}
 		}
+		setApplicants(applicants);
 	}
 	
 	public void setApplicants(ArrayList<Applicant> applicants) {
@@ -210,8 +211,7 @@ public class Reference extends User{
 		} else {
 			referenceFile = new File(dir, oldId + ".reference");
 			if (!referenceFile.exists()) {
-				System.out.println("Attempting to delete reference " + oldId
-						+ ".reference, but it does not exist?");
+				System.out.println("Attempting to delete reference " + oldId + ".reference, but it does not exist?");
 			} else {
 				referenceFile.delete();
 			}

@@ -118,7 +118,6 @@ public class ApplyPanel extends JPanel {
 	private class ApplyListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
-			JobsPanel jobsPanel = (JobsPanel) ((ApplicantPanel)cards.getParent().getParent()).getJobsPanel();
 			CardLayout cl = (CardLayout) cards.getLayout();
 			
 			if (event.getSource() == submitButton) {
@@ -160,6 +159,7 @@ public class ApplyPanel extends JPanel {
 					applicant.addReference(ref3);
 					applicant.setUsername(nameField.getText());
 					applicant.setResume(resume.getText());
+					JobsPanel jobsPanel = (JobsPanel) ((ApplicantPanel)cards.getParent().getParent()).getJobsPanel();
 					applicant.setAppliedJob(jobsPanel.getSelectedJob());
 					applicant.save();
 					jobsPanel.getSelectedJob().addApplicant(applicant);

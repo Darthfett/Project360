@@ -16,6 +16,7 @@ public class TheAppletItself extends JApplet {
 	private static Types.UserLevel currentUserLevel;
 	private static final long serialVersionUID = 1L;
 	private JPanel rootPanel;
+	private User currentUser = null;
 	
 	public void init() {
 		setSize(770, 600);
@@ -40,7 +41,7 @@ public class TheAppletItself extends JApplet {
 	
 	private void initUI() {
 		currentUserLevel = UserLevel.APPLICANT;
-		rootPanel = new ApplicantPanel();
+		rootPanel = new ApplicantPanel(currentUser);
 		getContentPane().add(rootPanel);
 	}
 

@@ -22,8 +22,14 @@ public class LogoutPanel extends JPanel {
 	private JButton logoutButton;
 	private JPanel buttonPanel;
 	private JLabel userLabel;
+	private User currentUser;
 	
-	public LogoutPanel() {
+	public User getCurrentUser() {
+		return currentUser;
+	}
+	
+	public LogoutPanel(User currentUser) {
+		this.currentUser = currentUser;
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(760, 30));
 		setBackground(Color.black);
@@ -46,7 +52,7 @@ public class LogoutPanel extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				TheAppletItself.setCurrentUserLevel(Types.UserLevel.APPLICANT);
 				JApplet applet = (JApplet) getThisPanel().getTopLevelAncestor();
-				JPanel replacePanel = new ApplicantPanel();
+				JPanel replacePanel = new ApplicantPanel(getCurrentUser());
 				applet.setContentPane(replacePanel);
 				applet.invalidate();
 				applet.validate();

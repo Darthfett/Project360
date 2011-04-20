@@ -120,7 +120,10 @@ public class JobsPanel extends JPanel{
 	 * Return a reference to the job which is currently selected in the jobsList JList.
 	 */
 	public Job getSelectedJob() {
-		Job selectedJob =  jobs.get(jobList.getSelectedIndex());
+		Job selectedJob = null;
+		if (jobList.getSelectedIndex() >= 0) {
+			selectedJob =  jobs.get(jobList.getSelectedIndex());
+		}
 		return selectedJob;
 	}
 	
@@ -160,6 +163,9 @@ public class JobsPanel extends JPanel{
 				cl.show(cards, "JobAddPanel");
 			}
 			if (event.getSource() == editButton) {
+				if (getSelectedJob() == null) {
+					return;
+				}
 				RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
 				JobEditPanel jePanel = recPanel.getJobEditPanel();
 				Job job = getSelectedJob();

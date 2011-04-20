@@ -5,6 +5,12 @@ import java.util.ArrayList;
 public class Reviewer extends User {
 	/* Add a Job for Reviewer to rate */
 	public void addJob(Job job) {
+		ArrayList<Job> jobs = getJobs();
+		for (int i = 0; i < jobs.size(); i++) {
+			if (jobs.get(i).equals(job)) {
+				return;
+			}
+		}
 		if (database.get("jobs") == null || database.get("jobs") == "") {
 			database.put("jobs",job.getId().toString());
 		} else {

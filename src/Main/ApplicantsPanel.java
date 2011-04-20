@@ -165,6 +165,9 @@ public class ApplicantsPanel extends JPanel {
 			JButton source = (JButton)event.getSource();
 
 			if(source == viewButton){
+				if (getSelectedApplicant() == null) {
+					return;
+				}
 				JPanel cards = (JPanel) getThisPanel().getParent();
 				CardLayout cl = (CardLayout) cards.getLayout();
 				Applicant app = getThisPanel().getSelectedApplicant();

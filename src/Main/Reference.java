@@ -115,6 +115,12 @@ public class Reference extends User{
 
 	/* Adding an Applicant for the Reference to rate */
 	public void addApplicant(Applicant applicant) {
+		ArrayList<Applicant> applicants = getApplicants();
+		for (int i = 0; i < applicants.size(); i++) {
+			if (applicants.get(i).equals(applicant)) {
+				return;
+			}
+		}
 		if (database.get("applicants") == null || database.get("applicants") == "") {
 			database.put("applicants",applicant.getId().toString());
 		} else {

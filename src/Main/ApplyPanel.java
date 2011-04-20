@@ -128,16 +128,28 @@ public class ApplyPanel extends JPanel {
 					if (nameField.getText().equals("") || ref1Field.getText().equals("") || ref2Field.getText().equals("") || ref3Field.getText().equals("") || resume.getText().equals("")) {
 						return;
 					}
+					if (User.getUserFromUserName(ref1Field.getText()) != null || User.getUserFromUserName(ref2Field.getText()) != null || User.getUserFromUserName(ref3Field.getText()) != null) {
+						return;
+					}
 					Applicant applicant = new Applicant();
-					Reference ref1 = new Reference();
-					Reference ref2 = new Reference();
-					Reference ref3 = new Reference();
+					Reference ref1 = Reference.getReferenceFromEmail(ref1Field.getText());
+					Reference ref2 = Reference.getReferenceFromEmail(ref2Field.getText());
+					Reference ref3 = Reference.getReferenceFromEmail(ref3Field.getText());
+					if (ref1 == null) {
+						ref1 = new Reference();
+						ref1.setEmail(ref1Field.getText());
+					}
+					if (ref2 == null) {
+						ref2 = new Reference();
+						ref2.setEmail(ref2Field.getText());
+					}
+					if (ref3 == null) {
+						ref3 = new Reference();
+						ref3.setEmail(ref3Field.getText());
+					}
 					
-					ref1.setEmail(ref1Field.getText());
 					ref1.addApplicant(applicant);
-					ref2.setEmail(ref2Field.getText());
 					ref2.addApplicant(applicant);
-					ref3.setEmail(ref3Field.getText());
 					ref3.addApplicant(applicant);
 					ref1.save();
 					ref2.save();

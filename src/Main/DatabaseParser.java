@@ -89,7 +89,6 @@ public class DatabaseParser {
 						if (temp[0].contains("=")) {
 							if (! key.equals("")) {
 								current_file_data.put(key,value);
-								System.out.println("put " + key + ": " + value);
 								key = "";
 								value = "";
 							}

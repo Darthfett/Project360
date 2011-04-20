@@ -1,0 +1,10 @@
+How to run the program:
+
+1. Download and install the eclipse-jdt library, if you do not already have it installed..
+2. Download and install sun's java6 jdk, if you do not already have it installed.
+3. Open up eclipse, select any workspace, and go to File -> Import.
+    a) Click on General -> Existing Projects into Workspace, and then click next.
+    b) Under Select root directory, type in the path, or click Browse, and select the Project360 directory.
+    c) Click Finish.
+4. To run the project, have open the TheAppletItself.java file, and click Run -> Run as -> Java Applet.  Alternatively, you can click the green Play button, as long as you have the project open.
+5. The default username and password for a recruiter is 'r','r' (respectively).  Usernames and passwords are both case-sensitive.

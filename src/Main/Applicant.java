@@ -31,7 +31,6 @@ public class Applicant {
 	
 	public Applicant() {
 		database = new Hashtable<String, String>();
-		database.put("id", "0"); //TODO Generate a Unique Applicant Id
 		database.put("referenceRatings", "");
 		ArrayList<Applicant> applicantList = Applicant.getApplicantList();
 		int i;
@@ -44,6 +43,7 @@ public class Applicant {
 		if (database.get("id") == null) {
 			database.put("id", new Integer(i+1).toString());
 		}
+		System.out.println(database.get("id"));
 		Applicant.Applicants.put(database.get("id"), this);
 		oldId = null;
 	}

@@ -1,4 +1,4 @@
-jobs=2
+jobs=2,0
 password=rev
 userlevel=reviewer
 username=rev

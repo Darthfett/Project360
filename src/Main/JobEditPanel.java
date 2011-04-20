@@ -281,6 +281,7 @@ public class JobEditPanel extends JPanel {
 									if (job.getAssignedReviewer() != (Reviewer) users.get(i)) {
 										if (job.getAssignedReviewer() != null) {
 											job.getAssignedReviewer().removeJob(job);
+											job.getAssignedReviewer().save();
 										}
 										((Reviewer) users.get(i)).addJob(job);
 										job.setAssignedReviewer(User.getUserFromUserName(selectedReviewer));

@@ -16,6 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+/*
+ * The purpose of this JPanel is to allow the recruiters to
+ * view the ratings of a particular applicant from references and
+ * the assigned reviewer.
+ */
 public class RatingsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -84,6 +89,9 @@ public class RatingsPanel extends JPanel {
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
 	}
 	
+	/*
+	 * Clear the panel for use with a different applicant.
+	 */
 	public void reset() {
 		ref1Rating.setText("Not yet rated");
 		ref2Rating.setText("Not yet rated");
@@ -92,6 +100,10 @@ public class RatingsPanel extends JPanel {
 		revComment.setText("");
 	}
 	
+	/*
+	 * Try to set the ratings of the RatingsPanel using the provided
+	 * applicant.
+	 */
 	public void set(Applicant applicant) {
 		ArrayList<Integer> ratings = applicant.getReferenceRatings();
 		if (ratings.size() == 0) {

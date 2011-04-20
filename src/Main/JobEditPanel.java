@@ -214,7 +214,9 @@ public class JobEditPanel extends JPanel {
 	 * 	o Save the job object in the database.
 	 * 	o Clear the text fields and show the User edit
 	 * o If the delete button is pressed, delete the job which is being edited from the database,
-	 *  remove it from the jobs list, and show the JobsPanel.
+	 *  remove it from the jobs list, and show the JobsPanel. See the comments for the 
+	 *  listener in UserEditPanel to see specific sections commented for a very similar 
+	 *  implementation, as this works in very much the same way.
 	 */
 	private class JEListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
@@ -277,6 +279,7 @@ public class JobEditPanel extends JPanel {
 					job.save();
 					recPanel.refreshJobs();
 					
+
 					String selectedReviewer = (String) reviewerBox.getSelectedItem();
 					if(!selectedReviewer.equals("None")) {
 						ArrayList<User> users = User.getUserList();

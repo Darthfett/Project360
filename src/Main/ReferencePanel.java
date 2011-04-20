@@ -7,7 +7,11 @@ import javax.swing.JTabbedPane;
 
 import Main.Types.UserLevel;
 
-
+/*
+ * This is the entirely of the Reference user's UI. It simply contains an
+ * applicants panel which shows only the applicants which referred. It then
+ * provides a simple dialog which allows the reference to rate the applicant.
+ */
 public class ReferencePanel extends JPanel {
 	private LogoutPanel logoutPanel;
 	private JTabbedPane tabs;
@@ -41,10 +45,6 @@ public class ReferencePanel extends JPanel {
 	
 		tabs = new JTabbedPane();
 		appsPanel = new ApplicantsPanel(reference, Types.UserLevel.REFERENCE);
-		
-		/*
-		 * CHANGE APPLICANTSPANEL FOR REFERENCE
-		 */
 		
 		tabs.setSize(770, 655);
 		tabs.addTab("My Applicants", appsPanel);

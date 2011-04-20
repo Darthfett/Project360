@@ -8,3 +8,6 @@ How to run the program:
     c) Click Finish.
 4. To run the project, have open the TheAppletItself.java file, and click Run -> Run as -> Java Applet.  Alternatively, you can click the green Play button, as long as you have the project open.
 5. The default username and password for a recruiter is 'r','r' (respectively).  Usernames and passwords are both case-sensitive.
+
+Alternatively, the code could be manually compiled using only the JDK's 'javac' command
+and run using the appletviewer program provided in the JDK.

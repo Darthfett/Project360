@@ -14,6 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/*
+ * UserEditPanel is the interface for recruiter users to create and edit users
+ * in the system.
+ */
 public class UserEditPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -33,7 +37,10 @@ public class UserEditPanel extends JPanel {
 	private JPanel padding;
 	private User user;
 	
-	// mode: 'a' for add mode, 'e' for edit mode
+	/*
+	 * This constructor takes a character parameter,'a' for add mode,
+	 *  'e' for edit mode.
+	 */
 	public UserEditPanel(char mode) {
 		this.mode = mode;
 		setLayout(new BorderLayout());
@@ -100,15 +107,34 @@ public class UserEditPanel extends JPanel {
 		this.user = user;
 	}
 	
+	/*
+	 * This is the button listener for the for the 'Submit', 'Cancel', and 
+	 * 'Delete user' buttons. As in most of the other panels, switching views
+	 * is accomplished using CardLayout. The Listener does everything required
+	 * to add and edit users in the system.
+	 */
 	private class UEListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
+			
+			//Aqcuire a reference to the recruiter's user card layout.
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();
+			
+			/*
+			 * When the cancel button is pressed, go back to the 
+			 * UsersPanel.
+			 */
 			if (event.getSource() == cancelButton) {
 				cl.show(cards, "UsersPanel");
 				clearFields();
 			}
+			/*
+			 * To add users, we create a new User object, then call the
+			 * necessary setter methods on it, using information from the 
+			 * text fields etc. Save the updated user in the database, and
+			 *  then refresh and show the users panel.
+			 */
 			if (mode == 'a') {
 				if (event.getSource() == submitButton) {
 					String uname = unameField.getText();
@@ -135,6 +161,13 @@ public class UserEditPanel extends JPanel {
 					clearFields();
 				}
 			}
+			
+			/*
+			 * To edit users, call necessary setter methods on the user object
+			 * being edited, which is the 'user' field declared at the top of the
+			 * file. Then save the file to the database. Refresh the UsersPanel, and
+			 * show it.
+			 */
 			if (mode == 'e') {
 				if (event.getSource() == submitButton) {
 					if (! user.getUserLevelString().equals((String) ulevelBox.getSelectedItem()) && ((String) ulevelBox.getSelectedItem()).equals("reference")) {
@@ -157,6 +190,12 @@ public class UserEditPanel extends JPanel {
 					recPanel.refreshUsers();
 					cl.show(cards, "UsersPanel");
 				}
+				
+				/*
+				 * When the delete button is pressed, we simply delete the user
+				 * we are editing from the user list, as well as from the database.
+				 * Then show the UsersPanel.
+				 */
 				if (event.getSource() == deleteButton) {
 					user.remove();
 					recPanel.refreshUsers();

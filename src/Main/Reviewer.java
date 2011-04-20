@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 /*
  * Reviewer class extends User
@@ -16,6 +17,10 @@ import java.util.ArrayList;
  */
 public class Reviewer extends User {
 	/* Add a Job for Reviewer to rate */
+	public Reviewer() {
+		this.database = new Hashtable<String, String>();
+	}
+	
 	public void addJob(Job job) {
 		ArrayList<Job> jobs = getJobs();
 		for (int i = 0; i < jobs.size(); i++) {

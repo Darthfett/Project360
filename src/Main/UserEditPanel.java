@@ -122,7 +122,7 @@ public class UserEditPanel extends JPanel {
 						userToAdd.save();
 					} else if (ulevel.equals("reviewer")) {
 						Reviewer userToAdd = new Reviewer();
-						userToAdd.setUserLevel(uname);
+						userToAdd.setUserName(uname);
 						userToAdd.setPassword(passwd);
 						userToAdd.setUserLevel(ulevel);
 						userToAdd.save();

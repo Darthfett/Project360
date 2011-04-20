@@ -67,6 +67,9 @@ public class User {
 	}
 
 	public String getUsername() {
+		if (database.get("username") == null || database.get("username") == "") {
+			return "";
+		}
 		return (String) database.get("username");
 	}
 	

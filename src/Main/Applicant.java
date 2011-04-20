@@ -99,8 +99,11 @@ public class Applicant {
 	}
 
 	public ArrayList<Integer> getReferenceRatings() {
-		String value = database.get("referenceRatings");
 		ArrayList<Integer> referenceRatings = new ArrayList<Integer>();
+		String value = database.get("referenceRatings");
+		if (value == null || value == "") {
+			return referenceRatings;
+		}
 		if (value.contains(",")) {
 			String[] ratings = value.split(",");
 			for (int i = 0; i < ratings.length; i++) {

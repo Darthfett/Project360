@@ -31,11 +31,9 @@ public class AppViewPanel extends ApplyPanel {
 	private JTextArea comments;
 	private JScrollPane commentsScrollPane;
 	private Types.UserLevel userLevel;
-	private User currentUser;
 	
 	public AppViewPanel(User currentUser, Types.UserLevel userLevel) {
 		super();
-		this.currentUser = currentUser;
 		this.userLevel = userLevel;
 		
 		nameField.setEnabled(false);

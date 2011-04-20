@@ -232,7 +232,7 @@ public class ApplicantsPanel extends JPanel {
 							options,
 							options[5]);
 					if(n < 6 & n > 0){
-						tempApplicant.addReferenceRating(n);
+						tempApplicant.addReferenceRating(n+1);
 						((Reference) currentUser).removeApplicant(tempApplicant);
 						tempApplicant.save();
 						((Reference) currentUser).save();

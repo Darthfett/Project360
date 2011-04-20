@@ -143,7 +143,7 @@ public class AppViewPanel extends ApplyPanel {
 								null,
 								options,
 								options[5]);
-						applicant.setReviewerRating(rating);
+						applicant.setReviewerRating(rating+1);
 						applicant.setReviewerComment(comments.getText());
 						applicant.save();
 						System.out.println(applicant + "is what ReviewerPanel worked on.");

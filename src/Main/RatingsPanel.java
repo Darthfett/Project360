@@ -12,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class RatingsPanel extends JPanel {
@@ -27,6 +28,7 @@ public class RatingsPanel extends JPanel {
 	private JLabel ref3Rating;
 	private JLabel revRating;
 	private JTextArea revComment;
+	private JScrollPane revScroll;
 	private JPanel northPanel;
 	private JPanel centerPanel;
 	private JPanel southPanel;
@@ -43,6 +45,8 @@ public class RatingsPanel extends JPanel {
 		ref2Rating = new JLabel("Not yet rated");
 		ref3Rating = new JLabel("Not yet rated");
 		revRating = new JLabel("Not yet rated");
+		revComment = new JTextArea();
+		revScroll = new JScrollPane(revComment);
 		northPanel = new JPanel();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
@@ -65,7 +69,7 @@ public class RatingsPanel extends JPanel {
 		revComment.setEnabled(false);
 		revComment.setDisabledTextColor(Color.black);
 		centerPanel.add(revCommentLabel, BorderLayout.NORTH);
-		centerPanel.add(revComment, BorderLayout.CENTER);
+		centerPanel.add(revScroll, BorderLayout.CENTER);
 		
 		doneButton.addActionListener(new RListener());
 		southPanel.add(doneButton);

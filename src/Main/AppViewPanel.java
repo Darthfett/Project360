@@ -18,7 +18,8 @@ import javax.swing.JTextField;
 
 /*
  * This is the panel shown to recruiters and reviewers who wish to view or rate
- * an applicant.
+ * an applicant. It subclasses ApplyPanel simply to reuse some of the UI code, since it
+ * is very similar.
  */
 public class AppViewPanel extends ApplyPanel {
 	
@@ -31,11 +32,9 @@ public class AppViewPanel extends ApplyPanel {
 	private JTextArea comments;
 	private JScrollPane commentsScrollPane;
 	private Types.UserLevel userLevel;
-	private User currentUser;
 	
 	public AppViewPanel(User currentUser, Types.UserLevel userLevel) {
 		super();
-		this.currentUser = currentUser;
 		this.userLevel = userLevel;
 		
 		nameField.setEnabled(false);

@@ -137,6 +137,10 @@ public class JobEditPanel extends JPanel {
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
 	}
 	
+	/*
+	 * This method builds a string of the names of the Reviewers to display
+	 * in the JComboBox to assign reviewers.
+	 */
 	public String[] getReviewers() {
 		ArrayList<User> allUsers = User.getUserList();
 		ArrayList<Reviewer> reviewers = new ArrayList<Reviewer>();

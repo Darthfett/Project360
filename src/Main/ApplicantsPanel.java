@@ -12,14 +12,13 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 /*
  * The applicants panel class contains a list which displays a list of applicants
  * that exist in the system. It displays different sets of applicants depending on
  * which user is logged in. Recruiters can see all of the applicants, and reviewers
- * and references onyl see the applicants they need to see.
+ * and references only see the applicants they need to see.
  */
 
 public class ApplicantsPanel extends JPanel {
@@ -222,7 +221,6 @@ public class ApplicantsPanel extends JPanel {
 			if(source == rateButton){
 				JPanel cards = (JPanel) getThisPanel();
 				ReferencePanel refPanel = (ReferencePanel) cards.getParent().getParent();
-				//ReferencePanel refPanel = (ReferencePanel)jpane.getComponentAt(0);
 				Applicant tempApplicant = getSelectedApplicant();
 
 				if(tempApplicant != null){

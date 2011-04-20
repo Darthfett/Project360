@@ -24,10 +24,8 @@ public class ApplicantPanel extends JPanel {
 	private JPanel loginPanel;
 	private JPanel jobsCards;
 	private JTabbedPane tabs;
-	private User currentUser;
 	
 	public ApplicantPanel(User currentUser) {
-		this.currentUser = currentUser;
 		initUI();
 	}
 	

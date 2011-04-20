@@ -18,7 +18,8 @@ import javax.swing.JTextField;
 
 /*
  * This is the panel shown to recruiters and reviewers who wish to view or rate
- * an applicant.
+ * an applicant. It subclasses ApplyPanel simply to reuse some of the UI code, since it
+ * is very similar.
  */
 public class AppViewPanel extends ApplyPanel {
 	

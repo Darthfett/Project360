@@ -14,7 +14,10 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-
+/*
+ * UsersPanel creates and lays out the interface contained in the Jobs tab
+ * when logged in as a recruiter.
+ */
 public class UsersPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -29,6 +32,9 @@ public class UsersPanel extends JPanel {
 		initUI();
 	}
 	
+	/*
+	 * Instantiate and layout the UI components
+	 */
 	public void initUI() {
 		setLayout(null);
 		
@@ -64,6 +70,10 @@ public class UsersPanel extends JPanel {
 		add(editButton);
 	}
 	
+	/*
+	 * This method builds a two dimensional array representing the user data.
+	 * It is used to build the table of users.
+	 */
 	public String[][] buildUserData() {	
 		ArrayList<User> userList = User.getUserList();
 		userList.addAll(Reference.getReferenceList());
@@ -88,6 +98,9 @@ public class UsersPanel extends JPanel {
 		return user;
 	}
 	
+	/*
+	 * This is the listener class to use with the create and edit buttons.
+	 */
 	private class UPListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
@@ -111,6 +124,10 @@ public class UsersPanel extends JPanel {
 		}
 	}
 	
+	/*
+	 * This selection listener is used to listen for when a user is selected, because
+	 * the edit button must be disabled when there is no user selected.
+	 */
 	private class UPSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent event) {
 			if (getSelectedUser() != null) {

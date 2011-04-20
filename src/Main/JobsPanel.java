@@ -178,7 +178,7 @@ public class JobsPanel extends JPanel{
 				/* TextFields */
 				jePanel.getTitleField().setText(job.getTitle());
 				if (job.getDeadline() != null) {
-					jePanel.getDeadlineField().setText(new SimpleDateFormat("MM.dd.yyyy").format(job.getDeadline()));
+					jePanel.getDeadlineField().setText(new SimpleDateFormat("MM/dd/yyyy").format(job.getDeadline()));
 				}
 				if (job.getLocation() != null) {
 					jePanel.getLocationField().setText(job.getLocation());

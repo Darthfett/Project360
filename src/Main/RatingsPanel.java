@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -36,6 +37,7 @@ public class RatingsPanel extends JPanel {
 	private JButton doneButton;
 	
 	public RatingsPanel() {
+		
 		ref1Label = new JLabel("First Reference Rating");
 		ref2Label = new JLabel("Second Reference Rating");
 		ref3Label = new JLabel("Third Reference Rating");
@@ -80,6 +82,24 @@ public class RatingsPanel extends JPanel {
 		add(southPanel, BorderLayout.SOUTH);
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.WEST);
 		add(Box.createRigidArea(new Dimension(12,0)), BorderLayout.EAST);
+	}
+	
+	public void reset() {
+		ref1Rating.setText("Not yet rated");
+		ref2Rating.setText("Not yet rated");
+		ref3Rating.setText("Not yet rated");
+		revRating.setText("Not yet rated");
+		revComment.setText("");
+	}
+	
+	public void set(Applicant applicant) {
+		ArrayList<Integer> ratings = applicant.getReferenceRatings();
+		if (ratings.get(0) != null)
+			ref1Rating.setText(ratings.get(0).toString());
+		if (ratings.get(1) != null)
+			ref2Rating.setText(ratings.get(1).toString());
+		if (ratings.get(2) != null)
+			ref3Rating.setText(ratings.get(2).toString());
 	}
 	
 	public RatingsPanel getThisPanel() {

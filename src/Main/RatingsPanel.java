@@ -94,12 +94,21 @@ public class RatingsPanel extends JPanel {
 	
 	public void set(Applicant applicant) {
 		ArrayList<Integer> ratings = applicant.getReferenceRatings();
-		if (ratings.get(0) != null)
-			ref1Rating.setText(ratings.get(0).toString());
-		if (ratings.get(1) != null)
-			ref2Rating.setText(ratings.get(1).toString());
-		if (ratings.get(2) != null)
-			ref3Rating.setText(ratings.get(2).toString());
+		if (ratings.size() == 0) {
+			return;
+		} else {
+			if (ratings.size() == 1) {
+				ref1Rating.setText(ratings.get(0).toString());
+			}
+			if (ratings.size() == 2) {
+				ref1Rating.setText(ratings.get(0).toString());
+				ref2Rating.setText(ratings.get(1).toString());
+			} else {
+				ref1Rating.setText(ratings.get(0).toString());
+				ref2Rating.setText(ratings.get(1).toString());
+				ref3Rating.setText(ratings.get(2).toString());
+			}
+		}
 	}
 	
 	public RatingsPanel getThisPanel() {

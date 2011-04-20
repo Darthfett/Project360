@@ -127,6 +127,14 @@ public class RecruiterPanel extends JPanel {
 		return appViewPanel;
 	}
 	
+	public ApplicantsPanel getApplicantsPanel() {
+		return appsPanel;
+	}
+	
+	public RatingsPanel getRatingsPanel() {
+		return ratingsPanel;
+	}
+	
 	public void refreshUsers() {
 		usersCards.remove(usersPanel);
 		usersPanel = new UsersPanel();

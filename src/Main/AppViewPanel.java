@@ -19,9 +19,11 @@ public class AppViewPanel extends ApplyPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton rateViewButton;
 	private JButton viewCancelButton;
+	private Types.UserLevel userLevel;
 	
 	public AppViewPanel(Types.UserLevel userLevel) {
 		super();
+		this.userLevel = userLevel;
 		
 		nameField.setEnabled(false);
 		nameField.setDisabledTextColor(Color.black);
@@ -73,11 +75,28 @@ public class AppViewPanel extends ApplyPanel {
 		public void actionPerformed(ActionEvent event) {
 			JPanel cards = (JPanel) getThisPanel().getParent();
 			CardLayout cl = (CardLayout) cards.getLayout();
+			
 			if (event.getSource() == viewCancelButton) {
 				cl.show(cards, "ApplicantsPanel");
 			}
 			if (event.getSource() == rateViewButton) {
-				cl.show(cards, "RatingsPanel");
+				if (userLevel == Types.UserLevel.RECRUITER) {
+					Applicant applicant = null;
+					ApplicantsPanel appsPanel = null;
+					RatingsPanel ratePanel = null;
+					RecruiterPanel recPanel = (RecruiterPanel) cards.getParent().getParent();
+					appsPanel = recPanel.getApplicantsPanel();
+					ratePanel = recPanel.getRatingsPanel();
+					applicant = appsPanel.getSelectedApplicant();
+					ratePanel.reset();
+					ratePanel.set(applicant);
+					cl.show(cards, "RatingsPanel");
+				}
+				if (userLevel == Types.UserLevel.RECRUITER) {
+					/*
+					 * Need interface for reviewers to rate/comment
+					 */
+				}
 			}
 		}
 	}

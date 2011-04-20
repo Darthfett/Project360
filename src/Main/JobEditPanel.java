@@ -278,11 +278,24 @@ public class JobEditPanel extends JPanel {
 						ArrayList<User> users = User.getUserList();
 							for (int i = 0; i < users.size(); i++) {
 								if (users.get(i).getUsername().equals(selectedReviewer)) {
-									Reviewer reviewer = (Reviewer) users.get(i);
-									reviewer.addJob(job);
-									reviewer.save();
+									if (job.getAssignedReviewer() != (Reviewer) users.get(i)) {
+										if (job.getAssignedReviewer() != null) {
+											job.getAssignedReviewer().removeJob(job);
+										}
+										((Reviewer) users.get(i)).addJob(job);
+										job.setAssignedReviewer(User.getUserFromUserName(selectedReviewer));
+										job.save();
+										users.get(i).save();
+									}
 								}
 							}
+					} else {
+						if (job.getAssignedReviewer() != null) {
+							job.getAssignedReviewer().removeJob(job);
+							job.getAssignedReviewer().save();
+							job.setAssignedReviewer(null);
+							job.save();
+						}
 					}
 				}
 				catch (Exception e) {

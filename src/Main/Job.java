@@ -76,6 +76,21 @@ public class Job {
 		oldId = null;
 	}
 	
+	public Reviewer getAssignedReviewer() {
+		if (database.get("assignedReviewer") == null || database.get("assignedReviewer") == "") {
+			return null;
+		}
+		return (Reviewer) User.getUserFromUserName(database.get("assignedReviewer"));
+	}
+	
+	public void setAssignedReviewer(User reviewer) {
+		if (reviewer != null) {
+			database.put("assignedReviewer", reviewer.getUsername());
+		} else {
+			database.put("assignedReviewer","");
+		}
+	}
+	
 	public Integer getId() {
 		return new Integer(database.get("id"));
 	}

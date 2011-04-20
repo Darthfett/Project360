@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -177,7 +178,7 @@ public class JobsPanel extends JPanel{
 				/* TextFields */
 				jePanel.getTitleField().setText(job.getTitle());
 				if (job.getDeadline() != null) {
-					jePanel.getDeadlineField().setText(job.getDeadline().toString());
+					jePanel.getDeadlineField().setText(new SimpleDateFormat("MM.dd.yyyy").format(job.getDeadline()));
 				}
 				if (job.getLocation() != null) {
 					jePanel.getLocationField().setText(job.getLocation());
@@ -187,6 +188,7 @@ public class JobsPanel extends JPanel{
 				}
 				
 				/* TextAreas */
+				jePanel.getJobBenefitArea().setText(job.getBenefits());
 				jePanel.getJobDescriptionArea().setText(job.getDescription());
 				cl.show(cards, "JobEditPanel");
 			}

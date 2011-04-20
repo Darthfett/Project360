@@ -149,6 +149,10 @@ public class JobEditPanel extends JPanel {
 		return salaryField;
 	}
 	
+	public JTextArea getJobBenefitArea() {
+		return benefits;
+	}
+	
 	public JTextArea getJobDescriptionArea() {
 		return description;
 	}
@@ -225,6 +229,7 @@ public class JobEditPanel extends JPanel {
 				try {
 					
 					job.setTitle(titleField.getText());
+					job.setDescription(description.getText());
 					try {
 						Date deadline = sdf.parse(deadlineField.getText());
 						if (deadline != null) {

@@ -91,7 +91,6 @@ public class JobEditPanel extends JPanel {
 		northPanel = new JPanel();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
-		
 		reviewerBox = new JComboBox(getReviewers());
 		
 		northPanel.setLayout(new GridLayout(6, 2));

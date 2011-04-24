@@ -143,8 +143,14 @@ public class RecruiterPanel extends JPanel {
 	
 	public void refreshJobs() {
 		jobsCards.remove(jobsPanel);
+		jobsCards.remove(jobEditPanel);
+		jobsCards.remove(jobAddPanel);
 		jobsPanel = new JobsPanel(userLevel);
+		jobEditPanel = new JobEditPanel('e');
+		jobAddPanel = new JobEditPanel('a');
 		jobsCards.add(jobsPanel, JOBSPANEL);
+		jobsCards.add(jobAddPanel, JOBADDPANEL);
+		jobsCards.add(jobEditPanel, JOBEDITPANEL);
 	}
 	
 	public void refreshApps() {

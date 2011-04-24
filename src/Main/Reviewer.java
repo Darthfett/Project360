@@ -17,8 +17,10 @@ import java.util.Hashtable;
  */
 public class Reviewer extends User {
 	/* Add a Job for Reviewer to rate */
-	public Reviewer() {
+	public Reviewer(String username) {
 		this.database = new Hashtable<String, String>();
+		this.setUserName(username);
+		User.Users.put(username, this);
 	}
 	
 	public void addJob(Job job) {

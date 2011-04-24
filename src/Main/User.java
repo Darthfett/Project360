@@ -45,7 +45,7 @@ public class User {
 	//TODO: Make additional constructors that save the user.
 	protected Hashtable<String, String> database;
 	private static File UserDatabaseLocation = new File("../Users");
-	private static Hashtable<String,User> Users = new Hashtable<String,User>();
+	protected static Hashtable<String,User> Users = new Hashtable<String,User>();
 	private String oldName;
 	
 	public static ArrayList<User> getUserList() {
@@ -213,7 +213,7 @@ public class User {
 			}
 			User new_user;
 			if (user_data.get("userlevel").equals("reviewer")) {
-				new_user = new Reviewer();
+				new_user = new Reviewer(user_data.get("username"));
 			} else {
 				new_user = new User();
 			}

@@ -147,7 +147,7 @@ public class UserEditPanel extends JPanel {
 						userToAdd.setUserLevel(ulevel);
 						userToAdd.save();
 					} else if (ulevel.equals("reviewer")) {
-						Reviewer userToAdd = new Reviewer();
+						Reviewer userToAdd = new Reviewer(uname);
 						userToAdd.setUserName(uname);
 						userToAdd.setPassword(passwd);
 						userToAdd.setUserLevel(ulevel);
@@ -157,6 +157,7 @@ public class UserEditPanel extends JPanel {
 						userToAdd.save();
 					}
 					recPanel.refreshUsers();
+					recPanel.refreshJobs();
 					cl.show(cards, "UsersPanel");
 					clearFields();
 				}
@@ -180,7 +181,7 @@ public class UserEditPanel extends JPanel {
 					} else {
 						if (! user.getUserLevelString().equals((String) ulevelBox.getSelectedItem()) && ((String) ulevelBox.getSelectedItem()).equals("reviewer")) {
 							user.remove();
-							user = new Reviewer();
+							user = new Reviewer(unameField.getText());
 						}
 						user.setUserName(unameField.getText());
 						user.setPassword(passwdField.getText());
@@ -188,6 +189,7 @@ public class UserEditPanel extends JPanel {
 						user.save();
 					}
 					recPanel.refreshUsers();
+					recPanel.refreshJobs();
 					cl.show(cards, "UsersPanel");
 				}
 				
@@ -199,6 +201,7 @@ public class UserEditPanel extends JPanel {
 				if (event.getSource() == deleteButton) {
 					user.remove();
 					recPanel.refreshUsers();
+					recPanel.refreshJobs();
 					cl.show(cards, "UsersPanel");
 				}
 			}

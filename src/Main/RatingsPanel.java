@@ -107,7 +107,6 @@ public class RatingsPanel extends JPanel {
 	public void set(Applicant applicant) {
 		ArrayList<Integer> ratings = applicant.getReferenceRatings();
 		if (ratings.size() == 0) {
-			return;
 		} else {
 			if (ratings.size() == 1) {
 				ref1Rating.setText(ratings.get(0).toString());
